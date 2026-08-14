@@ -105,8 +105,6 @@ export default function App() {
   const [localTime, setLocalTime] = useState("--:--");
   const [brandActive, setBrandActive] = useState(false);
   const [favoriteKeys, setFavoriteKeys] = useState([]);
-  const [volume, setVolume] = useState(0.82);
-  const [volumeOpen, setVolumeOpen] = useState(false);
   const [nostalgiaMessageIndex, setNostalgiaMessageIndex] = useState(0);
 
   useEffect(() => {
@@ -135,7 +133,7 @@ export default function App() {
 
   // -----------------------------------------------------
   // Small player preferences
-  // Favorites and volume stay on this browser/device.
+  // Favorites stay on this browser/device.
   // -----------------------------------------------------
   useEffect(() => {
     try {
@@ -147,30 +145,10 @@ export default function App() {
         setFavoriteKeys(savedFavorites.map(String));
       }
 
-      const savedVolume = Number(
-        localStorage.getItem("retroraag:volume")
-      );
-
-      if (Number.isFinite(savedVolume) && savedVolume >= 0 && savedVolume <= 1) {
-        setVolume(savedVolume);
-      }
     } catch (error) {
       console.warn("Could not restore RetroRaag preferences:", error);
     }
   }, []);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.volume = Math.max(0, Math.min(1, volume));
-    }
-
-    try {
-      localStorage.setItem("retroraag:volume", String(volume));
-    } catch {
-      // Storage can be unavailable in some privacy modes.
-    }
-  }, [volume]);
 
   function getCurrentSong() {
     return queueRef.current[currentIndexRef.current] || null;
@@ -531,12 +509,6 @@ export default function App() {
 
     setPlaylistOpenState(false);
     loadTrack(randomIndex, { autoplay: true });
-  }
-
-  function handleVolumeInput(event) {
-    const nextVolume = Number(event.currentTarget.value);
-    if (!Number.isFinite(nextVolume)) return;
-    setVolume(Math.max(0, Math.min(1, nextVolume)));
   }
 
   function selectSong(index) {
@@ -1144,37 +1116,6 @@ export default function App() {
                     <path d="M4 16.25h2.15a4 4 0 0 0 2.83-1.17l.82-.82" />
                   </svg>
                 </button>
-
-                <div className={`volume-tool${volumeOpen ? " is-open" : ""}`}>
-                  <button
-                    className="mini-tool volume-button"
-                    type="button"
-                    aria-label="Volume"
-                    aria-expanded={volumeOpen}
-                    disabled={!controlsEnabled}
-                    onClick={() => setVolumeOpen((open) => !open)}
-                  >
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4 10v4h3.2L12 18V6L7.2 10H4Z" />
-                      <path d="M15.2 9.1a4 4 0 0 1 0 5.8" />
-                      <path d="M17.7 6.8a7.2 7.2 0 0 1 0 10.4" />
-                    </svg>
-                  </button>
-
-                  <div className="volume-slider-shell">
-                    <input
-                      className="volume-slider"
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.02"
-                      value={volume}
-                      aria-label="Volume level"
-                      onChange={handleVolumeInput}
-                      onInput={handleVolumeInput}
-                    />
-                  </div>
-                </div>
               </div>
             </div>
           </div>

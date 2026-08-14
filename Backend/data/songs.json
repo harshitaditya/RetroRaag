@@ -1783,28 +1783,6 @@
     "matchMethod": "local"
   },
   {
-    "id": "zKoyziRz",
-    "name": "Hai Mera Dil",
-    "artists": [
-      "Alfaaz",
-      "Honey Singh"
-    ],
-    "album": "Alfaaz",
-    "image": "https://c.saavncdn.com/023/Alfaaz-Punjabi-2000-500x500.jpg",
-    "durationMs": 210000,
-    "streamUrl": "https://aac.saavncdn.com/023/7a0cae8ce3c70b5d16a6d46669ca654d_320.mp4",
-    "year": 2000,
-    "language": "punjabi",
-    "sourceLists": [
-      "spotify"
-    ],
-    "sourceTitles": [
-      "Hai Mera Dil"
-    ],
-    "matchScore": 1,
-    "matchMethod": "local"
-  },
-  {
     "id": "RVZyGBSZ",
     "name": "Halwa Wala Aa Gaya",
     "artists": [

@@ -1558,7 +1558,7 @@ button.brand-reveal:active {
 
 /* ================================================================
    RetroRaag compact player tools
-   Adds Favorite + Shuffle + Volume without changing the main layout.
+   Adds Favorite + Shuffle without changing the main layout.
    The row uses vertical space under the timeline so the capsule does
    not become unnecessarily wider.
    ================================================================ */
@@ -1627,48 +1627,11 @@ button.brand-reveal:active {
   transform: scale(0.9);
 }
 
-.mini-tool:focus-visible,
-.volume-slider:focus-visible {
+.mini-tool:focus-visible {
   outline: 2px solid rgba(255, 240, 201, 0.9);
   outline-offset: 2px;
 }
 
-.volume-tool {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-
-.volume-slider-shell {
-  width: 0;
-  margin-left: 0;
-  overflow: hidden;
-  opacity: 0;
-  transform: translateX(-3px);
-  transition:
-    width 190ms ease,
-    margin-left 190ms ease,
-    opacity 140ms ease,
-    transform 190ms ease;
-}
-
-.volume-tool.is-open .volume-slider-shell,
-.volume-tool:focus-within .volume-slider-shell {
-  width: clamp(58px, 5vw, 82px);
-  margin-left: 6px;
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.volume-slider {
-  display: block;
-  width: 100%;
-  height: 16px;
-  margin: 0;
-  padding: 0;
-  cursor: pointer;
-  accent-color: #ffd394;
-}
 
 @media (hover: hover) and (pointer: fine) {
   .mini-tool:not(:disabled):hover {
@@ -1680,14 +1643,6 @@ button.brand-reveal:active {
   .favorite-tool.is-active:hover {
     color: #ffc0aa;
     background: rgba(255, 132, 105, 0.15);
-  }
-
-  /* On mouse devices the volume slider can reveal without a click. */
-  .volume-tool:hover .volume-slider-shell {
-    width: clamp(58px, 5vw, 82px);
-    margin-left: 6px;
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
@@ -1706,11 +1661,6 @@ button.brand-reveal:active {
   .mini-tool {
     width: 27px;
     height: 27px;
-  }
-
-  .volume-tool.is-open .volume-slider-shell,
-  .volume-tool:focus-within .volume-slider-shell {
-    width: 64px;
   }
 
   .player {
@@ -1737,12 +1687,6 @@ button.brand-reveal:active {
     height: 12px;
   }
 
-  .volume-tool.is-open .volume-slider-shell,
-  .volume-tool:focus-within .volume-slider-shell {
-    width: clamp(44px, 13vw, 58px);
-    margin-left: 4px;
-  }
-
   .player {
     min-height: clamp(94px, 24vw, 112px);
   }
@@ -1762,12 +1706,6 @@ button.brand-reveal:active {
   .mini-tool svg {
     width: 11px;
     height: 11px;
-  }
-
-  .volume-tool.is-open .volume-slider-shell,
-  .volume-tool:focus-within .volume-slider-shell {
-    width: 42px;
-    margin-left: 3px;
   }
 
   .player {
