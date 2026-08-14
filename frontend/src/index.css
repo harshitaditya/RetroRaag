@@ -1,0 +1,2149 @@
+:root {
+  --paper: #fff7e7;
+  --muted: rgba(255, 247, 231, 0.7);
+  --glass: rgba(54, 22, 16, 0.4);
+  --glass-deep: rgba(38, 14, 11, 0.58);
+  --line: rgba(255, 255, 255, 0.18);
+  --accent: #ffd08b;
+  --live: #42e67a;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+html {
+  background: #172f55;
+}
+
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: #172f55;
+  color: var(--paper);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+audio {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.radio-shell {
+  position: relative;
+  isolation: isolate;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 320px;
+  overflow: hidden;
+  background: #172f55;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: -5;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #172f55;
+}
+
+.scene-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  user-select: none;
+  -webkit-user-drag: none;
+  image-rendering: auto;
+  filter: saturate(1.025) contrast(1.01);
+}
+
+.sun-wash {
+  position: absolute;
+  inset: 0;
+  z-index: -4;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 82% 10%, rgba(255, 232, 146, 0.16) 0, rgba(255, 205, 91, 0.06) 26%, transparent 48%),
+    linear-gradient(180deg, rgba(255, 224, 157, 0.012) 0%, transparent 48%, rgba(26, 7, 3, 0.18) 78%, rgba(18, 5, 3, 0.43) 100%);
+  mix-blend-mode: soft-light;
+  animation: sunlight 8s ease-in-out infinite alternate;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 17, 30, 0.15) 0%, transparent 24%, transparent 60%, rgba(9, 9, 14, 0.54) 100%),
+    radial-gradient(ellipse at center, transparent 56%, rgba(8, 10, 18, 0.18) 100%);
+}
+
+.grain {
+  position: absolute;
+  inset: -70%;
+  z-index: -2;
+  opacity: 0.035;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.78'/%3E%3C/svg%3E");
+  animation: grainShift 0.34s steps(2) infinite;
+}
+
+/* Top line: time on the side, real live listeners in the centre. */
+.status-strip {
+  position: absolute;
+  z-index: 5;
+  top: max(10px, env(safe-area-inset-top));
+  left: 0;
+  width: 100%;
+  height: 30px;
+  padding: 0 clamp(14px, 2.2vw, 38px);
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(11px, 0.82vw, 15px);
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.status-time,
+.era-label,
+.active-status {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  min-height: 26px;
+}
+
+.status-time {
+  left: clamp(14px, 2.2vw, 38px);
+  padding: 0 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(10, 22, 39, 0.24);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.active-status {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.live-dot {
+  width: 9px;
+  height: 9px;
+  flex: 0 0 9px;
+  border-radius: 50%;
+  background: var(--live);
+  box-shadow: 0 0 0 4px rgba(66, 230, 122, 0.12), 0 0 14px rgba(66, 230, 122, 0.8);
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+.active-status strong {
+  color: #fff;
+  font-size: 1.04em;
+}
+
+.active-label {
+  color: rgba(255, 255, 255, 0.68);
+  font-weight: 520;
+}
+
+.era-label {
+  right: clamp(14px, 2.2vw, 38px);
+  color: rgba(255, 255, 255, 0.54);
+  letter-spacing: 0.08em;
+}
+
+/* RetroRaag title
+   - Larger, but capped so it never overwhelms the screen.
+   - Fully responsive from phones to large monitors.
+   - No border / focus ring around the title.
+   - "राग" and the split animation appear ONLY while the pointer is
+     actually hovering over the RetroRaag text area. */
+.hero-title {
+  position: absolute;
+  z-index: 4;
+  top: clamp(76px, 14.5vh, 154px);
+  left: 50%;
+  width: min(96vw, 1240px);
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.brand-reveal {
+  --brand-size: clamp(82px, 10vw, 164px);
+  --split-distance: 0.34em;
+  --brand-cream: #fff1cf;
+  --brand-gold: #ffc96d;
+  --brand-rose: #ff947d;
+
+  position: relative;
+  width: min(94vw, 1180px);
+  height: calc(var(--brand-size) * 1.72);
+  margin: 0;
+  padding: 0;
+
+  /* No border around RetroRaag. */
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+
+  color: var(--brand-cream);
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.brand-stage {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 14px 28px rgba(16, 7, 5, 0.35));
+}
+
+.brand-retro,
+.brand-raag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max-content;
+
+  /* Devanagari-safe fallbacks first so मात्रा aren't clipped. */
+  font-family:
+    "Noto Sans Devanagari",
+    "Nirmala UI",
+    "Mangal",
+    "Kohinoor Devanagari",
+    "Mukta",
+    "Hind",
+    "Baloo 2",
+    sans-serif;
+
+  font-size: var(--brand-size);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+}
+
+.brand-retro {
+  color: var(--brand-cream);
+  text-shadow:
+    0 2px 0 rgba(88, 38, 23, 0.34),
+    0 9px 22px rgba(38, 12, 7, 0.38),
+    0 0 34px rgba(255, 191, 98, 0.17);
+}
+
+/* Full uncut word at rest. */
+.brand-retro-base {
+  z-index: 2;
+  opacity: 1;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity 140ms ease,
+    color 300ms ease,
+    filter 300ms ease;
+}
+
+/* Split copies stay invisible until hover. */
+.brand-retro-top,
+.brand-retro-bottom {
+  z-index: 3;
+  opacity: 0;
+  transition:
+    transform 500ms cubic-bezier(0.22, 0.82, 0.24, 1),
+    opacity 120ms ease,
+    color 320ms ease,
+    filter 320ms ease;
+}
+
+.brand-retro-top {
+  clip-path: inset(0 0 49.5% 0);
+  transform: translate(-50%, -50%);
+}
+
+.brand-retro-bottom {
+  clip-path: inset(49.5% 0 0 0);
+  transform: translate(-50%, -50%);
+}
+
+/* Center word is hidden by default. */
+.brand-raag {
+  z-index: 1;
+  color: var(--brand-rose);
+  font-size: calc(var(--brand-size) * 0.48);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: 0;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translate(-50%, -35%) scaleY(0.3) scaleX(0.88);
+  text-shadow:
+    0 2px 0 rgba(92, 31, 22, 0.24),
+    0 9px 24px rgba(56, 16, 10, 0.34),
+    0 0 30px rgba(255, 139, 112, 0.26);
+  transition:
+    transform 500ms cubic-bezier(0.22, 0.82, 0.24, 1),
+    opacity 230ms ease 70ms,
+    filter 380ms ease 50ms;
+}
+
+/* Decorative center line: hidden normally, hover-only. */
+.brand-reveal::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(48%, 500px);
+  height: 2px;
+  border-radius: 999px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--brand-gold) 18%,
+      var(--brand-rose) 50%,
+      var(--brand-gold) 82%,
+      transparent
+    );
+  opacity: 0;
+  transform: translate(-50%, -50%) scaleX(0);
+  transform-origin: center;
+  box-shadow: 0 0 18px rgba(255, 185, 102, 0.32);
+  transition:
+    transform 500ms cubic-bezier(0.22, 0.82, 0.24, 1),
+    opacity 180ms ease;
+}
+
+/* Desktop/laptop: reveal while the mouse is actually hovering. */
+@media (hover: hover) and (pointer: fine) {
+  .brand-reveal:hover .brand-retro-base {
+    opacity: 0;
+  }
+
+  .brand-reveal:hover .brand-retro-top,
+  .brand-reveal:hover .brand-retro-bottom {
+    opacity: 1;
+    color: var(--brand-gold);
+    filter: brightness(1.05);
+  }
+
+  .brand-reveal:hover .brand-retro-top {
+    transform:
+      translate(
+        -50%,
+        calc(-50% - var(--split-distance))
+      );
+  }
+
+  .brand-reveal:hover .brand-retro-bottom {
+    transform:
+      translate(
+        -50%,
+        calc(-50% + var(--split-distance))
+      );
+  }
+
+  .brand-reveal:hover .brand-raag {
+    z-index: 2;
+    opacity: 1;
+    filter: blur(0);
+    transform:
+      translate(-50%, -50%)
+      scaleY(1)
+      scaleX(1);
+  }
+
+  .brand-reveal:hover::after {
+    opacity: 0.72;
+    transform:
+      translate(-50%, -50%)
+      scaleX(1);
+  }
+}
+
+/* Phones/tablets/touch screens:
+   React adds .is-active only after a non-mouse pointer tap.
+   Tap once = split/reveal. Tap again = close. */
+.brand-reveal.is-active .brand-retro-base {
+  opacity: 0;
+}
+
+.brand-reveal.is-active .brand-retro-top,
+.brand-reveal.is-active .brand-retro-bottom {
+  opacity: 1;
+  color: var(--brand-gold);
+  filter: brightness(1.05);
+}
+
+.brand-reveal.is-active .brand-retro-top {
+  transform:
+    translate(
+      -50%,
+      calc(-50% - var(--split-distance))
+    );
+}
+
+.brand-reveal.is-active .brand-retro-bottom {
+  transform:
+    translate(
+      -50%,
+      calc(-50% + var(--split-distance))
+    );
+}
+
+.brand-reveal.is-active .brand-raag {
+  z-index: 2;
+  opacity: 1;
+  filter: blur(0);
+  transform:
+    translate(-50%, -50%)
+    scaleY(1)
+    scaleX(1);
+}
+
+.brand-reveal.is-active::after {
+  opacity: 0.72;
+  transform:
+    translate(-50%, -50%)
+    scaleX(1);
+}
+
+/* No border/ring on the title, including focus. */
+.brand-reveal:focus,
+.brand-reveal:focus-visible {
+  outline: none;
+  border: 0;
+  box-shadow: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Tablet / small desktop */
+@media (max-width: 1024px) {
+  .brand-reveal {
+    --brand-size: clamp(72px, 11.5vw, 122px);
+    width: min(95vw, 900px);
+  }
+}
+
+/* Phones / portrait tablets */
+@media (max-width: 760px) {
+  .hero-title {
+    top: clamp(72px, 12.5vh, 108px);
+    width: 100%;
+  }
+
+  .brand-reveal {
+    --brand-size: clamp(62px, 16vw, 92px);
+    --split-distance: 0.31em;
+    width: calc(100vw - 18px);
+    height: calc(var(--brand-size) * 1.72);
+  }
+
+  .brand-raag {
+    font-size: calc(var(--brand-size) * 0.48);
+  }
+}
+
+/* Small phones */
+@media (max-width: 390px) {
+  .hero-title {
+    top: clamp(66px, 11vh, 90px);
+  }
+
+  .brand-reveal {
+    --brand-size: clamp(56px, 17.5vw, 72px);
+    --split-distance: 0.29em;
+    height: calc(var(--brand-size) * 1.68);
+  }
+}
+
+/* Short landscape phones */
+@media (orientation: landscape) and (max-height: 520px) {
+  .hero-title {
+    top: clamp(40px, 11vh, 64px);
+  }
+
+  .brand-reveal {
+    --brand-size: clamp(52px, 9.5vw, 82px);
+    --split-distance: 0.27em;
+    height: calc(var(--brand-size) * 1.55);
+  }
+}
+
+/* 4K / very large screens */
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .brand-reveal {
+    --brand-size: clamp(150px, 6.2vw, 178px);
+    width: min(78vw, 1480px);
+  }
+}
+
+.player-wrap {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: max(clamp(30px, 7vh, 84px), calc(env(safe-area-inset-bottom) + 18px));
+  width: clamp(560px, 52vw, 980px);
+  max-width: calc(100vw - clamp(20px, 4vw, 72px));
+  transform: translateX(-50%);
+}
+
+.player {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(12px, 1.15vw, 24px);
+  min-height: clamp(74px, 5.1vw, 100px);
+  padding: clamp(10px, 0.9vw, 16px) clamp(12px, 1.1vw, 20px);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: clamp(20px, 1.4vw, 30px);
+  background:
+    linear-gradient(135deg, rgba(120, 46, 30, 0.4), rgba(46, 16, 12, 0.62)),
+    var(--glass);
+  box-shadow:
+    0 18px 55px rgba(15, 4, 3, 0.32),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(20px) saturate(1.18);
+  -webkit-backdrop-filter: blur(20px) saturate(1.18);
+  transition: border-color 220ms ease, background 220ms ease, transform 220ms ease;
+}
+
+.player::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, rgba(255, 255, 255, 0.07), transparent 32%, transparent 70%, rgba(255, 196, 112, 0.035));
+}
+
+.player.is-playing {
+  border-color: rgba(255, 255, 255, 0.29);
+}
+
+.song-area {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: clamp(9px, 0.78vw, 14px);
+}
+
+.cover-shell {
+  position: relative;
+  flex: 0 0 clamp(44px, 3.2vw, 62px);
+  width: clamp(44px, 3.2vw, 62px);
+  height: clamp(44px, 3.2vw, 62px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.24);
+}
+
+.song-cover {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.03);
+  transition: opacity 200ms ease;
+}
+
+.song-cover.is-loaded {
+  opacity: 1;
+}
+
+.cover-equalizer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: rgba(10, 17, 28, 0.25);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.player.is-playing .cover-equalizer {
+  opacity: 1;
+}
+
+.cover-equalizer span {
+  width: 3px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  transform-origin: center bottom;
+}
+
+.player.is-playing .cover-equalizer span:nth-child(1) { animation: meter 0.72s ease-in-out infinite alternate; }
+.player.is-playing .cover-equalizer span:nth-child(2) { animation: meter 0.48s ease-in-out 0.1s infinite alternate; }
+.player.is-playing .cover-equalizer span:nth-child(3) { animation: meter 0.62s ease-in-out 0.22s infinite alternate; }
+
+.song-copy {
+  min-width: 0;
+}
+
+.song-title {
+  max-width: 100%;
+  margin: 0;
+  overflow: hidden;
+  color: #fff8eb;
+  font-size: clamp(14px, 1.05vw, 21px);
+  font-weight: 720;
+  line-height: 1.15;
+  letter-spacing: -0.014em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.song-artist {
+  max-width: 100%;
+  margin: 5px 0 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: clamp(10px, 0.73vw, 13px);
+  font-weight: 520;
+  line-height: 1.2;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.song-title.is-changing,
+.song-artist.is-changing {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: clamp(7px, 0.55vw, 12px);
+}
+
+.control-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #fff7e9;
+  transition: transform 180ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 180ms ease, border-color 180ms ease, opacity 150ms ease, box-shadow 220ms ease;
+}
+
+.control-button:focus-visible,
+.playlist-close:focus-visible,
+.playlist-row:focus-visible {
+  outline: 2px solid #fff0c9;
+  outline-offset: 3px;
+}
+
+.control-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.control-button:not(:disabled):active {
+  transform: scale(0.92);
+}
+
+.control-button.secondary {
+  width: clamp(36px, 2.25vw, 48px);
+  height: clamp(36px, 2.25vw, 48px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 10px rgba(3, 8, 15, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.control-button.play {
+  width: clamp(48px, 2.95vw, 64px);
+  height: clamp(48px, 2.95vw, 64px);
+  margin: 0 2px;
+  background: radial-gradient(120% 130% at 30% 22%, #fffdf6 0%, #ffedc4 46%, #ffdc9a 100%);
+  color: #2a2013;
+  box-shadow:
+    0 10px 26px rgba(5, 9, 16, 0.32),
+    0 2px 6px rgba(5, 9, 16, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -2px 4px rgba(190, 140, 60, 0.18);
+}
+
+.play-glow {
+  position: absolute;
+  inset: -7px;
+  z-index: -1;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 221, 156, 0.55), rgba(255, 221, 156, 0) 70%);
+  opacity: 0;
+  transition: opacity 260ms ease;
+  pointer-events: none;
+}
+
+.player.is-playing .play-glow {
+  opacity: 1;
+  animation: playPulse 2.1s ease-in-out infinite;
+}
+
+@keyframes playPulse {
+  0%, 100% { transform: scale(0.94); opacity: 0.55; }
+  50% { transform: scale(1.12); opacity: 0.95; }
+}
+
+.control-button svg,
+.playlist-close svg {
+  width: clamp(17px, 1.1vw, 22px);
+  height: clamp(17px, 1.1vw, 22px);
+  fill: currentColor;
+  stroke: none;
+}
+
+.playlist-close svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.control-button.play svg {
+  width: clamp(19px, 1.25vw, 25px);
+  height: clamp(19px, 1.25vw, 25px);
+}
+
+.control-button.play .play-icon {
+  margin-left: 2px;
+}
+
+.queue-button svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pause-icon {
+  display: none;
+}
+
+.player.is-playing .play-icon {
+  display: none;
+}
+
+.player.is-playing .pause-icon {
+  display: block;
+}
+
+/* Playlist opens above the player like the supplied reference. */
+.playlist-popover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  width: min(92%, 760px);
+  max-height: min(54vh, 470px);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  border-radius: clamp(20px, 1.6vw, 30px);
+  background:
+    linear-gradient(160deg, rgba(128, 52, 34, 0.5), rgba(36, 13, 10, 0.84)),
+    var(--glass-deep);
+  box-shadow: 0 24px 75px rgba(12, 4, 3, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(23px) saturate(1.16);
+  -webkit-backdrop-filter: blur(23px) saturate(1.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 14px) scale(0.985);
+  transform-origin: 50% 100%;
+  transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+}
+
+.playlist-popover.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0) scale(1);
+}
+
+.playlist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: clamp(14px, 1.2vw, 20px) clamp(15px, 1.4vw, 22px) 10px;
+}
+
+.playlist-kicker {
+  display: block;
+  margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+
+.playlist-head h2 {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: clamp(16px, 1.12vw, 22px);
+  line-height: 1.1;
+}
+
+.playlist-close {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+}
+
+.playlist-close svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+}
+
+.playlist-list {
+  max-height: min(43vh, 370px);
+  padding: 2px clamp(8px, 0.7vw, 12px) clamp(10px, 1vw, 15px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) transparent;
+}
+
+.playlist-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.playlist-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.playlist-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.26);
+}
+
+.playlist-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) minmax(120px, 34%);
+  align-items: center;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: left;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+}
+
+.playlist-row[aria-selected="true"] {
+  background: rgba(255, 255, 255, 0.17);
+  color: #fff;
+}
+
+.playlist-index {
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.playlist-title,
+.playlist-artist {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playlist-title {
+  padding-right: 16px;
+  color: inherit;
+  font-size: clamp(12px, 0.92vw, 15px);
+  font-weight: 720;
+}
+
+.playlist-artist {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: clamp(10px, 0.76vw, 13px);
+  font-weight: 560;
+  text-align: right;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .control-button:not(:disabled):hover,
+  .playlist-close:hover {
+    transform: translateY(-2px) scale(1.06);
+  }
+
+  .control-button.secondary:not(:disabled):hover,
+  .playlist-close:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .control-button.play:not(:disabled):hover {
+    background: radial-gradient(120% 130% at 30% 22%, #ffffff 0%, #fff3d6 46%, #ffe3ac 100%);
+    box-shadow:
+      0 14px 32px rgba(5, 9, 16, 0.36),
+      0 3px 8px rgba(5, 9, 16, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -2px 4px rgba(190, 140, 60, 0.18);
+  }
+
+  .control-button.play:not(:disabled):active {
+    transform: scale(0.94);
+  }
+
+  .playlist-row:hover {
+    background: rgba(255, 255, 255, 0.09);
+  }
+}
+
+/* Compact tablet/phone player: it shrinks with the screen instead of becoming a huge card. */
+@media (max-width: 760px) {
+  .era-label {
+    display: none;
+  }
+
+  .status-strip {
+    top: max(7px, env(safe-area-inset-top));
+    font-size: 10px;
+  }
+
+  .status-time {
+    left: 10px;
+    min-height: 23px;
+    padding: 0 8px;
+  }
+
+  .active-status {
+    gap: 5px;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    flex-basis: 7px;
+  }
+
+  .active-label {
+    display: none;
+  }
+
+  .player-wrap {
+    bottom: max(30px, calc(env(safe-area-inset-bottom) + 22px));
+    width: calc(100vw - 28px);
+    max-width: none;
+  }
+
+  .player {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px;
+    min-height: 62px;
+    padding: 8px;
+    border-radius: 18px;
+  }
+
+  .song-area {
+    gap: 8px;
+  }
+
+  .cover-shell {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .song-title {
+    font-size: clamp(11px, 3.35vw, 14px);
+  }
+
+  .song-artist {
+    margin-top: 3px;
+    font-size: clamp(8px, 2.6vw, 10px);
+  }
+
+  .controls {
+    gap: 3px;
+  }
+
+  .control-button.secondary {
+    width: clamp(31px, 8.5vw, 36px);
+    height: clamp(31px, 8.5vw, 36px);
+  }
+
+  .control-button.play {
+    width: clamp(38px, 10.5vw, 44px);
+    height: clamp(38px, 10.5vw, 44px);
+  }
+
+  .control-button svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .playlist-popover {
+    bottom: calc(100% + 8px);
+    width: 100%;
+    max-height: min(55vh, 420px);
+    border-radius: 18px;
+  }
+
+  .playlist-head {
+    padding: 12px 12px 7px;
+  }
+
+  .playlist-list {
+    max-height: min(44vh, 330px);
+    padding: 0 6px 8px;
+  }
+
+  .playlist-row {
+    grid-template-columns: 26px minmax(0, 1fr);
+    min-height: 43px;
+    padding: 7px 8px;
+    border-radius: 11px;
+  }
+
+  .playlist-artist {
+    display: none;
+  }
+
+  .playlist-title {
+    padding-right: 0;
+    font-size: 12px;
+  }
+}
+
+/* Very narrow phones: preserve all four controls, but hide secondary song info first. */
+@media (max-width: 390px) {
+  .song-artist {
+    display: none;
+  }
+
+  .cover-shell {
+    flex-basis: 34px;
+    width: 34px;
+    height: 34px;
+  }
+
+  .player {
+    min-height: 54px;
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .control-button.secondary {
+    width: 29px;
+    height: 29px;
+  }
+
+  .control-button.play {
+    width: 36px;
+    height: 36px;
+  }
+
+  .control-button svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Short landscape phones. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .status-strip {
+    top: 4px;
+  }
+
+  .player-wrap {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: min(720px, calc(100vw - 28px));
+    max-width: none;
+  }
+
+  .player {
+    min-height: 54px;
+    padding: 6px 9px;
+    border-radius: 17px;
+  }
+
+  .cover-shell {
+    flex-basis: 36px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .song-title {
+    font-size: 12px;
+  }
+
+  .song-artist {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+
+  .control-button.secondary {
+    width: 30px;
+    height: 30px;
+  }
+
+  .control-button.play {
+    width: 37px;
+    height: 37px;
+  }
+
+  .playlist-popover {
+    max-height: 62vh;
+  }
+
+  .playlist-list {
+    max-height: 45vh;
+  }
+}
+
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .player-wrap {
+    width: 980px;
+  }
+
+  .grain {
+    opacity: 0.028;
+  }
+}
+
+@keyframes sunlight {
+  from { opacity: 0.88; }
+  to { opacity: 1; }
+}
+
+@keyframes grainShift {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(2%, -1%, 0); }
+  50% { transform: translate3d(-1%, 2%, 0); }
+  75% { transform: translate3d(1%, 1%, 0); }
+  100% { transform: translate3d(-2%, -1%, 0); }
+}
+
+@keyframes meter {
+  from { transform: scaleY(0.65); }
+  to { transform: scaleY(2.2); }
+}
+
+@keyframes livePulse {
+  0%, 100% { opacity: 0.78; transform: scale(0.92); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ================================================================
+   Track timeline (seek bar) styles.
+   In the original vanilla-JS app these were injected at runtime by
+   player.js. The React version always renders the timeline markup,
+   so these rules now just live in the stylesheet permanently.
+   ================================================================ */
+
+.track-timeline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 7px;
+}
+
+.seek-bar {
+  --seek-progress: 0%;
+  flex: 1 1 auto;
+  min-width: 55px;
+  height: 3px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  border-radius: 999px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  background: linear-gradient(
+    to right,
+    rgba(255, 248, 235, 0.98) 0%,
+    rgba(255, 248, 235, 0.98) var(--seek-progress),
+    rgba(255, 255, 255, 0.27) var(--seek-progress),
+    rgba(255, 255, 255, 0.27) 100%
+  );
+}
+
+.seek-bar:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.seek-bar::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff8eb;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+}
+
+.seek-bar::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border: 0;
+  border-radius: 50%;
+  background: #fff8eb;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+}
+
+.seek-bar:not(:disabled):hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.seek-bar:focus-visible::-webkit-slider-thumb {
+  opacity: 1;
+}
+
+.track-time {
+  flex: 0 0 auto;
+  color: rgba(255, 247, 231, 0.82);
+  font-size: clamp(9px, 0.68vw, 12px);
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.time-separator {
+  margin: 0 2px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 760px) {
+  .track-timeline {
+    width: 100%;
+    gap: 5px;
+    margin-top: 5px;
+  }
+
+  .seek-bar {
+    height: 2px;
+  }
+
+  .track-time {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 390px) {
+  .track-timeline {
+    margin-top: 4px;
+  }
+
+  .track-time {
+    font-size: 7.5px;
+  }
+}
+
+/* ================================================================
+   RetroRaag player shape update
+   - Taller vertically
+   - Narrower horizontally
+   - Capsule / half-circle ends on both sides
+   - Responsive from small phones to 4K screens
+   ================================================================ */
+
+.player-wrap {
+  width: clamp(520px, 44vw, 820px);
+  max-width: calc(100vw - clamp(36px, 6vw, 96px));
+}
+
+.player {
+  min-height: clamp(108px, 7vw, 132px);
+  padding:
+    clamp(16px, 1.25vw, 22px)
+    clamp(24px, 1.8vw, 34px);
+  gap: clamp(12px, 1vw, 18px);
+
+  /* Tall capsule: each side becomes a clean half-circle. */
+  border-radius: 999px;
+}
+
+.song-area {
+  gap: clamp(11px, 0.9vw, 16px);
+}
+
+.cover-shell {
+  flex-basis: clamp(56px, 4vw, 72px);
+  width: clamp(56px, 4vw, 72px);
+  height: clamp(56px, 4vw, 72px);
+}
+
+.song-title {
+  font-size: clamp(15px, 1.05vw, 20px);
+}
+
+.song-artist {
+  margin-top: 5px;
+  font-size: clamp(10px, 0.72vw, 13px);
+}
+
+.track-timeline {
+  margin-top: 9px;
+}
+
+.controls {
+  gap: clamp(5px, 0.45vw, 9px);
+}
+
+.control-button.secondary {
+  width: clamp(39px, 2.4vw, 48px);
+  height: clamp(39px, 2.4vw, 48px);
+}
+
+.control-button.play {
+  width: clamp(52px, 3.1vw, 64px);
+  height: clamp(52px, 3.1vw, 64px);
+}
+
+/* Medium laptops / tablets */
+@media (max-width: 1024px) {
+  .player-wrap {
+    width: min(78vw, 720px);
+    max-width: calc(100vw - 40px);
+  }
+
+  .player {
+    min-height: clamp(96px, 10vw, 116px);
+    padding:
+      clamp(14px, 1.8vw, 19px)
+      clamp(20px, 2.4vw, 28px);
+  }
+
+  .cover-shell {
+    flex-basis: clamp(52px, 5.6vw, 64px);
+    width: clamp(52px, 5.6vw, 64px);
+    height: clamp(52px, 5.6vw, 64px);
+  }
+}
+
+/* Phones / portrait tablets */
+@media (max-width: 760px) {
+  .player-wrap {
+    width: calc(100vw - 44px);
+    max-width: 620px;
+    bottom: max(
+      30px,
+      calc(env(safe-area-inset-bottom) + 22px)
+    );
+  }
+
+  .player {
+    min-height: clamp(82px, 20vw, 96px);
+    padding:
+      clamp(11px, 2.8vw, 15px)
+      clamp(16px, 4vw, 22px);
+    gap: clamp(6px, 1.8vw, 10px);
+    border-radius: 999px;
+  }
+
+  .song-area {
+    gap: clamp(7px, 2vw, 10px);
+  }
+
+  .cover-shell {
+    flex-basis: clamp(44px, 12vw, 54px);
+    width: clamp(44px, 12vw, 54px);
+    height: clamp(44px, 12vw, 54px);
+  }
+
+  .song-title {
+    font-size: clamp(11px, 3.4vw, 14px);
+  }
+
+  .song-artist {
+    margin-top: 3px;
+    font-size: clamp(8px, 2.45vw, 10px);
+  }
+
+  .track-timeline {
+    margin-top: 6px;
+  }
+
+  .controls {
+    gap: clamp(2px, 1vw, 4px);
+  }
+
+  .control-button.secondary {
+    width: clamp(30px, 8vw, 35px);
+    height: clamp(30px, 8vw, 35px);
+  }
+
+  .control-button.play {
+    width: clamp(39px, 10.5vw, 45px);
+    height: clamp(39px, 10.5vw, 45px);
+  }
+}
+
+/* Small phones */
+@media (max-width: 390px) {
+  .player-wrap {
+    width: calc(100vw - 28px);
+  }
+
+  .player {
+    min-height: 76px;
+    padding: 10px 13px;
+    gap: 4px;
+  }
+
+  .cover-shell {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .control-button.secondary {
+    width: 28px;
+    height: 28px;
+  }
+
+  .control-button.play {
+    width: 36px;
+    height: 36px;
+  }
+
+  .track-timeline {
+    margin-top: 5px;
+  }
+}
+
+/* Short landscape phones */
+@media (orientation: landscape) and (max-height: 520px) {
+  .player-wrap {
+    width: min(620px, calc(100vw - 48px));
+    max-width: none;
+  }
+
+  .player {
+    min-height: 72px;
+    padding: 9px 18px;
+    border-radius: 999px;
+  }
+
+  .cover-shell {
+    flex-basis: 42px;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* Very large / 4K displays */
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .player-wrap {
+    width: 860px;
+  }
+
+  .player {
+    min-height: 138px;
+    padding: 22px 38px;
+  }
+}
+
+
+
+/* RetroRaag is a button only for touch accessibility/interaction.
+   It must never show native button chrome or a border. */
+button.brand-reveal {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button.brand-reveal:focus,
+button.brand-reveal:focus-visible,
+button.brand-reveal:active {
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+}
+
+/* ================================================================
+   RetroRaag compact player tools
+   Adds Favorite + Shuffle + Volume without changing the main layout.
+   The row uses vertical space under the timeline so the capsule does
+   not become unnecessarily wider.
+   ================================================================ */
+
+.player-tools {
+  display: flex;
+  align-items: center;
+  gap: clamp(5px, 0.42vw, 8px);
+  min-height: clamp(26px, 1.8vw, 31px);
+  margin-top: clamp(5px, 0.42vw, 8px);
+}
+
+.mini-tool {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: clamp(26px, 1.7vw, 31px);
+  height: clamp(26px, 1.7vw, 31px);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  outline: 0;
+  background: rgba(255, 255, 255, 0.055);
+  color: rgba(255, 247, 233, 0.72);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease;
+}
+
+.mini-tool svg {
+  width: clamp(13px, 0.9vw, 16px);
+  height: clamp(13px, 0.9vw, 16px);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.favorite-tool svg {
+  fill: transparent;
+  stroke-width: 1.65;
+}
+
+.favorite-tool.is-active {
+  color: #ffad91;
+  border-color: rgba(255, 173, 145, 0.25);
+  background: rgba(255, 132, 105, 0.11);
+}
+
+.favorite-tool.is-active svg {
+  fill: currentColor;
+}
+
+.mini-tool:disabled {
+  cursor: not-allowed;
+  opacity: 0.34;
+}
+
+.mini-tool:not(:disabled):active {
+  transform: scale(0.9);
+}
+
+.mini-tool:focus-visible,
+.volume-slider:focus-visible {
+  outline: 2px solid rgba(255, 240, 201, 0.9);
+  outline-offset: 2px;
+}
+
+.volume-tool {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.volume-slider-shell {
+  width: 0;
+  margin-left: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(-3px);
+  transition:
+    width 190ms ease,
+    margin-left 190ms ease,
+    opacity 140ms ease,
+    transform 190ms ease;
+}
+
+.volume-tool.is-open .volume-slider-shell,
+.volume-tool:focus-within .volume-slider-shell {
+  width: clamp(58px, 5vw, 82px);
+  margin-left: 6px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.volume-slider {
+  display: block;
+  width: 100%;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  accent-color: #ffd394;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mini-tool:not(:disabled):hover {
+    color: #fff8e9;
+    border-color: rgba(255, 255, 255, 0.19);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .favorite-tool.is-active:hover {
+    color: #ffc0aa;
+    background: rgba(255, 132, 105, 0.15);
+  }
+
+  /* On mouse devices the volume slider can reveal without a click. */
+  .volume-tool:hover .volume-slider-shell {
+    width: clamp(58px, 5vw, 82px);
+    margin-left: 6px;
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* The added row needs a little vertical breathing room, but does not
+   materially change the player's horizontal footprint. */
+.player {
+  min-height: clamp(118px, 7.7vw, 142px);
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .player-tools {
+    margin-top: 5px;
+  }
+
+  .mini-tool {
+    width: 27px;
+    height: 27px;
+  }
+
+  .volume-tool.is-open .volume-slider-shell,
+  .volume-tool:focus-within .volume-slider-shell {
+    width: 64px;
+  }
+
+  .player {
+    min-height: clamp(106px, 11vw, 126px);
+  }
+}
+
+/* Phones: keep everything compact and usable without widening the player. */
+@media (max-width: 760px) {
+  .player-tools {
+    gap: 4px;
+    min-height: 23px;
+    margin-top: 4px;
+  }
+
+  .mini-tool {
+    width: 23px;
+    height: 23px;
+    border-color: rgba(255, 255, 255, 0.09);
+  }
+
+  .mini-tool svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .volume-tool.is-open .volume-slider-shell,
+  .volume-tool:focus-within .volume-slider-shell {
+    width: clamp(44px, 13vw, 58px);
+    margin-left: 4px;
+  }
+
+  .player {
+    min-height: clamp(94px, 24vw, 112px);
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 390px) {
+  .player-tools {
+    gap: 3px;
+  }
+
+  .mini-tool {
+    width: 21px;
+    height: 21px;
+  }
+
+  .mini-tool svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  .volume-tool.is-open .volume-slider-shell,
+  .volume-tool:focus-within .volume-slider-shell {
+    width: 42px;
+    margin-left: 3px;
+  }
+
+  .player {
+    min-height: 92px;
+  }
+}
+
+/* Short landscape phones */
+@media (orientation: landscape) and (max-height: 520px) {
+  .player-tools {
+    margin-top: 3px;
+  }
+
+  .player {
+    min-height: 82px;
+  }
+}
+
+/* 4K */
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .mini-tool {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mini-tool svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .player {
+    min-height: 150px;
+  }
+}
+
+/* ================================================================
+   RetroRaag nostalgia button
+   A small "कुछ पुराना सुनाओ" surprise-me control below the player.
+   It does not alter the player's internal layout.
+   ================================================================ */
+
+.nostalgia-button {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + clamp(8px, 0.8vw, 12px));
+  transform: translateX(-50%);
+  z-index: 7;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(6px, 0.5vw, 9px);
+
+  min-height: clamp(32px, 2.25vw, 39px);
+  padding:
+    clamp(6px, 0.5vw, 8px)
+    clamp(13px, 1.05vw, 18px);
+
+  border: 1px solid rgba(255, 244, 221, 0.16);
+  border-radius: 999px;
+  outline: 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(95, 35, 24, 0.62),
+      rgba(36, 14, 11, 0.72)
+    );
+
+  color: rgba(255, 243, 218, 0.88);
+  box-shadow:
+    0 9px 25px rgba(15, 4, 3, 0.21),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  font-family:
+    "Noto Sans Devanagari",
+    "Nirmala UI",
+    "Mangal",
+    "Mukta",
+    "Hind",
+    sans-serif;
+
+  font-size: clamp(11px, 0.78vw, 14px);
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  transition:
+    transform 170ms ease,
+    background-color 170ms ease,
+    border-color 170ms ease,
+    color 170ms ease,
+    opacity 170ms ease;
+}
+
+.nostalgia-radio {
+  display: inline-block;
+  font-size: 1.05em;
+  line-height: 1;
+  transform-origin: center;
+}
+
+.nostalgia-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.nostalgia-button:not(:disabled):active {
+  transform:
+    translateX(-50%)
+    scale(0.96);
+}
+
+.nostalgia-button:focus-visible {
+  outline: 2px solid rgba(255, 239, 198, 0.86);
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nostalgia-button:not(:disabled):hover {
+    color: #fff8e9;
+    border-color: rgba(255, 213, 151, 0.29);
+    background:
+      linear-gradient(
+        135deg,
+        rgba(119, 46, 29, 0.72),
+        rgba(47, 17, 13, 0.79)
+      );
+    transform:
+      translateX(-50%)
+      translateY(-1px);
+  }
+
+  .nostalgia-button:not(:disabled):hover .nostalgia-radio {
+    animation: nostalgia-radio-wiggle 500ms ease;
+  }
+}
+
+@keyframes nostalgia-radio-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  30% { transform: rotate(-8deg); }
+  65% { transform: rotate(7deg); }
+}
+
+/* Give the small pill enough space underneath without changing player width. */
+.player-wrap {
+  bottom:
+    max(
+      clamp(68px, 8.5vh, 98px),
+      calc(env(safe-area-inset-bottom) + 58px)
+    );
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .nostalgia-button {
+    min-height: 33px;
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+
+  .player-wrap {
+    bottom:
+      max(
+        66px,
+        calc(env(safe-area-inset-bottom) + 58px)
+      );
+  }
+}
+
+/* Phones */
+@media (max-width: 760px) {
+  .nostalgia-button {
+    top: calc(100% + 8px);
+    min-height: 31px;
+    padding: 5px 12px;
+    gap: 6px;
+    font-size: clamp(10px, 3vw, 12px);
+  }
+
+  .player-wrap {
+    bottom:
+      max(
+        58px,
+        calc(env(safe-area-inset-bottom) + 52px)
+      );
+  }
+}
+
+/* Very small phones */
+@media (max-width: 390px) {
+  .nostalgia-button {
+    min-height: 29px;
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .player-wrap {
+    bottom:
+      max(
+        54px,
+        calc(env(safe-area-inset-bottom) + 49px)
+      );
+  }
+}
+
+/* Short landscape phones */
+@media (orientation: landscape) and (max-height: 520px) {
+  .nostalgia-button {
+    top: calc(100% + 5px);
+    min-height: 27px;
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
+  .player-wrap {
+    bottom:
+      max(
+        42px,
+        calc(env(safe-area-inset-bottom) + 38px)
+      );
+  }
+}
+
+/* Large / 4K displays */
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .nostalgia-button {
+    min-height: 42px;
+    padding: 8px 20px;
+    font-size: 15px;
+  }
+
+  .player-wrap {
+    bottom:
+      max(
+        100px,
+        calc(env(safe-area-inset-bottom) + 72px)
+      );
+  }
+}
+
+/* ================================================================
+   Rotating nostalgic status message
+   Reuses the old 1990—2005 position without adding a heavy UI card.
+   Every React key change restarts the soft 7-second fade animation.
+   ================================================================ */
+
+.nostalgia-message {
+  position: absolute;
+  top: 50%;
+  right: clamp(14px, 2.2vw, 38px);
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  min-height: 26px;
+  max-width: min(28vw, 240px);
+
+  color: rgba(255, 244, 222, 0.68);
+
+  font-family:
+    "Noto Sans Devanagari",
+    "Nirmala UI",
+    "Mangal",
+    "Mukta",
+    "Hind",
+    sans-serif;
+
+  font-size: clamp(10px, 0.78vw, 14px);
+  font-weight: 560;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  text-align: right;
+
+  pointer-events: none;
+}
+
+.nostalgia-message-text {
+  display: inline-block;
+  animation: nostalgia-message-cycle 7s ease-in-out both;
+  will-change: opacity, transform, filter;
+}
+
+@keyframes nostalgia-message-cycle {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+    filter: blur(2px);
+  }
+
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  82% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+    filter: blur(2px);
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .nostalgia-message {
+    right: 18px;
+    max-width: 180px;
+    font-size: 11px;
+  }
+}
+
+/* Phones: keep it visible, just compact. */
+@media (max-width: 760px) {
+  .nostalgia-message {
+    right: 10px;
+    min-height: 23px;
+    max-width: 34vw;
+    font-size: clamp(8.5px, 2.55vw, 10px);
+    font-weight: 560;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 390px) {
+  .nostalgia-message {
+    right: 8px;
+    max-width: 32vw;
+    font-size: 8.5px;
+  }
+
+  .status-time {
+    left: 8px;
+    padding-inline: 6px;
+  }
+
+  .active-status {
+    gap: 4px;
+  }
+}
+
+/* Short landscape screens */
+@media (orientation: landscape) and (max-height: 520px) {
+  .nostalgia-message {
+    right: 10px;
+    font-size: 9px;
+  }
+}
+
+/* Large / 4K */
+@media (min-width: 2560px) and (min-height: 1200px) {
+  .nostalgia-message {
+    right: 48px;
+    max-width: 320px;
+    font-size: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nostalgia-message-text {
+    animation: none;
+  }
+}
