@@ -2,20 +2,104 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- RetroRaag tab icon: unique filename intentionally bypasses old Vite favicon cache -->
-    <link rel="icon" type="image/png" sizes="96x96" href="/retroraag-tab-icon-v9.png" />
-    <link rel="shortcut icon" type="image/png" href="/images/retroraag-tab-icon-v9.png" />
+
+    <!-- Basic page setup -->
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#172f55" />
-   <meta name="description" content="RetroRaag brings back timeless Bollywood melodies, legendary voices and unforgettable songs. बस play करो और उन पुराने दिनों, एहसासों और यादों को फिर से जी लो."/>
-   <title>RetroRaag — Old Hindi Songs & Bollywood Classics</title>
 
-    <link rel="preload" as="image" href="/images/retroraag_mobile_4k.png" media="(max-aspect-ratio: 1/1)" />
-    <link rel="preload" as="image" href="/images/retroraag_tablet_4k.png" media="(min-aspect-ratio: 1/1) and (max-aspect-ratio: 3/2)" />
-    <link rel="preload" as="image" href="/images/retroraag_laptop_4k.png" media="(min-aspect-ratio: 3/2) and (max-aspect-ratio: 7/4)" />
-    <link rel="preload" as="image" href="/images/retroraag_desktop_4k.png" media="(min-aspect-ratio: 7/4) and (max-aspect-ratio: 2/1)" />
-    <link rel="preload" as="image" href="/images/retroraag_ultrawide_4k.png" media="(min-aspect-ratio: 2/1)" />
+    <!-- Primary SEO -->
+    <title>RetroRaag — Timeless Bollywood Classics</title>
+    <meta
+      name="description"
+      content="RetroRaag brings back timeless Bollywood melodies, legendary voices and unforgettable songs. बस play करो और उन पुराने दिनों, एहसासों और यादों को फिर से जी लो."
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://retroraag.in/" />
 
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/images/retroraag-tab-icon-v9.png"
+    />
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="/images/retroraag-tab-icon-v9.png"
+    />
+
+    <!-- Open Graph / WhatsApp / Facebook / LinkedIn -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="RetroRaag" />
+    <meta property="og:title" content="RetroRaag — Timeless Bollywood Classics" />
+    <meta
+      property="og:description"
+      content="Timeless Bollywood melodies, legendary voices and unforgettable songs — relive the music and memories with RetroRaag."
+    />
+    <meta property="og:url" content="https://retroraag.in/" />
+    <meta
+      property="og:image"
+      content="https://retroraag.in/images/retroraag_desktop_4k.png"
+    />
+    <meta property="og:image:alt" content="RetroRaag nostalgic Bollywood radio" />
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RetroRaag — Timeless Bollywood Classics" />
+    <meta
+      name="twitter:description"
+      content="Timeless Bollywood melodies, legendary voices and unforgettable songs — relive the music and memories with RetroRaag."
+    />
+    <meta
+      name="twitter:image"
+      content="https://retroraag.in/images/retroraag_desktop_4k.png"
+    />
+
+    <!-- Google site-name signal -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "RetroRaag",
+        "alternateName": "Retro Raag",
+        "url": "https://retroraag.in/"
+      }
+    </script>
+
+    <!-- Background image preloads -->
+    <link
+      rel="preload"
+      as="image"
+      href="/images/retroraag_mobile_4k.png"
+      media="(max-aspect-ratio: 1/1)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/retroraag_tablet_4k.png"
+      media="(min-aspect-ratio: 1/1) and (max-aspect-ratio: 3/2)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/retroraag_laptop_4k.png"
+      media="(min-aspect-ratio: 3/2) and (max-aspect-ratio: 7/4)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/retroraag_desktop_4k.png"
+      media="(min-aspect-ratio: 7/4) and (max-aspect-ratio: 2/1)"
+    />
+    <link
+      rel="preload"
+      as="image"
+      href="/images/retroraag_ultrawide_4k.png"
+      media="(min-aspect-ratio: 2/1)"
+    />
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,6 +107,7 @@
       rel="stylesheet"
     />
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
