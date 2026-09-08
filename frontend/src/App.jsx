@@ -2,11 +2,18 @@ import { useEffect, useRef, useState } from "react";
 
 const PLAYLIST_BATCH_SIZE = 120;
 
-const NOSTALGIA_MESSAGES = [
+const NOSTALGIA_MESSAGES_90S = [
   "सिर्फ़ यादें",
   "पुरानी धुनें",
   "फिर वही दौर",
   "यादों का रेडियो"
+];
+
+const NOSTALGIA_MESSAGES_KISHORE = [
+  "गीत गाता चल...",
+  "ज़िंदगी का सफ़र...",
+  "किशोर कुमार",
+  "एक हसीन शाम..."
 ];
 
 // =====================================================
@@ -104,8 +111,22 @@ export default function App() {
   const [activeUsers, setActiveUsers] = useState("—");
   const [localTime, setLocalTime] = useState("--:--");
   const [brandActive, setBrandActive] = useState(false);
+  const [currentStation, setCurrentStation] = useState(() => {
+    try {
+      const saved = localStorage.getItem("retroraag:station");
+      if (saved === "kishore" || saved === "90s") return saved;
+    } catch {
+      // Ignore storage errors
+    }
+    return "90s";
+  });
   const [favoriteKeys, setFavoriteKeys] = useState([]);
   const [nostalgiaMessageIndex, setNostalgiaMessageIndex] = useState(0);
+
+  const nostalgiaMessages =
+    currentStation === "kishore"
+      ? NOSTALGIA_MESSAGES_KISHORE
+      : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
     queueRef.current = queue;
@@ -124,12 +145,12 @@ export default function App() {
   useEffect(() => {
     const messageTimer = window.setInterval(() => {
       setNostalgiaMessageIndex(
-        (current) => (current + 1) % NOSTALGIA_MESSAGES.length
+        (current) => (current + 1) % nostalgiaMessages.length
       );
     }, 7000);
 
     return () => window.clearInterval(messageTimer);
-  }, []);
+  }, [nostalgiaMessages.length]);
 
   // -----------------------------------------------------
   // Small player preferences
@@ -562,12 +583,15 @@ export default function App() {
   // -----------------------------------------------------
   // Load songs from backend
   // -----------------------------------------------------
-  async function loadSongs() {
+  async function loadSongs(station = currentStation, autoplay = false) {
     try {
-      const response = await fetch("/api/radio/songs?compact=1", {
-        headers: { Accept: "application/json" },
-        cache: "no-store",
-      });
+      const response = await fetch(
+        `/api/radio/songs?compact=1&station=${station}`,
+        {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Radio API error: ${response.status}`);
@@ -580,25 +604,45 @@ export default function App() {
         throw new Error("No playable songs found");
       }
 
-      const shuffled = shuffle(playable);
+      // Randomize songs on load so every visit starts with a fresh random song as #1
+      const randomized = shuffle(playable);
 
-      queueRef.current = shuffled;
+      queueRef.current = randomized;
       currentIndexRef.current = 0;
-      renderedCountRef.current = Math.min(shuffled.length, PLAYLIST_BATCH_SIZE);
+      renderedCountRef.current = randomized.length;
 
-      setQueue(shuffled);
+      setQueue(randomized);
       setCurrentIndex(0);
-      setRenderedCount(renderedCountRef.current);
+      setRenderedCount(randomized.length);
       setControlsEnabled(true);
       setLoadFailed(false);
 
-      // First song's metadata is loaded right away (not autoplaying),
-      // same fix as the original player.js.
-      loadTrack(0, { autoplay: false });
+      loadTrack(0, { autoplay });
     } catch (error) {
       console.error("RetroRaag error:", error);
       setLoadFailed(true);
     }
+  }
+
+  async function switchStation(nextStation) {
+    if (nextStation === currentStation) return;
+    const audio = audioRef.current;
+    const wasPlaying = isPlaying || (audio && !audio.paused);
+
+    if (audio) {
+      audio.pause();
+    }
+    setIsPlaying(false);
+    setCurrentStation(nextStation);
+    try {
+      localStorage.setItem("retroraag:station", nextStation);
+    } catch {
+      // Ignore storage errors
+    }
+    setCoverLoaded(false);
+    setNostalgiaMessageIndex(0);
+
+    await loadSongs(nextStation, wasPlaying);
   }
 
   // -----------------------------------------------------
@@ -899,7 +943,7 @@ export default function App() {
   // Initial song fetch (runs once on mount)
   // -----------------------------------------------------
   useEffect(() => {
-    loadSongs();
+    loadSongs(currentStation);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -922,17 +966,13 @@ export default function App() {
     : "Bollywood classics";
 
   return (
-    <main className="radio-shell" aria-label="RetroRaag Bollywood radio">
+    <main className={`radio-shell station-${currentStation}`} aria-label="RetroRaag Bollywood radio">
+      {/* Default RetroRaag Scene */}
       <picture className="scene" aria-hidden="true">
-        {/* Ultra-wide monitors (21:9 and beyond) */}
         <source media="(min-aspect-ratio: 2/1)" srcSet="/images/retroraag_ultrawide_4k.png" />
-        {/* Standard desktops / large monitors (16:9) */}
         <source media="(min-aspect-ratio: 7/4)" srcSet="/images/retroraag_desktop_4k.png" />
-        {/* Laptops (16:10) */}
         <source media="(min-aspect-ratio: 3/2)" srcSet="/images/retroraag_laptop_4k.png" />
-        {/* Tablets / small landscape windows (4:3) */}
         <source media="(min-aspect-ratio: 1/1)" srcSet="/images/retroraag_tablet_4k.png" />
-        {/* Phones / any portrait orientation — also the fallback <img> */}
         <img
           className="scene-image"
           src="/images/retroraag_mobile_4k.png"
@@ -963,9 +1003,9 @@ export default function App() {
         <div className="nostalgia-message" aria-hidden="true">
           <span
             className="nostalgia-message-text"
-            key={nostalgiaMessageIndex}
+            key={`${currentStation}-${nostalgiaMessageIndex}`}
           >
-            {NOSTALGIA_MESSAGES[nostalgiaMessageIndex]}
+            {nostalgiaMessages[nostalgiaMessageIndex % nostalgiaMessages.length]}
           </span>
         </div>
       </header>
@@ -995,6 +1035,59 @@ export default function App() {
       </div>
 
       <section className="player-wrap" aria-label="Music player">
+        {/* Approach B: Dual-Cassette Deck */}
+        <div className="cassette-deck" role="tablist" aria-label="Select Radio Station">
+          <button
+            type="button"
+            className={`cassette-card tape-90s ${currentStation === "90s" ? "is-loaded" : ""}`}
+            onClick={() => switchStation("90s")}
+            role="tab"
+            aria-selected={currentStation === "90s"}
+            aria-label="Side A: 90s Bollywood Gold"
+          >
+            <div className="cassette-inner">
+              <div className="cassette-header">
+                <span className="cassette-side">SIDE A • 98.3 FM</span>
+                <span className="cassette-badge">{currentStation === "90s" ? "● IN DECK" : "LOAD TAPE"}</span>
+              </div>
+              <div className="cassette-label-strip">
+                <span className="cassette-title">90s BOLLYWOOD GOLD</span>
+                <span className="cassette-subtitle">98 Evergreen Hits</span>
+              </div>
+              <div className="cassette-window">
+                <div className={`cassette-spool ${currentStation === "90s" && isPlaying ? "is-spinning" : ""}`}></div>
+                <div className="cassette-tape-ribbon"></div>
+                <div className={`cassette-spool ${currentStation === "90s" && isPlaying ? "is-spinning" : ""}`}></div>
+              </div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            className={`cassette-card tape-kishore ${currentStation === "kishore" ? "is-loaded" : ""}`}
+            onClick={() => switchStation("kishore")}
+            role="tab"
+            aria-selected={currentStation === "kishore"}
+            aria-label="Side B: Kishore Kumar Special"
+          >
+            <div className="cassette-inner">
+              <div className="cassette-header">
+                <span className="cassette-side">SIDE B • 104.8 FM</span>
+                <span className="cassette-badge">{currentStation === "kishore" ? "● IN DECK" : "LOAD TAPE"}</span>
+              </div>
+              <div className="cassette-label-strip kishore-strip">
+                <span className="cassette-title">KISHORE KUMAR</span>
+                <span className="cassette-subtitle">61 Timeless Classics</span>
+              </div>
+              <div className="cassette-window">
+                <div className={`cassette-spool ${currentStation === "kishore" && isPlaying ? "is-spinning" : ""}`}></div>
+                <div className="cassette-tape-ribbon"></div>
+                <div className={`cassette-spool ${currentStation === "kishore" && isPlaying ? "is-spinning" : ""}`}></div>
+              </div>
+            </div>
+          </button>
+        </div>
+
         <section
           className={`playlist-popover${playlistOpen ? " is-open" : ""}`}
           id="playlistPanel"
@@ -1004,8 +1097,10 @@ export default function App() {
         >
           <div className="playlist-head">
             <div>
-              <span className="playlist-kicker">रेट्रो राग</span>
-              <h2>Up next</h2>
+              <span className="playlist-kicker">
+                {currentStation === "kishore" ? "KISHORE KUMAR • 104.8 FM" : "रेट्रो राग • 98.3 FM"}
+              </span>
+              <h2>{currentStation === "kishore" ? "Kishore Da Collection" : "Up next"} ({queue.length} Songs)</h2>
             </div>
 
             <button
@@ -1036,7 +1131,7 @@ export default function App() {
                 aria-selected={index === currentIndex}
                 onClick={() => selectSong(index)}
               >
-                <span className="playlist-index">{String(index + 1).padStart(2, "0")}</span>
+                <span className="playlist-index">{index + 1}</span>
                 <span className="playlist-title">{song.name}</span>
                 <span className="playlist-artist">{artistText(song)}</span>
               </button>
@@ -1062,7 +1157,14 @@ export default function App() {
             </div>
 
             <div className="song-copy">
-              <h1 className="song-title">{songName}</h1>
+              <div className="song-title-wrap">
+                <h1 className="song-title">{songName}</h1>
+                {activeSong && (
+                  <span className="song-number-badge" aria-label={`Song ${currentIndex + 1} of ${queue.length}`}>
+                    {currentIndex + 1} / {queue.length}
+                  </span>
+                )}
+              </div>
               <p className="song-artist">{songArtistLine}</p>
 
               <div className="track-timeline">

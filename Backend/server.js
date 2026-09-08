@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const musicRoutes = require("./routes/musicRoutes");
 
 const app = express();
@@ -36,7 +37,22 @@ const frontendPath = path.join(__dirname, "..", "frontend", "dist");
 app.use(express.static(frontendPath));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  const indexPath = path.join(frontendPath, "index.html");
+  if (!fs.existsSync(indexPath)) {
+    return res.status(503).send(`
+      <!DOCTYPE html>
+      <html>
+        <head><title>RetroRaag - Build Required</title></head>
+        <body style="font-family: sans-serif; text-align: center; padding: 50px;">
+          <h2>Frontend not built yet</h2>
+          <p>The React frontend has not been compiled yet.</p>
+          <p>Please run the following command in the project root:</p>
+          <pre style="background: #eee; display: inline-block; padding: 10px 20px; border-radius: 4px;">npm run build</pre>
+        </body>
+      </html>
+    `);
+  }
+  res.sendFile(indexPath);
 });
 
 // ------------------------------------

@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const CATALOG_PATH =
+const CATALOG_PATH_90S =
   path.join(
     __dirname,
     "..",
@@ -9,23 +9,34 @@ const CATALOG_PATH =
     "songs.json"
   );
 
-let catalogCache = null;
+const CATALOG_PATH_KISHORE =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "kishoreSongs.json"
+  );
 
-function normalizeText(
-  value = ""
-) {
+const stationStores = {
+  "90s": {
+    path: CATALOG_PATH_90S,
+    cache: null,
+    lastMtime: 0
+  },
+  "kishore": {
+    path: CATALOG_PATH_KISHORE,
+    cache: null,
+    lastMtime: 0
+  }
+};
+
+function normalizeText(value = "") {
   return String(value)
     .normalize("NFKD")
-    .replace(
-      /[\u0300-\u036f]/g,
-      ""
-    )
+    .replace(/[\u0300-\u036f]/g, "")
     .toLowerCase()
     .replace(/&/g, " and ")
-    .replace(
-      /[^a-z0-9\s]/g,
-      " "
-    )
+    .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -38,47 +49,36 @@ function isPlayableSong(song) {
   );
 }
 
-function loadCatalog() {
-  if (catalogCache) {
-    return catalogCache;
-  }
+function getStore(station = "90s") {
+  const key = String(station || "").toLowerCase().trim();
+  return key === "kishore" ? stationStores.kishore : stationStores["90s"];
+}
 
-  if (
-    !fs.existsSync(
-      CATALOG_PATH
-    )
-  ) {
-    catalogCache = [];
-    return catalogCache;
+function loadCatalog(station = "90s") {
+  const store = getStore(station);
+
+  if (!fs.existsSync(store.path)) {
+    store.cache = [];
+    return store.cache;
   }
 
   try {
-    const parsed =
-      JSON.parse(
-        fs.readFileSync(
-          CATALOG_PATH,
-          "utf8"
-        ) || "[]"
-      );
-
-    catalogCache =
-      Array.isArray(
-        parsed
-      )
-        ? parsed.filter(
-            isPlayableSong
-          )
-        : [];
-
-    return catalogCache;
-  } catch (error) {
-    console.error(
-      "Failed to read songs.json:",
-      error.message
+    const stat = fs.statSync(store.path);
+    if (store.cache && stat.mtimeMs === store.lastMtime) {
+      return store.cache;
+    }
+    store.lastMtime = stat.mtimeMs;
+    const parsed = JSON.parse(
+      fs.readFileSync(store.path, "utf8") || "[]"
     );
-
-    catalogCache = [];
-    return catalogCache;
+    store.cache = Array.isArray(parsed)
+      ? parsed.filter(isPlayableSong)
+      : [];
+    return store.cache;
+  } catch (error) {
+    console.error(`Failed to read catalog at ${store.path}:`, error.message);
+    store.cache = store.cache || [];
+    return store.cache;
   }
 }
 
@@ -119,7 +119,7 @@ async function searchTracks(
       .split(" ")
       .filter(Boolean);
 
-  return loadCatalog()
+  return loadCatalog(options.station)
     .map(
       (song) => {
         const name =
@@ -217,13 +217,13 @@ async function searchTracks(
     );
 }
 
-async function getRadioSongs() {
-  return loadCatalog();
+async function getRadioSongs(station = "90s") {
+  return loadCatalog(station);
 }
 
-function getCatalogStatus() {
+function getCatalogStatus(station = "90s") {
   const songs =
-    loadCatalog();
+    loadCatalog(station);
 
   const bySource = {};
 
@@ -248,6 +248,8 @@ function getCatalogStatus() {
     }
   }
 
+  const activeStore = getStore(station);
+
   return {
     built:
       songs.length > 0,
@@ -255,33 +257,30 @@ function getCatalogStatus() {
     count:
       songs.length,
 
+    station:
+      String(station).toLowerCase() === "kishore" ? "kishore" : "90s",
+
     sourceFiltered:
       true,
 
-    yearFilter:
-      false,
-
-    languageFilter:
-      false,
-
     runtimeProvider:
-      "local songs.json",
+      path.basename(activeStore.path),
 
     buildProvider:
       "self-hosted JioSaavn API",
-
-    sources: [
-      "spotify",
-      "hinditracks",
-      "gaana"
-    ],
 
     bySource
   };
 }
 
-function clearCatalogCache() {
-  catalogCache = null;
+function clearCatalogCache(station) {
+  if (station) {
+    const store = getStore(station);
+    store.cache = null;
+  } else {
+    stationStores["90s"].cache = null;
+    stationStores.kishore.cache = null;
+  }
 }
 
 // Kept for compatibility with older imports.

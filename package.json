@@ -4,8 +4,11 @@
   "description": "Backend for RetroRaag - 1990 to 2005 Bollywood radio",
   "main": "Backend/server.js",
   "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:frontend": "npm --prefix frontend run build",
     "start": "node Backend/server.js",
     "dev": "nodemon Backend/server.js",
+    "dev:frontend": "npm --prefix frontend run dev",
     "catalog:build": "node Backend/scripts/buildSongCatalog.js"
   },
   "dependencies": {

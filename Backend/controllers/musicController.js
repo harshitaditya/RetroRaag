@@ -44,11 +44,10 @@ async function search(req, res, next) {
  * /api/radio/songs
  */
 async function radioSongs(req, res, next) {
-
   try {
-
+    const station = req.query.station || "90s";
     const songs =
-      await jiosaavnService.getRadioSongs();
+      await jiosaavnService.getRadioSongs(station);
 
     if (req.query.compact === "1") {
       return res.json(
@@ -64,37 +63,21 @@ async function radioSongs(req, res, next) {
     }
 
     res.json(songs);
-
   } catch (error) {
-
     next(error);
-
   }
-
 }
 
-
-/**
- * Catalog information
- *
- * GET:
- * /api/radio/status
- */
 function radioStatus(req, res, next) {
-
   try {
-
+    const station = req.query.station || "90s";
     const status =
-      jiosaavnService.getCatalogStatus();
+      jiosaavnService.getCatalogStatus(station);
 
     res.json(status);
-
   } catch (error) {
-
     next(error);
-
   }
-
 }
 
 
