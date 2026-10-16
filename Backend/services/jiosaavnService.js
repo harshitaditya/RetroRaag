@@ -1,297 +1,118 @@
 const fs = require("fs");
 const path = require("path");
+const axios = require("axios");
 
-const CATALOG_PATH_90S =
-  path.join(
-    __dirname,
-    "..",
-    "data",
-    "songs.json"
-  );
+const DATA_DIR = path.join(__dirname, "..", "data");
+const SONGS_PATH = path.join(DATA_DIR, "songs.json");
+const KISHORE_PATH = path.join(DATA_DIR, "kishoreSongs.json");
 
-const CATALOG_PATH_KISHORE =
-  path.join(
-    __dirname,
-    "..",
-    "data",
-    "kishoreSongs.json"
-  );
+const JIOSAAVN_BASE_URL =
+  process.env.JIOSAAVN_API_BASE_URL ||
+  "https://saavn.sumit.co/api";
 
-const stationStores = {
-  "90s": {
-    path: CATALOG_PATH_90S,
-    cache: null,
-    lastMtime: 0
-  },
-  "kishore": {
-    path: CATALOG_PATH_KISHORE,
-    cache: null,
-    lastMtime: 0
-  }
-};
+const REQUEST_TIMEOUT_MS = Number(
+  process.env.CATALOG_REQUEST_TIMEOUT_MS || 20000
+);
 
-function normalizeText(value = "") {
-  return String(value)
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/&/g, " and ")
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function isPlayableSong(song) {
-  return Boolean(
-    song &&
-    song.name &&
-    song.streamUrl
-  );
-}
-
-function getStore(station = "90s") {
-  const key = String(station || "").toLowerCase().trim();
-  return key === "kishore" ? stationStores.kishore : stationStores["90s"];
-}
-
-function loadCatalog(station = "90s") {
-  const store = getStore(station);
-
-  if (!fs.existsSync(store.path)) {
-    store.cache = [];
-    return store.cache;
-  }
-
-  try {
-    const stat = fs.statSync(store.path);
-    if (store.cache && stat.mtimeMs === store.lastMtime) {
-      return store.cache;
-    }
-    store.lastMtime = stat.mtimeMs;
-    const parsed = JSON.parse(
-      fs.readFileSync(store.path, "utf8") || "[]"
-    );
-    store.cache = Array.isArray(parsed)
-      ? parsed.filter(isPlayableSong)
-      : [];
-    return store.cache;
-  } catch (error) {
-    console.error(`Failed to read catalog at ${store.path}:`, error.message);
-    store.cache = store.cache || [];
-    return store.cache;
-  }
-}
-
-/**
- * Search ONLY inside the final curated RetroRaag catalog.
- *
- * Important:
- * Runtime search does not call JioSaavn.
- * The self-hosted JioSaavn API is only used by catalog:build.
- */
-async function searchTracks(
-  query,
-  options = {}
-) {
-  const needle =
-    normalizeText(
-      query
-    );
-
-  if (!needle) {
+function loadSongs(filePath) {
+  if (!fs.existsSync(filePath)) {
     return [];
   }
+  try {
+    const data = fs.readFileSync(filePath, "utf8");
+    const parsed = JSON.parse(data);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    console.error(`Failed to load songs from ${filePath}:`, error.message);
+    return [];
+  }
+}
 
-  const limit =
-    Math.max(
-      1,
-      Math.min(
-        Number(
-          options.limit ||
-          20
-        ),
-        100
-      )
-    );
-
-  const queryTokens =
-    needle
-      .split(" ")
-      .filter(Boolean);
-
-  return loadCatalog(options.station)
-    .map(
-      (song) => {
-        const name =
-          normalizeText(
-            song.name
-          );
-
-        const artists =
-          normalizeText(
-            Array.isArray(
-              song.artists
-            )
-              ? song.artists.join(
-                  " "
-                )
-              : ""
-          );
-
-        const album =
-          normalizeText(
-            song.album ||
-            ""
-          );
-
-        const haystack =
-          `${name} ${artists} ${album}`;
-
-        let score = 0;
-
-        if (
-          name === needle
-        ) {
-          score += 100;
-        } else if (
-          name.startsWith(
-            needle
-          )
-        ) {
-          score += 80;
-        } else if (
-          name.includes(
-            needle
-          )
-        ) {
-          score += 65;
-        } else if (
-          haystack.includes(
-            needle
-          )
-        ) {
-          score += 45;
-        }
-
-        for (
-          const token of
-          queryTokens
-        ) {
-          if (
-            name.includes(
-              token
-            )
-          ) {
-            score += 8;
-          } else if (
-            haystack.includes(
-              token
-            )
-          ) {
-            score += 3;
-          }
-        }
-
-        return {
-          song,
-          score
-        };
-      }
-    )
-    .filter(
-      (item) =>
-        item.score > 0
-    )
-    .sort(
-      (a, b) =>
-        b.score -
-        a.score
-    )
-    .slice(
-      0,
-      limit
-    )
-    .map(
-      (item) =>
-        item.song
-    );
+function getCatalog(station = "90s") {
+  if (station === "kishore") {
+    const kishore = loadSongs(KISHORE_PATH);
+    if (kishore.length > 0) return kishore;
+  }
+  const songs = loadSongs(SONGS_PATH);
+  if (songs.length > 0) return songs;
+  return loadSongs(KISHORE_PATH);
 }
 
 async function getRadioSongs(station = "90s") {
-  return loadCatalog(station);
+  const catalog = getCatalog(station);
+  if (catalog.length > 0) {
+    return catalog;
+  }
+  return [
+    {
+      id: "fallback-1",
+      name: "Pehla Nasha",
+      artists: ["Udit Narayan", "Sadhana Sargam"],
+      album: "Jo Jeeta Wohi Sikandar",
+      image: null,
+      streamUrl: ""
+    }
+  ];
 }
 
 function getCatalogStatus(station = "90s") {
-  const songs =
-    loadCatalog(station);
-
-  const bySource = {};
-
-  for (
-    const song of
-    songs
-  ) {
-    for (
-      const source of
-      song.sourceLists ||
-      []
-    ) {
-      bySource[
-        source
-      ] =
-        (
-          bySource[
-            source
-          ] ||
-          0
-        ) + 1;
-    }
-  }
-
-  const activeStore = getStore(station);
-
+  const catalog = getCatalog(station);
   return {
-    built:
-      songs.length > 0,
-
-    count:
-      songs.length,
-
-    station:
-      String(station).toLowerCase() === "kishore" ? "kishore" : "90s",
-
-    sourceFiltered:
-      true,
-
-    runtimeProvider:
-      path.basename(activeStore.path),
-
-    buildProvider:
-      "self-hosted JioSaavn API",
-
-    bySource
+    totalSongs: catalog.length,
+    station,
+    status: catalog.length > 0 ? "ready" : "empty"
   };
 }
 
-function clearCatalogCache(station) {
-  if (station) {
-    const store = getStore(station);
-    store.cache = null;
-  } else {
-    stationStores["90s"].cache = null;
-    stationStores.kishore.cache = null;
+async function searchTracks(query) {
+  if (!query || !query.trim()) {
+    return [];
+  }
+
+  try {
+    const response = await axios.get(
+      `${JIOSAAVN_BASE_URL}/search/songs`,
+      {
+        params: { query, limit: 20 },
+        timeout: REQUEST_TIMEOUT_MS,
+        headers: {
+          Accept: "application/json",
+          "User-Agent": "RetroRaag-Backend/1.0"
+        }
+      }
+    );
+
+    const results = response.data?.data?.results || response.data?.results || [];
+    return results.map((song) => ({
+      id: song.id || null,
+      name: song.name || song.title || null,
+      artists: Array.isArray(song.artists?.primary)
+        ? song.artists.primary.map(a => a.name).filter(Boolean)
+        : Array.isArray(song.artists)
+        ? song.artists.map(a => a.name || a).filter(Boolean)
+        : [],
+      album: song.album?.name || song.album || null,
+      image: Array.isArray(song.image)
+        ? song.image[song.image.length - 1]?.url || null
+        : song.image || null,
+      streamUrl: Array.isArray(song.downloadUrl)
+        ? song.downloadUrl[song.downloadUrl.length - 1]?.url || null
+        : song.downloadUrl || null
+    })).filter(s => s.name && s.streamUrl);
+  } catch (error) {
+    console.warn("JioSaavn search API failed, falling back to local catalog search:", error.message);
+    const catalog = getCatalog();
+    const q = query.toLowerCase();
+    return catalog.filter(song => 
+      (song.name && song.name.toLowerCase().includes(q)) ||
+      (song.album && song.album.toLowerCase().includes(q)) ||
+      (song.artists && song.artists.some(a => a.toLowerCase().includes(q)))
+    );
   }
 }
 
-// Kept for compatibility with older imports.
-function normalizeSong(song) {
-  return song || null;
-}
-
 module.exports = {
-  searchTracks,
   getRadioSongs,
   getCatalogStatus,
-  clearCatalogCache,
-  normalizeSong
+  searchTracks
 };
