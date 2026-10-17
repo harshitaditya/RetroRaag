@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+// RetroRaag Playlist Batch Size
 const PLAYLIST_BATCH_SIZE = 120;
 
 const NOSTALGIA_MESSAGES_90S = [
