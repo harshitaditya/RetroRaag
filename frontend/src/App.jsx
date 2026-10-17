@@ -1,554 +1,1271 @@
-import React, { useState, useEffect, useRef } from "";
+import { useEffect, useRef, useState } from "react";
+
+const PLAYLIST_BATCH_SIZE = 120;
+
+const NOSTALGIA_MESSAGES_90S = [
+  "सिर्फ़ यादें",
+  "पुरानी धुनें",
+  "फिर वही दौर",
+  "यादों का रेडियो"
+];
+
+const NOSTALGIA_MESSAGES_KISHORE = [
+  "गीत गाता चल...",
+  "ज़िंदगी का सफ़र...",
+  "किशोर कुमार",
+  "एक हसीन शाम..."
+];
+
+// =====================================================
+// PURE HELPERS (same logic as the old player.js)
+// =====================================================
+
+function shuffle(items) {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function playableSongs(items) {
+  return items.filter(
+    (song) =>
+      song &&
+      typeof song.name === "string" &&
+      typeof song.streamUrl === "string" &&
+      song.streamUrl.trim() !== ""
+  );
+}
+
+function artistText(song) {
+  if (Array.isArray(song?.artists) && song.artists.length) {
+    return song.artists.join(" • ");
+  }
+  return song?.album || "RetroRaag";
+}
+
+function songStorageKey(song) {
+  if (!song) return "";
+  return String(
+    song.id ||
+      song.streamUrl ||
+      `${song.name || "song"}|${artistText(song)}`
+  );
+}
+
+function formatTime(seconds) {
+  const value = Number(seconds);
+  if (!Number.isFinite(value) || value < 0) return "0:00";
+
+  const totalSeconds = Math.floor(value);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const secondsLeft = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(secondsLeft).padStart(2, "0")}`;
+  }
+  return `${minutes}:${String(secondsLeft).padStart(2, "0")}`;
+}
 
 export default function App() {
-  const [station, setStation] = useState("90s");
-  const [songs, setSongs] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.8);
-  const [isMuted, setIsMuted] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [activeUsers, setActiveUsers] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [isRadioLoading, setIsRadioLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
-
-  // Station Dropdown state
-  const [isStationDropdownOpen, setIsStationDropdownOpen] = useState(false);
-  const stationDropdownRef = useRef(null);
-
+  // -----------------------------------------------------
+  // DOM refs (replace document.getElementById from player.js)
+  // -----------------------------------------------------
   const audioRef = useRef(null);
+  const seekBarRef = useRef(null);
+  const currentTimeLabelRef = useRef(null);
+  const totalDurationLabelRef = useRef(null);
+  const playlistListRef = useRef(null);
+  const playlistPanelRef = useRef(null);
+  const queueButtonRef = useRef(null);
 
-  const stations = [
-    { id: "90s", label: "90s Golden Melody" },
-    { id: "kishore", label: "Kishore Kumar Classics" }
-  ];
+  // -----------------------------------------------------
+  // Mutable "latest value" refs — mirror of player.js module-level
+  // `let` state, kept in sync with React state via effects below.
+  // Needed so event listeners / async callbacks always see the
+  // current value instead of a stale closure.
+  // -----------------------------------------------------
+  const queueRef = useRef([]);
+  const currentIndexRef = useRef(0);
+  const playlistOpenRef = useRef(false);
+  const renderedCountRef = useRef(0);
+  const trackLoadTokenRef = useRef(0);
+  const userStartedPlaybackRef = useRef(false);
+  const timelineAnimationFrameRef = useRef(0);
+  const lastMediaPositionUpdateRef = useRef(0);
 
-  const currentSong = songs[currentIndex] || null;
-
-  // Close station dropdown on outside click
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        stationDropdownRef.current &&
-        !stationDropdownRef.current.contains(event.target)
-      ) {
-        setIsStationDropdownOpen(false);
-      }
+  // -----------------------------------------------------
+  // React state (drives rendering)
+  // -----------------------------------------------------
+  const [queue, setQueue] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [controlsEnabled, setControlsEnabled] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playlistOpen, setPlaylistOpenState] = useState(false);
+  const [renderedCount, setRenderedCount] = useState(0);
+  const [coverLoaded, setCoverLoaded] = useState(false);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [activeUsers, setActiveUsers] = useState("—");
+  const [localTime, setLocalTime] = useState("--:--");
+  const [brandActive, setBrandActive] = useState(false);
+  const [currentStation, setCurrentStation] = useState(() => {
+    try {
+      const saved = localStorage.getItem("retroraag:station");
+      if (saved === "kishore" || saved === "90s") return saved;
+    } catch {
+      // Ignore storage errors
     }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return "90s";
+  });
+  const [favoriteKeys, setFavoriteKeys] = useState([]);
+  const [nostalgiaMessageIndex, setNostalgiaMessageIndex] = useState(0);
+
+  const nostalgiaMessages =
+    currentStation === "kishore"
+      ? NOSTALGIA_MESSAGES_KISHORE
+      : NOSTALGIA_MESSAGES_90S;
+
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+  useEffect(() => {
+    playlistOpenRef.current = playlistOpen;
+  }, [playlistOpen]);
+  useEffect(() => {
+    renderedCountRef.current = renderedCount;
+  }, [renderedCount]);
+
+  // Rotate the small nostalgic message in the old era-label position.
+  useEffect(() => {
+    const messageTimer = window.setInterval(() => {
+      setNostalgiaMessageIndex(
+        (current) => (current + 1) % nostalgiaMessages.length
+      );
+    }, 7000);
+
+    return () => window.clearInterval(messageTimer);
+  }, [nostalgiaMessages.length]);
+
+  // -----------------------------------------------------
+  // Small player preferences
+  // Favorites stay on this browser/device.
+  // -----------------------------------------------------
+  useEffect(() => {
+    try {
+      const savedFavorites = JSON.parse(
+        localStorage.getItem("retroraag:favorites") || "[]"
+      );
+
+      if (Array.isArray(savedFavorites)) {
+        setFavoriteKeys(savedFavorites.map(String));
+      }
+
+    } catch (error) {
+      console.warn("Could not restore RetroRaag preferences:", error);
+    }
   }, []);
 
-  // Fetch station songs
-  useEffect(() => {
-    let isMounted = true;
-    setIsRadioLoading(true);
-    setErrorMsg("");
+  function getCurrentSong() {
+    return queueRef.current[currentIndexRef.current] || null;
+  }
 
-    fetch(`/api/radio/songs?station=${station}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!isMounted) return;
-        if (Array.isArray(data) && data.length > 0) {
-          setSongs(data);
-          setCurrentIndex(0);
-          setCurrentTime(0);
-        } else {
-          setSongs([]);
-          setErrorMsg("No songs found for this station.");
-        }
-      })
-      .catch((err) => {
-        if (!isMounted) return;
-        console.error("Failed to load station songs:", err);
-        setErrorMsg("Failed to load radio catalog.");
-      })
-      .finally(() => {
-        if (isMounted) setIsRadioLoading(false);
-      });
+  // -----------------------------------------------------
+  // Duration helpers
+  // -----------------------------------------------------
+  function catalogDurationSeconds() {
+    const song = getCurrentSong();
+    const durationMs = Number(song?.durationMs);
+    if (Number.isFinite(durationMs) && durationMs > 0) return durationMs / 1000;
+    return 0;
+  }
 
-    return () => {
-      isMounted = false;
-    };
-  }, [station]);
-
-  // Active users SSE stream
-  useEffect(() => {
-    let eventSource;
-    let reconnectTimer;
-
-    function connectSSE() {
-      eventSource = new EventSource("/api/active-users/stream");
-      eventSource.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data && typeof data.activeUsers === "number") {
-            setActiveUsers(data.activeUsers);
-          }
-        } catch (e) {
-          // ignore
-        }
-      };
-      eventSource.onerror = () => {
-        eventSource.close();
-        reconnectTimer = setTimeout(connectSSE, 5000);
-      };
-    }
-
-    connectSSE();
-
-    return () => {
-      if (eventSource) eventSource.close();
-      if (reconnectTimer) clearTimeout(reconnectTimer);
-    };
-  }, []);
-
-  // Handle audio playback sync
-  useEffect(() => {
+  function getDuration() {
     const audio = audioRef.current;
-    if (!audio) return;
+    const audioDuration = Number(audio?.duration);
+    if (Number.isFinite(audioDuration) && audioDuration > 0) return audioDuration;
+    return catalogDurationSeconds();
+  }
 
-    if (currentSong && currentSong.streamUrl) {
-      audio.src = currentSong.streamUrl;
-      audio.load();
-      if (isPlaying) {
-        audio.play().catch((err) => {
-          console.error("Playback error:", err);
-          setIsPlaying(false);
-        });
-      }
-    } else {
-      audio.src = "";
-      setIsPlaying(false);
+  // -----------------------------------------------------
+  // Media Session
+  // Gives supported phones/browsers lock-screen / notification
+  // metadata and hardware media controls without changing the UI.
+  // -----------------------------------------------------
+  function hasMediaSession() {
+    return (
+      typeof navigator !== "undefined" &&
+      "mediaSession" in navigator
+    );
+  }
+
+  function setMediaSessionPlaybackState(state) {
+    if (!hasMediaSession()) return;
+
+    try {
+      navigator.mediaSession.playbackState = state;
+    } catch {
+      // Some browsers expose only part of the Media Session API.
     }
-  }, [currentIndex, currentSong?.id]);
+  }
 
-  // Handle play/pause toggle
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !currentSong) return;
-
-    if (isPlaying) {
-      audio.play().catch((err) => {
-        console.error("Playback error:", err);
-        setIsPlaying(false);
-      });
-    } else {
-      audio.pause();
-    }
-  }, [isPlaying]);
-
-  // Volume control
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.volume = isMuted ? 0 : volume;
-  }, [volume, isMuted]);
-
-  // Search handling
-  useEffect(() => {
-    const query = searchQuery.trim();
-    if (!query) {
-      setSearchResults([]);
-      setIsSearching(false);
+  function updateMediaSessionMetadata(song) {
+    if (
+      !song ||
+      !hasMediaSession() ||
+      typeof window === "undefined" ||
+      typeof window.MediaMetadata !== "function"
+    ) {
       return;
     }
 
-    const timer = setTimeout(() => {
-      setIsSearching(true);
-      fetch(`/api/music/search?q=${encodeURIComponent(query)}&station=${station}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (Array.isArray(data)) {
-            setSearchResults(data);
-          } else {
-            setSearchResults([]);
-          }
-        })
-        .catch((err) => {
-          console.error("Search error:", err);
-          setSearchResults([]);
-        })
-        .finally(() => {
-          setIsSearching(false);
+    const artwork = [];
+
+    if (typeof song.image === "string" && song.image.trim()) {
+      try {
+        artwork.push({
+          src: new URL(song.image, window.location.href).href,
         });
-    }, 300);
+      } catch {
+        artwork.push({ src: song.image });
+      }
+    }
 
-    return () => clearTimeout(timer);
-  }, [searchQuery, station]);
+    try {
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: song.name || "RetroRaag",
+        artist: artistText(song),
+        album: song.album || "RetroRaag",
+        artwork,
+      });
+    } catch (error) {
+      console.warn("Could not set Media Session metadata:", error);
+    }
+  }
 
-  const handleTimeUpdate = () => {
+  function resetMediaSessionPosition() {
+    if (!hasMediaSession() || typeof navigator.mediaSession.setPositionState !== "function") {
+      return;
+    }
+
+    try {
+      navigator.mediaSession.setPositionState(null);
+      lastMediaPositionUpdateRef.current = 0;
+    } catch {
+      // Position state is optional and browser support varies.
+    }
+  }
+
+  function syncMediaSessionPosition(force = false) {
+    if (!hasMediaSession() || typeof navigator.mediaSession.setPositionState !== "function") {
+      return;
+    }
+
     const audio = audioRef.current;
     if (!audio) return;
-    setCurrentTime(audio.currentTime || 0);
-    setDuration(audio.duration || 0);
-  };
 
-  const handleSongEnded = () => {
-    // Auto play next song
-    if (songs.length > 0) {
-      setCurrentIndex((prev) => (prev + 1) % songs.length);
-      setIsPlaying(true);
+    const duration = getDuration();
+    if (!Number.isFinite(duration) || duration <= 0) return;
+
+    const now = Date.now();
+    if (!force && now - lastMediaPositionUpdateRef.current < 1000) {
+      return;
     }
-  };
 
-  const formatTime = (seconds) => {
-    if (isNaN(seconds) || seconds <= 0) return "0:00";
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
-  };
+    const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+    const position = Math.max(0, Math.min(current, duration));
+    const playbackRate =
+      Number.isFinite(audio.playbackRate) && audio.playbackRate > 0
+        ? audio.playbackRate
+        : 1;
 
-  const handleSelectSong = (songId) => {
-    const idx = songs.findIndex((s) => s.id === songId);
-    if (idx !== -1) {
-      setCurrentIndex(idx);
-      setIsPlaying(true);
-      setSearchQuery("");
+    try {
+      navigator.mediaSession.setPositionState({
+        duration,
+        playbackRate,
+        position,
+      });
+      lastMediaPositionUpdateRef.current = now;
+    } catch {
+      // Ignore partial implementations.
     }
-  };
+  }
+
+  // -----------------------------------------------------
+  // Timeline (seek bar + time labels) — updated imperatively via
+  // refs, same as the original, to avoid a React re-render on every
+  // "timeupdate" tick (multiple times a second).
+  // -----------------------------------------------------
+  function updateTimeline() {
+    const audio = audioRef.current;
+    const seekBar = seekBarRef.current;
+    const currentTimeLabel = currentTimeLabelRef.current;
+    const totalDurationLabel = totalDurationLabelRef.current;
+    if (!audio || !seekBar || !currentTimeLabel || !totalDurationLabel) return;
+
+    const current = Number.isFinite(audio.currentTime) ? audio.currentTime : 0;
+    const duration = getDuration();
+
+    currentTimeLabel.textContent = formatTime(current);
+    totalDurationLabel.textContent = duration > 0 ? formatTime(duration) : "0:00";
+
+    if (duration <= 0) {
+      seekBar.value = "0";
+      seekBar.disabled = true;
+      seekBar.style.setProperty("--seek-progress", "0%");
+      return;
+    }
+
+    seekBar.disabled = false;
+    seekBar.min = "0";
+    seekBar.max = String(duration);
+    seekBar.value = String(Math.min(current, duration));
+
+    const progress = Math.max(0, Math.min(100, (current / duration) * 100));
+    seekBar.style.setProperty("--seek-progress", `${progress}%`);
+
+    syncMediaSessionPosition();
+  }
+
+  function resetTimeline() {
+    const seekBar = seekBarRef.current;
+    const currentTimeLabel = currentTimeLabelRef.current;
+    const totalDurationLabel = totalDurationLabelRef.current;
+    if (!seekBar || !currentTimeLabel || !totalDurationLabel) return;
+
+    currentTimeLabel.textContent = "0:00";
+    const duration = catalogDurationSeconds();
+    totalDurationLabel.textContent = duration > 0 ? formatTime(duration) : "0:00";
+
+    seekBar.value = "0";
+    seekBar.min = "0";
+    seekBar.max = duration > 0 ? String(duration) : "100";
+    seekBar.disabled = duration <= 0;
+    seekBar.style.setProperty("--seek-progress", "0%");
+  }
+
+  function stopTimelineAnimation() {
+    if (timelineAnimationFrameRef.current) {
+      cancelAnimationFrame(timelineAnimationFrameRef.current);
+      timelineAnimationFrameRef.current = 0;
+    }
+  }
+
+  function startTimelineAnimation() {
+    stopTimelineAnimation();
+    function animation() {
+      updateTimeline();
+      const audio = audioRef.current;
+      if (audio && !audio.paused && !audio.ended) {
+        timelineAnimationFrameRef.current = requestAnimationFrame(animation);
+      } else {
+        timelineAnimationFrameRef.current = 0;
+      }
+    }
+    animation();
+  }
+
+  // -----------------------------------------------------
+  // Load a track (by index) into the <audio> element
+  // -----------------------------------------------------
+  function loadTrack(index, { autoplay = false } = {}) {
+    const q = queueRef.current;
+    if (!q.length) return;
+
+    const newIndex = (index + q.length) % q.length;
+    currentIndexRef.current = newIndex;
+    setCurrentIndex(newIndex);
+
+    const song = q[newIndex];
+    if (!song) return;
+
+    updateMediaSessionMetadata(song);
+    resetMediaSessionPosition();
+    setMediaSessionPlaybackState("paused");
+
+    const thisLoad = ++trackLoadTokenRef.current;
+    stopTimelineAnimation();
+
+    const audio = audioRef.current;
+    audio.pause();
+    setIsPlaying(false);
+    setCoverLoaded(false);
+
+    // Make sure the playlist row for the new song is actually rendered
+    // (mirrors the lazy-loaded playlist behaviour from player.js).
+    if (newIndex >= renderedCountRef.current) {
+      const target = Math.min(q.length, newIndex + PLAYLIST_BATCH_SIZE);
+      renderedCountRef.current = target;
+      setRenderedCount(target);
+    }
+
+    resetTimeline();
+
+    // IMPORTANT (same as original): set src + load() immediately so
+    // browser metadata (duration) is available before Play is pressed.
+    audio.src = song.streamUrl;
+    audio.load();
+
+    if (!autoplay) return;
+
+    audio
+      .play()
+      .then(() => {
+        if (thisLoad !== trackLoadTokenRef.current) return;
+      })
+      .catch((error) => {
+        console.warn("Playback failed:", error);
+        setIsPlaying(false);
+      });
+  }
+
+  // -----------------------------------------------------
+  // Play / Pause
+  // -----------------------------------------------------
+  async function togglePlayback() {
+    const q = queueRef.current;
+    if (!q.length) return;
+
+    userStartedPlaybackRef.current = true;
+    const audio = audioRef.current;
+
+    if (audio.paused) {
+      try {
+        await audio.play();
+      } catch (error) {
+        console.warn("Could not play song:", error);
+        // Current stream failed -> try the next song.
+        if (q.length > 1) {
+          loadTrack(currentIndexRef.current + 1, { autoplay: true });
+        }
+      }
+    } else {
+      audio.pause();
+    }
+  }
+
+  function nextSong() {
+    if (!queueRef.current.length) return;
+    const shouldPlay = !audioRef.current.paused;
+    loadTrack(currentIndexRef.current + 1, { autoplay: shouldPlay });
+  }
+
+  function previousSong() {
+    if (!queueRef.current.length) return;
+    const audio = audioRef.current;
+
+    // If more than 3s into the song, restart it instead of going back.
+    if (audio.currentTime > 3) {
+      audio.currentTime = 0;
+      updateTimeline();
+      return;
+    }
+
+    const shouldPlay = !audio.paused;
+    loadTrack(currentIndexRef.current - 1, { autoplay: shouldPlay });
+  }
+
+  function toggleFavorite() {
+    const song = getCurrentSong();
+    const key = songStorageKey(song);
+    if (!key) return;
+
+    setFavoriteKeys((current) => {
+      const alreadySaved = current.includes(key);
+      const next = alreadySaved
+        ? current.filter((item) => item !== key)
+        : [...current, key];
+
+      try {
+        localStorage.setItem("retroraag:favorites", JSON.stringify(next));
+      } catch {
+        // The heart still works for this session if storage is unavailable.
+      }
+
+      return next;
+    });
+  }
+
+  function reshuffleUpcoming() {
+    const q = queueRef.current;
+    if (q.length < 2) return;
+
+    const activeIndex = currentIndexRef.current;
+    const currentSong = q[activeIndex];
+    const upcoming = q.filter((_, index) => index !== activeIndex);
+    const nextQueue = [currentSong, ...shuffle(upcoming)];
+
+    // Keep the current audio untouched; only reorder what comes next.
+    queueRef.current = nextQueue;
+    currentIndexRef.current = 0;
+    renderedCountRef.current = Math.min(
+      nextQueue.length,
+      Math.max(renderedCountRef.current, PLAYLIST_BATCH_SIZE)
+    );
+
+    setQueue(nextQueue);
+    setCurrentIndex(0);
+    setRenderedCount(renderedCountRef.current);
+  }
+
+  function playSomethingOld() {
+    const q = queueRef.current;
+    if (!q.length) return;
+
+    userStartedPlaybackRef.current = true;
+
+    let randomIndex = 0;
+
+    if (q.length > 1) {
+      // Always try to choose a different song from the one currently playing.
+      do {
+        randomIndex = Math.floor(Math.random() * q.length);
+      } while (randomIndex === currentIndexRef.current);
+    }
+
+    setPlaylistOpenState(false);
+    loadTrack(randomIndex, { autoplay: true });
+  }
+
+  function selectSong(index) {
+    const q = queueRef.current;
+    if (!Number.isInteger(index) || index < 0 || index >= q.length) return;
+
+    userStartedPlaybackRef.current = true;
+    loadTrack(index, { autoplay: true });
+
+    if (window.matchMedia("(max-width: 760px)").matches) {
+      setPlaylistOpenState(false);
+    }
+  }
+
+  // -----------------------------------------------------
+  // Playlist open / close
+  // -----------------------------------------------------
+  function setPlaylistOpen(open) {
+    setPlaylistOpenState(Boolean(open));
+  }
+
+  useEffect(() => {
+    if (!playlistOpen) return;
+    requestAnimationFrame(() => {
+      const selected = playlistListRef.current?.querySelector('[aria-selected="true"]');
+      selected?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    });
+  }, [playlistOpen]);
+
+  // -----------------------------------------------------
+  // Playlist lazy loading
+  // -----------------------------------------------------
+  function appendPlaylistBatch(target) {
+    const q = queueRef.current;
+    const nextTarget = target ?? renderedCountRef.current + PLAYLIST_BATCH_SIZE;
+    const end = Math.min(q.length, nextTarget);
+    if (renderedCountRef.current >= end) return;
+    renderedCountRef.current = end;
+    setRenderedCount(end);
+  }
+
+  function handlePlaylistScroll() {
+    const list = playlistListRef.current;
+    if (!list) return;
+    const distanceFromBottom = list.scrollHeight - list.scrollTop - list.clientHeight;
+    if (distanceFromBottom < 180 && renderedCountRef.current < queueRef.current.length) {
+      appendPlaylistBatch();
+    }
+  }
+
+  // -----------------------------------------------------
+  // Load songs from backend
+  // -----------------------------------------------------
+  async function loadSongs(station = currentStation, autoplay = false) {
+    try {
+      const response = await fetch(
+        `/api/radio/songs?compact=1&station=${station}`,
+        {
+          headers: { Accept: "application/json" },
+          cache: "no-store",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Radio API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      const playable = playableSongs(Array.isArray(data) ? data : []);
+
+      if (!playable.length) {
+        throw new Error("No playable songs found");
+      }
+
+      // Randomize songs on load so every visit starts with a fresh random song as #1
+      const randomized = shuffle(playable);
+
+      queueRef.current = randomized;
+      currentIndexRef.current = 0;
+      renderedCountRef.current = randomized.length;
+
+      setQueue(randomized);
+      setCurrentIndex(0);
+      setRenderedCount(randomized.length);
+      setControlsEnabled(true);
+      setLoadFailed(false);
+
+      loadTrack(0, { autoplay });
+    } catch (error) {
+      console.error("RetroRaag error:", error);
+      setLoadFailed(true);
+    }
+  }
+
+  async function switchStation(nextStation) {
+    if (nextStation === currentStation) return;
+    const audio = audioRef.current;
+    const wasPlaying = isPlaying || (audio && !audio.paused);
+
+    if (audio) {
+      audio.pause();
+    }
+    setIsPlaying(false);
+    setCurrentStation(nextStation);
+    try {
+      localStorage.setItem("retroraag:station", nextStation);
+    } catch {
+      // Ignore storage errors
+    }
+    setCoverLoaded(false);
+    setNostalgiaMessageIndex(0);
+
+    await loadSongs(nextStation, wasPlaying);
+  }
+
+  // -----------------------------------------------------
+  // Seek bar
+  // -----------------------------------------------------
+  function handleSeekInput() {
+    const seekBar = seekBarRef.current;
+    const audio = audioRef.current;
+    const duration = getDuration();
+    const requestedTime = Number(seekBar.value);
+
+    if (duration <= 0 || !Number.isFinite(requestedTime)) return;
+
+    audio.currentTime = Math.max(0, Math.min(requestedTime, duration));
+    updateTimeline();
+    syncMediaSessionPosition(true);
+  }
+
+  // -----------------------------------------------------
+  // <audio> element event wiring (mount once)
+  // -----------------------------------------------------
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    function handlePlay() {
+      setIsPlaying(true);
+      setMediaSessionPlaybackState("playing");
+      syncMediaSessionPosition(true);
+      startTimelineAnimation();
+    }
+
+    function handlePause() {
+      setIsPlaying(false);
+      setMediaSessionPlaybackState("paused");
+      stopTimelineAnimation();
+      updateTimeline();
+      syncMediaSessionPosition(true);
+    }
+
+    function handleEnded() {
+      stopTimelineAnimation();
+      loadTrack(currentIndexRef.current + 1, { autoplay: true });
+    }
+
+    function handleError() {
+      // Metadata preload failed and user hasn't started playback yet ->
+      // don't auto-skip.
+      if (!userStartedPlaybackRef.current || queueRef.current.length <= 1) return;
+      console.warn("Skipping unavailable stream:", getCurrentSong()?.name);
+      loadTrack(currentIndexRef.current + 1, { autoplay: true });
+    }
+
+    audio.addEventListener("loadedmetadata", updateTimeline);
+    audio.addEventListener("durationchange", updateTimeline);
+    audio.addEventListener("canplay", updateTimeline);
+    audio.addEventListener("timeupdate", updateTimeline);
+    audio.addEventListener("seeking", updateTimeline);
+    audio.addEventListener("seeked", updateTimeline);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
+    return () => {
+      audio.removeEventListener("loadedmetadata", updateTimeline);
+      audio.removeEventListener("durationchange", updateTimeline);
+      audio.removeEventListener("canplay", updateTimeline);
+      audio.removeEventListener("timeupdate", updateTimeline);
+      audio.removeEventListener("seeking", updateTimeline);
+      audio.removeEventListener("seeked", updateTimeline);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // -----------------------------------------------------
+  // Media Session action handlers
+  // Supported devices can control RetroRaag from lock screen,
+  // notification shade, headphones, keyboard media keys, etc.
+  // -----------------------------------------------------
+  useEffect(() => {
+    if (!hasMediaSession()) return undefined;
+
+    const mediaSession = navigator.mediaSession;
+    const registeredActions = [];
+
+    function registerAction(action, handler) {
+      try {
+        mediaSession.setActionHandler(action, handler);
+        registeredActions.push(action);
+      } catch {
+        // Unsupported action on this browser — safely ignore it.
+      }
+    }
+
+    registerAction("play", async () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      userStartedPlaybackRef.current = true;
+
+      try {
+        await audio.play();
+      } catch (error) {
+        console.warn("Media Session play failed:", error);
+      }
+    });
+
+    registerAction("pause", () => {
+      audioRef.current?.pause();
+    });
+
+    registerAction("previoustrack", () => {
+      previousSong();
+    });
+
+    registerAction("nexttrack", () => {
+      nextSong();
+    });
+
+    registerAction("seekbackward", (details) => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      const offset =
+        Number.isFinite(details?.seekOffset) && details.seekOffset > 0
+          ? details.seekOffset
+          : 10;
+
+      audio.currentTime = Math.max(0, audio.currentTime - offset);
+      updateTimeline();
+      syncMediaSessionPosition(true);
+    });
+
+    registerAction("seekforward", (details) => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      const duration = getDuration();
+      if (!Number.isFinite(duration) || duration <= 0) return;
+
+      const offset =
+        Number.isFinite(details?.seekOffset) && details.seekOffset > 0
+          ? details.seekOffset
+          : 10;
+
+      audio.currentTime = Math.min(duration, audio.currentTime + offset);
+      updateTimeline();
+      syncMediaSessionPosition(true);
+    });
+
+    registerAction("seekto", (details) => {
+      const audio = audioRef.current;
+      if (!audio || !Number.isFinite(details?.seekTime)) return;
+
+      const duration = getDuration();
+      if (!Number.isFinite(duration) || duration <= 0) return;
+
+      const target = Math.max(0, Math.min(details.seekTime, duration));
+
+      if (details.fastSeek && typeof audio.fastSeek === "function") {
+        audio.fastSeek(target);
+      } else {
+        audio.currentTime = target;
+      }
+
+      updateTimeline();
+      syncMediaSessionPosition(true);
+    });
+
+    registerAction("stop", () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
+      audio.pause();
+      audio.currentTime = 0;
+      setMediaSessionPlaybackState("none");
+      resetMediaSessionPosition();
+      updateTimeline();
+    });
+
+    return () => {
+      registeredActions.forEach((action) => {
+        try {
+          mediaSession.setActionHandler(action, null);
+        } catch {
+          // Ignore unsupported cleanup calls.
+        }
+      });
+    };
+
+    // These handlers intentionally use refs so they always act on the
+    // latest queue/current song without re-registering every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // -----------------------------------------------------
+  // Clock
+  // -----------------------------------------------------
+  useEffect(() => {
+    function updateClock() {
+      setLocalTime(
+        new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(new Date())
+      );
+    }
+    updateClock();
+    const id = setInterval(updateClock, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  // -----------------------------------------------------
+  // Active users (SSE with fetch fallback)
+  // -----------------------------------------------------
+  useEffect(() => {
+    let source;
+
+    function applyCount(data) {
+      const count = Number(data.activeUsers);
+      setActiveUsers(Number.isFinite(count) ? count.toLocaleString() : "—");
+    }
+
+    if ("EventSource" in window) {
+      source = new EventSource("/api/active-users/stream");
+      source.onmessage = (event) => {
+        try {
+          applyCount(JSON.parse(event.data));
+        } catch {
+          // Keep previous count
+        }
+      };
+    } else {
+      fetch("/api/active-users")
+        .then((response) => response.json())
+        .then(applyCount)
+        .catch(() => setActiveUsers("—"));
+    }
+
+    return () => source?.close();
+  }, []);
+
+  // -----------------------------------------------------
+  // Keyboard shortcuts
+  // -----------------------------------------------------
+  useEffect(() => {
+    function handleKeydown(event) {
+      const target = event.target;
+      const typing =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement;
+
+      if (event.key === "Escape" && playlistOpenRef.current) {
+        setPlaylistOpenState(false);
+        queueButtonRef.current?.focus();
+        return;
+      }
+
+      if (typing || !queueRef.current.length) return;
+
+      if (event.code === "Space") {
+        event.preventDefault();
+        togglePlayback();
+      }
+
+      if (event.code === "ArrowRight") nextSong();
+      if (event.code === "ArrowLeft") previousSong();
+    }
+
+    document.addEventListener("keydown", handleKeydown);
+    return () => document.removeEventListener("keydown", handleKeydown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // -----------------------------------------------------
+  // Click outside closes playlist
+  // -----------------------------------------------------
+  useEffect(() => {
+    function handlePointerDown(event) {
+      if (!playlistOpenRef.current) return;
+
+      const panel = playlistPanelRef.current;
+      const btn = queueButtonRef.current;
+      if (!panel || !btn) return;
+
+      if (!panel.contains(event.target) && !btn.contains(event.target)) {
+        setPlaylistOpenState(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, []);
+
+  // -----------------------------------------------------
+  // Initial song fetch (runs once on mount)
+  // -----------------------------------------------------
+  useEffect(() => {
+    loadSongs(currentStation);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // -----------------------------------------------------
+  // Render
+  // -----------------------------------------------------
+  const activeSong = queue[currentIndex] || null;
+  const activeFavorite = activeSong
+    ? favoriteKeys.includes(songStorageKey(activeSong))
+    : false;
+
+  const songName = loadFailed
+    ? "Could not load RetroRaag"
+    : activeSong?.name || "Loading RetroRaag…";
+
+  const songArtistLine = loadFailed
+    ? "Please try again"
+    : activeSong
+    ? artistText(activeSong)
+    : "Bollywood classics";
 
   return (
-    <div className="min-h-screen flex flex-col justify-between relative overflow-hidden text-white font-sans bg-[#070b19]">
-      {/* Background Image / Ambient Glow */}
-      <div className="absolute inset-0 z-0 opacity-40 pointer-events-none bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/images/retroraag_desktop_4k.png')` }} />
-      <div className="absolute inset-0 z-0 bg-gradient-to-t from-[#070b19] via-transparent to-[#070b19]/80 pointer-events-none" />
+    <main className={`radio-shell station-${currentStation}`} aria-label="RetroRaag Bollywood radio">
+      {/* Default RetroRaag Scene */}
+      <picture className="scene" aria-hidden="true">
+        <source media="(min-aspect-ratio: 2/1)" srcSet="/images/retroraag_ultrawide_4k.png" />
+        <source media="(min-aspect-ratio: 7/4)" srcSet="/images/retroraag_desktop_4k.png" />
+        <source media="(min-aspect-ratio: 3/2)" srcSet="/images/retroraag_laptop_4k.png" />
+        <source media="(min-aspect-ratio: 1/1)" srcSet="/images/retroraag_tablet_4k.png" />
+        <img
+          className="scene-image"
+          src="/images/retroraag_mobile_4k.png"
+          alt=""
+          width="941"
+          height="1672"
+          fetchPriority="high"
+          decoding="async"
+          draggable="false"
+        />
+      </picture>
 
-      {/* Hidden Audio Element */}
-      <audio
-        ref={audioRef}
-        onTimeUpdate={handleTimeUpdate}
-        onEnded={handleSongEnded}
-        onLoadedMetadata={handleTimeUpdate}
-      />
+      <div className="sun-wash" aria-hidden="true"></div>
+      <div className="grain" aria-hidden="true"></div>
+      <div className="vignette" aria-hidden="true"></div>
 
-      {/* Top Header / Nav */}
-      <header className="relative z-20 flex flex-col sm:flex-row items-center justify-between px-4 sm:px-8 py-4 bg-[#0b1329]/70 backdrop-blur-md border-b border-white/10 gap-4">
-        <div className="flex items-center gap-3">
-          <img
-            src="/images/retroraag-tab-icon-v9.png"
-            alt="RetroRaag Logo"
-            className="w-10 h-10 object-contain rounded-full shadow-lg border border-amber-400/30"
-          />
-          <div>
-            <h1 className="text-xl sm:text-2xl font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-400 to-amber-500 font-['Baloo_2']">
-              RetroRaag
-            </h1>
-            <p className="text-xs text-amber-100/70 font-medium">
-              Timeless Bollywood Classics
-            </p>
-          </div>
+      <header className="status-strip" aria-label="RetroRaag status">
+        <div className="status-time" aria-label="Local time">
+          {localTime}
         </div>
 
-        {/* Station Selector Dropdown & Live Active Listeners */}
-        <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
-          {/* Custom Responsive Dropdown for Song Type / Deck */}
-          <div className="relative w-full sm:w-64" ref={stationDropdownRef}>
-            <button
-              onClick={() => setIsStationDropdownOpen(!isStationDropdownOpen)}
-              className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl bg-gradient-to-r from-slate-900/90 to-indigo-950/90 border border-amber-500/40 hover:border-amber-400 text-amber-200 shadow-lg text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400/50"
-            >
-              <div className="flex items-center gap-2 truncate">
-                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                <span className="truncate">
-                  {stations.find((s) => s.id === station)?.label || "Select Deck"}
-                </span>
-              </div>
-              <svg
-                className={`w-4 h-4 text-amber-400 transition-transform duration-300 ${
-                  isStationDropdownOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+        <div className="active-status" aria-live="polite">
+          <span className="live-dot" aria-hidden="true"></span>
+          <strong>{activeUsers}</strong>
+          <span className="active-label">listening now</span>
+        </div>
 
-            {isStationDropdownOpen && (
-              <div className="absolute left-0 right-0 mt-2 z-50 rounded-xl bg-[#0d1631] border border-amber-500/30 shadow-2xl backdrop-blur-xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-                <div className="p-1.5 space-y-1">
-                  {stations.map((s) => (
-                    <button
-                      key={s.id}
-                      onClick={() => {
-                        setStation(s.id);
-                        setIsStationDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-3.5 py-2.5 rounded-lg text-sm font-medium transition-all duration-150 flex items-center justify-between ${
-                        station === s.id
-                          ? "bg-gradient-to-r from-amber-500/20 to-amber-600/20 text-amber-300 border border-amber-500/30 font-semibold shadow-inner"
-                          : "text-slate-300 hover:bg-white/5 hover:text-white"
-                      }`}
-                    >
-                      <span>{s.label}</span>
-                      {station === s.id && (
-                        <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Live Listeners Badge */}
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-emerald-950/40 border border-emerald-500/30 text-emerald-300 text-xs font-semibold shadow-inner">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>{activeUsers} Listening Live</span>
-          </div>
+        <div className="nostalgia-message" aria-hidden="true">
+          <span
+            className="nostalgia-message-text"
+            key={`${currentStation}-${nostalgiaMessageIndex}`}
+          >
+            {nostalgiaMessages[nostalgiaMessageIndex % nostalgiaMessages.length]}
+          </span>
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center p-4 sm:p-8 gap-6 max-w-7xl mx-auto w-full">
-        {/* Left / Center: Player & Current Song Art */}
-        <div className="flex-1 flex flex-col items-center justify-center w-full max-w-md">
-          <div className="relative w-full aspect-square max-w-[280px] sm:max-w-[340px] rounded-3xl overflow-hidden shadow-2xl border border-amber-500/30 bg-slate-900/80 group">
-            {currentSong && currentSong.image ? (
+      <div className="hero-title">
+        <button
+          className={`brand-reveal${brandActive ? " is-active" : ""}`}
+          type="button"
+          aria-label="रेट्रो राग"
+          aria-pressed={brandActive}
+          onPointerUp={(event) => {
+            // Desktop/laptop mouse keeps the hover-only behavior.
+            // Phones, tablets, pens and other touch-capable pointers can tap.
+            if (event.pointerType !== "mouse") {
+              setBrandActive((active) => !active);
+            }
+          }}
+        >
+          <span className="brand-stage" aria-hidden="true">
+            <span className="brand-retro brand-retro-base">रेट्रो</span>
+            <span className="brand-retro brand-retro-top">रेट्रो</span>
+            <span className="brand-retro brand-retro-bottom">रेट्रो</span>
+            <span className="brand-raag">राग</span>
+          </span>
+          <span className="sr-only">रेट्रो राग</span>
+        </button>
+      </div>
+
+      <section className="player-wrap" aria-label="Music player">
+        {/* Station Selector Dropdown */}
+        <div className="station-selector-wrapper" aria-label="Select Radio Station">
+          <label htmlFor="station-select" className="sr-only">Select Radio Station</label>
+          <div className="station-select-container">
+            <span className="station-select-icon" aria-hidden="true">📻</span>
+            <select
+              id="station-select"
+              className="station-select-dropdown"
+              value={currentStation}
+              onChange={(e) => switchStation(e.target.value)}
+              aria-label="Select Radio Station"
+            >
+              <option value="90s">📼 Side A • 98.3 FM — 90s Bollywood Gold (98 Hits)</option>
+              <option value="kishore">🎙️ Side B • 104.8 FM — Kishore Kumar Classics (61 Hits)</option>
+            </select>
+            <span className="station-select-arrow" aria-hidden="true">▾</span>
+          </div>
+        </div>
+
+        <section
+          className={`playlist-popover${playlistOpen ? " is-open" : ""}`}
+          id="playlistPanel"
+          aria-label="Song list"
+          aria-hidden={String(!playlistOpen)}
+          ref={playlistPanelRef}
+        >
+          <div className="playlist-head">
+            <div>
+              <span className="playlist-kicker">
+                {currentStation === "kishore" ? "KISHORE KUMAR • 104.8 FM" : "रेट्रो राग • 98.3 FM"}
+              </span>
+              <h2>{currentStation === "kishore" ? "Kishore Da Collection" : "Up next"} ({queue.length} Songs)</h2>
+            </div>
+
+            <button
+              className="playlist-close"
+              type="button"
+              aria-label="Close song list"
+              onClick={() => setPlaylistOpen(false)}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 6l12 12M18 6 6 18" />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            className="playlist-list"
+            role="listbox"
+            aria-label="Songs"
+            ref={playlistListRef}
+            onScroll={handlePlaylistScroll}
+          >
+            {queue.slice(0, renderedCount).map((song, index) => (
+              <button
+                key={song.id ?? `${song.name}-${index}`}
+                type="button"
+                className="playlist-row"
+                role="option"
+                aria-selected={index === currentIndex}
+                onClick={() => selectSong(index)}
+              >
+                <span className="playlist-index">{index + 1}</span>
+                <span className="playlist-title">{song.name}</span>
+                <span className="playlist-artist">{artistText(song)}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <div className={`player${isPlaying ? " is-playing" : ""}`} id="playerPanel">
+          <div className="song-area" aria-live="polite" aria-atomic="true">
+            <div className="cover-shell" aria-hidden="true">
               <img
-                src={currentSong.image}
-                alt={currentSong.name}
-                className={`w-full h-full object-cover transition-transform duration-700 ${
-                  isPlaying ? "scale-105" : "scale-100"
-                }`}
+                className={`song-cover${coverLoaded ? " is-loaded" : ""}`}
+                alt=""
+                src={activeSong?.image || undefined}
+                onLoad={() => setCoverLoaded(true)}
+                onError={() => setCoverLoaded(false)}
               />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-slate-800 text-slate-400">
-                <span className="text-sm">No Image</span>
+              <div className="cover-equalizer">
+                <span></span>
+                <span></span>
+                <span></span>
               </div>
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90" />
-            
-            {/* Vinyl spinning record effect indicator */}
-            <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-amber-400/40 flex items-center justify-center backdrop-blur-md">
-              <div className={`w-3 h-3 rounded-full bg-amber-400 ${isPlaying ? "animate-pulse" : ""}`} />
             </div>
 
-            <div className="absolute bottom-4 left-4 right-4 text-left">
-              <h2 className="text-lg sm:text-xl font-bold text-white truncate drop-shadow">
-                {isRadioLoading ? "Loading station..." : currentSong ? currentSong.name : "Select a song"}
-              </h2>
-              <p className="text-xs sm:text-sm text-amber-200/90 truncate drop-shadow">
-                {currentSong && currentSong.artists ? currentSong.artists.join(", ") : "RetroRaag"}
-              </p>
-            </div>
-          </div>
-
-          {/* Progress Bar & Controls */}
-          <div className="w-full max-w-[340px] mt-6 bg-slate-900/60 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-xl">
-            <div className="flex justify-between text-xs text-slate-400 mb-1">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max={duration || 100}
-              value={currentTime}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                setCurrentTime(val);
-                if (audioRef.current) {
-                  audioRef.current.currentTime = val;
-                }
-              }}
-              className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400"
-            />
-
-            {/* Playback Controls */}
-            <div className="flex items-center justify-center gap-6 mt-4">
-              <button
-                onClick={() => {
-                  if (songs.length === 0) return;
-                  setCurrentIndex((prev) => (prev - 1 + songs.length) % songs.length);
-                  setIsPlaying(true);
-                }}
-                className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-amber-300 transition-colors"
-                title="Previous Song"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M8.445 14.832A1 1 0 0010 14v-2.768l5.445 3.63A1 1 0 0017 14V6a1 1 0 00-1.555-.832L10 8.768V6a1 1 0 00-1.555-.832l-6 4a1 1 0 000 1.664l6 4z" />
-                </svg>
-              </button>
-
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="p-4 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 shadow-lg shadow-amber-500/30 transition-transform active:scale-95"
-                title={isPlaying ? "Pause" : "Play"}
-              >
-                {isPlaying ? (
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                  </svg>
-                ) : (
-                  <svg className="w-6 h-6 translate-x-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </button>
-
-              <button
-                onClick={() => {
-                  if (songs.length === 0) return;
-                  setCurrentIndex((prev) => (prev + 1) % songs.length);
-                  setIsPlaying(true);
-                }}
-                className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-amber-300 transition-colors"
-                title="Next Song"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M11.555 5.168A1 1 0 0010 6v2.768L4.555 5.136A1 1 0 003 6v8a1 1 0 001.555.832L10 11.232V14a1 1 0 001.555.832l6-4a1 1 0 000-1.664l-6-4z" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Volume Control */}
-            <div className="flex items-center gap-3 mt-4 pt-3 border-t border-white/10">
-              <button
-                onClick={() => setIsMuted(!isMuted)}
-                className="text-slate-400 hover:text-white transition-colors"
-              >
-                {isMuted || volume === 0 ? (
-                  <svg className="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                ) : (
-                  <svg className="w-5 h-5 text-slate-300" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.21-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.414 0A5.98 5.98 0 0115 10a5.98 5.98 0 01-1.757 4.243 1 1 0 01-1.414-1.414A3.984 3.984 0 0013 10a3.984 3.984 0 00-1.172-2.828 1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                )}
-              </button>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={isMuted ? 0 : volume}
-                onChange={(e) => {
-                  setVolume(Number(e.target.value));
-                  if (isMuted) setIsMuted(false);
-                }}
-                className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-400"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Right / Queue & Search Panel */}
-        <div className="flex-1 flex flex-col w-full max-w-lg bg-slate-900/60 backdrop-blur-md rounded-3xl border border-white/10 p-5 shadow-2xl h-[480px]">
-          {/* Search Box */}
-          <div className="relative mb-4">
-            <input
-              type="text"
-              placeholder="Search songs, artists, albums..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 pl-11 rounded-xl bg-slate-800/80 border border-white/10 text-white placeholder-slate-400 text-sm focus:outline-none focus:border-amber-400 transition-colors"
-            />
-            <svg className="w-5 h-5 text-slate-400 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-3.5 text-slate-400 hover:text-white"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
-
-          {/* Results / Playlist Header */}
-          <div className="flex items-center justify-between mb-3 px-1">
-            <h3 className="text-sm font-bold text-amber-200 uppercase tracking-wider">
-              {searchQuery ? `Search Results (${searchResults.length})` : `Station Queue (${songs.length})`}
-            </h3>
-            {isSearching && <span className="text-xs text-amber-400 animate-pulse">Searching...</span>}
-          </div>
-
-          {/* Song List */}
-          <div className="flex-1 overflow-y-auto pr-1 space-y-2">
-            {errorMsg ? (
-              <div className="text-center py-10 text-red-300 text-sm">{errorMsg}</div>
-            ) : isRadioLoading && !searchQuery ? (
-              <div className="text-center py-10 text-slate-400 text-sm animate-pulse">Loading station songs...</div>
-            ) : searchQuery ? (
-              searchResults.length > 0 ? (
-                searchResults.map((song) => (
-                  <div
-                    key={song.id}
-                    onClick={() => handleSelectSong(song.id)}
-                    className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all ${
-                      currentSong?.id === song.id
-                        ? "bg-amber-500/20 border border-amber-500/40 text-amber-200"
-                        : "bg-white/5 hover:bg-white/10 text-slate-300"
-                    }`}
-                  >
-                    <img src={song.image} alt={song.name} className="w-10 h-10 rounded-lg object-cover" />
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-sm font-semibold truncate text-white">{song.name}</h4>
-                      <p className="text-xs text-slate-400 truncate">{song.artists?.join(", ")}</p>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-12 text-slate-400 text-sm">No matching songs found.</div>
-              )
-            ) : (
-              songs.map((song, idx) => (
-                <div
-                  key={song.id || idx}
-                  onClick={() => {
-                    setCurrentIndex(idx);
-                    setIsPlaying(true);
-                  }}
-                  className={`flex items-center gap-3 p-2.5 rounded-xl cursor-pointer transition-all ${
-                    currentIndex === idx
-                      ? "bg-amber-500/20 border border-amber-500/40 text-amber-200 shadow-sm"
-                      : "bg-white/5 hover:bg-white/10 text-slate-300"
-                  }`}
-                >
-                  <span className="text-xs font-mono text-slate-400 w-5 text-center">
-                    {currentIndex === idx && isPlaying ? (
-                      <span className="inline-block w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-                    ) : (
-                      idx + 1
-                    )}
+            <div className="song-copy">
+              <div className="song-title-wrap">
+                <h1 className="song-title">{songName}</h1>
+                {activeSong && (
+                  <span className="song-number-badge" aria-label={`Song ${currentIndex + 1} of ${queue.length}`}>
+                    {currentIndex + 1} / {queue.length}
                   </span>
-                  <img src={song.image} alt={song.name} className="w-10 h-10 rounded-lg object-cover" />
-                  <div className="flex-1 min-w-0">
-                    <h4 className={`text-sm font-semibold truncate ${currentIndex === idx ? "text-amber-300" : "text-white"}`}>
-                      {song.name}
-                    </h4>
-                    <p className="text-xs text-slate-400 truncate">{song.artists?.join(", ")}</p>
-                  </div>
+                )}
+              </div>
+              <p className="song-artist">{songArtistLine}</p>
+
+              <div className="track-timeline">
+                <input
+                  className="seek-bar"
+                  type="range"
+                  min="0"
+                  max="100"
+                  defaultValue="0"
+                  step="0.1"
+                  aria-label="Seek through song"
+                  disabled
+                  ref={seekBarRef}
+                  onInput={handleSeekInput}
+                />
+
+                <div className="track-time" aria-label="Song playback time">
+                  <span ref={currentTimeLabelRef}>0:00</span>
+                  <span className="time-separator">/</span>
+                  <span ref={totalDurationLabelRef}>0:00</span>
                 </div>
-              ))
-            )}
+              </div>
+
+              <div className="player-tools" aria-label="Song options">
+                <button
+                  className={`mini-tool favorite-tool${activeFavorite ? " is-active" : ""}`}
+                  type="button"
+                  aria-label={activeFavorite ? "Remove from favorites" : "Add to favorites"}
+                  aria-pressed={activeFavorite}
+                  disabled={!controlsEnabled}
+                  onClick={toggleFavorite}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20.3 4.15 12.9A5.15 5.15 0 0 1 11.4 5.6L12 6.2l.6-.6a5.15 5.15 0 0 1 7.25 7.3L12 20.3Z" />
+                  </svg>
+                </button>
+
+                <button
+                  className="mini-tool shuffle-tool"
+                  type="button"
+                  aria-label="Shuffle upcoming songs"
+                  disabled={!controlsEnabled}
+                  onClick={reshuffleUpcoming}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M16.5 4.75H20v3.5" />
+                    <path d="m20 4.75-4.6 4.6a4 4 0 0 1-2.83 1.17H11.4" />
+                    <path d="M4 7h2.15a4 4 0 0 1 2.83 1.17l6.44 6.45A4 4 0 0 0 18.25 15.8H20" />
+                    <path d="M16.5 12.3H20v3.5" />
+                    <path d="m20 15.8-3.5-3.5" />
+                    <path d="M4 16.25h2.15a4 4 0 0 0 2.83-1.17l.82-.82" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="controls" aria-label="Playback controls">
+            <button
+              className="control-button secondary"
+              type="button"
+              aria-label="Previous song"
+              disabled={!controlsEnabled}
+              onClick={previousSong}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6.5 5a1 1 0 0 1 1 1v12a1 1 0 1 1-2 0V6a1 1 0 0 1 1-1Z" />
+                <path d="M19.02 5.6a1 1 0 0 1 .48.85v11.1a1 1 0 0 1-1.53.83L8.94 12.83a1 1 0 0 1 0-1.66l9.03-5.55a1 1 0 0 1 1.05 0Z" />
+              </svg>
+            </button>
+
+            <button
+              className="control-button play"
+              type="button"
+              aria-label={isPlaying ? "Pause" : "Play"}
+              disabled={!controlsEnabled}
+              onClick={togglePlayback}
+            >
+              <span className="play-glow" aria-hidden="true"></span>
+              <svg className="play-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 5.3a1.3 1.3 0 0 1 1.98-1.1l9.15 5.7a1.3 1.3 0 0 1 0 2.2l-9.15 5.7A1.3 1.3 0 0 1 9 16.8V5.3Z" />
+              </svg>
+              <svg className="pause-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="6.6" y="5" width="4" height="14" rx="1.6" />
+                <rect x="13.4" y="5" width="4" height="14" rx="1.6" />
+              </svg>
+            </button>
+
+            <button
+              className="control-button secondary"
+              type="button"
+              aria-label="Next song"
+              disabled={!controlsEnabled}
+              onClick={nextSong}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M17.5 5a1 1 0 0 0-1 1v12a1 1 0 1 0 2 0V6a1 1 0 0 0-1-1Z" />
+                <path d="M4.98 5.6a1 1 0 0 0-.48.85v11.1a1 1 0 0 0 1.53.83l9.03-5.55a1 1 0 0 0 0-1.66L6.03 5.6a1 1 0 0 0-1.05 0Z" />
+              </svg>
+            </button>
+
+            <button
+              className="control-button secondary queue-button"
+              type="button"
+              aria-label={playlistOpen ? "Hide song list" : "Show song list"}
+              aria-controls="playlistPanel"
+              aria-expanded={String(playlistOpen)}
+              disabled={!controlsEnabled}
+              ref={queueButtonRef}
+              onClick={() => setPlaylistOpen(!playlistOpen)}
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.75 6.5h10.5" />
+                <path d="M3.75 12h10.5" />
+                <path d="M3.75 17.5h6" />
+                <circle cx="18" cy="17.5" r="2.35" />
+                <path d="M20.35 17.5V6.6l-4.1 1.05v9.85" />
+              </svg>
+            </button>
           </div>
         </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="relative z-20 py-4 text-center text-xs text-slate-400 bg-[#0b1329]/70 backdrop-blur-md border-t border-white/10">
-        <p>© {new Date().getFullYear()} RetroRaag. All rights reserved. Made with ❤️ for Bollywood music lovers.</p>
-      </footer>
-    </div>
+        <button
+          className="nostalgia-button"
+          type="button"
+          disabled={!controlsEnabled}
+          onClick={playSomethingOld}
+          aria-label="Play a random old song"
+        >
+          <span className="nostalgia-radio" aria-hidden="true">📻</span>
+          <span>कुछ पुराना सुनाओ</span>
+        </button>
+      </section>
+
+      <audio ref={audioRef} preload="metadata"></audio>
+    </main>
   );
 }
