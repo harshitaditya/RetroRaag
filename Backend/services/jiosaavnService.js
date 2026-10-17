@@ -33,6 +33,14 @@ const CATALOG_PATH_2000S =
     "2000sSongs.json"
   );
 
+const CATALOG_PATH_QAWWALI =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "qawwaliSongs.json"
+  );
+
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -51,6 +59,11 @@ const stationStores = {
   },
   "2000s": {
     path: CATALOG_PATH_2000S,
+    cache: null,
+    lastMtime: 0
+  },
+  "qawwali": {
+    path: CATALOG_PATH_QAWWALI,
     cache: null,
     lastMtime: 0
   }
@@ -80,6 +93,7 @@ function getStore(station = "90s") {
   if (key === "kishore") return stationStores.kishore;
   if (key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.rafi;
   if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
+  if (key === "qawwali" || key === "sufi" || key === "punjabi" || key === "nusrat") return stationStores.qawwali;
   return stationStores["90s"];
 }
 
@@ -293,6 +307,8 @@ function getCatalogStatus(station = "90s") {
         ? "rafi"
         : String(station).toLowerCase() === "2000s"
         ? "2000s"
+        : String(station).toLowerCase() === "qawwali"
+        ? "qawwali"
         : "90s",
 
     sourceFiltered:
@@ -317,6 +333,7 @@ function clearCatalogCache(station) {
     stationStores.kishore.cache = null;
     stationStores.rafi.cache = null;
     stationStores["2000s"].cache = null;
+    stationStores.qawwali.cache = null;
   }
 }
 

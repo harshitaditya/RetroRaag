@@ -30,6 +30,13 @@ const NOSTALGIA_MESSAGES_2000S = [
   "यादें उस प्यारे दौर की..."
 ];
 
+const NOSTALGIA_MESSAGES_QAWWALI = [
+  "दम मस्त क़लंदर...",
+  "सूफ़ी और क़व्वाली...",
+  "इश्क़-ए-हक़ीक़ी...",
+  "नुसरत का रूहानी जादू..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -146,6 +153,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_RAFI
       : currentStation === "2000s"
       ? NOSTALGIA_MESSAGES_2000S
+      : currentStation === "qawwali"
+      ? NOSTALGIA_MESSAGES_QAWWALI
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -1092,6 +1101,8 @@ export default function App() {
                 ? "🌹"
                 : currentStation === "2000s"
                 ? "🔥"
+                : currentStation === "qawwali"
+                ? "🪕"
                 : "📼"}
             </span>
             <span className="station-select-label">
@@ -1101,6 +1112,8 @@ export default function App() {
                 ? "102.4 FM — Mohammad Rafi Classics"
                 : currentStation === "2000s"
                 ? "106.4 FM — 2000s Bollywood Hits"
+                : currentStation === "qawwali"
+                ? "101.2 FM — Punjabi Sufi & Qawwali"
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1181,6 +1194,24 @@ export default function App() {
                 </div>
                 {currentStation === "2000s" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "qawwali" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "qawwali"}
+                onClick={() => {
+                  switchStation("qawwali");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🪕</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">101.2 FM — Punjabi Sufi & Qawwali</span>
+                  <span className="station-item-badge">50 Hits</span>
+                </div>
+                {currentStation === "qawwali" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1201,6 +1232,8 @@ export default function App() {
                   ? "MOHAMMAD RAFI • 102.4 FM"
                   : currentStation === "2000s"
                   ? "2000s BOLLYWOOD • 106.4 FM"
+                  : currentStation === "qawwali"
+                  ? "SUFI & QAWWALI • 101.2 FM"
                   : "रेट्रो राग • 98.3 FM"}
               </span>
               <h2>
@@ -1210,6 +1243,8 @@ export default function App() {
                   ? "Mohammad Rafi Classics"
                   : currentStation === "2000s"
                   ? "2000s Superhits"
+                  : currentStation === "qawwali"
+                  ? "Sufi & Qawwali Classics"
                   : "Up next"} ({queue.length} Songs)
               </h2>
             </div>
