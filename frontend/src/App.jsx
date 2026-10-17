@@ -1136,7 +1136,7 @@ export default function App() {
                 <span className="station-item-icon">📼</span>
                 <div className="station-item-info">
                   <span className="station-item-title">98.3 FM — 90s Bollywood Gold</span>
-                  <span className="station-item-badge">98 Hits</span>
+                  <span className="station-item-badge">99 Hits</span>
                 </div>
                 {currentStation === "90s" && <span className="station-item-check">✓</span>}
               </button>
