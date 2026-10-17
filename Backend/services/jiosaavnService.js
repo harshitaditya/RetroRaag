@@ -17,14 +17,6 @@ const CATALOG_PATH_KISHORE =
     "kishoreSongs.json"
   );
 
-const CATALOG_PATH_RAFI =
-  path.join(
-    __dirname,
-    "..",
-    "data",
-    "rafiSongs.json"
-  );
-
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -33,11 +25,6 @@ const stationStores = {
   },
   "kishore": {
     path: CATALOG_PATH_KISHORE,
-    cache: null,
-    lastMtime: 0
-  },
-  "rafi": {
-    path: CATALOG_PATH_RAFI,
     cache: null,
     lastMtime: 0
   }
@@ -64,9 +51,7 @@ function isPlayableSong(song) {
 
 function getStore(station = "90s") {
   const key = String(station || "").toLowerCase().trim();
-  if (key === "kishore") return stationStores.kishore;
-  if (key === "rafi") return stationStores.rafi;
-  return stationStores["90s"];
+  return key === "kishore" ? stationStores.kishore : stationStores["90s"];
 }
 
 function loadCatalog(station = "90s") {
