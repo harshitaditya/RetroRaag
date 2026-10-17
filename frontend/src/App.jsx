@@ -1070,8 +1070,8 @@ export default function App() {
             <span className="station-select-icon" aria-hidden="true">📻</span>
             <span className="station-select-label">
               {currentStation === "kishore"
-                ? "🎙️ Side B • 104.8 FM — Kishore Kumar Classics"
-                : "📼 Side A • 98.3 FM — 90s Bollywood Gold"}
+                ? "🎙️ 104.8 FM — Kishore Kumar Classics"
+                : "📼 98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
               {stationDropdownOpen ? "▴" : "▾"}
@@ -1092,7 +1092,7 @@ export default function App() {
               >
                 <span className="station-item-icon">📼</span>
                 <div className="station-item-info">
-                  <span className="station-item-title">Side A • 98.3 FM — 90s Bollywood Gold</span>
+                  <span className="station-item-title">98.3 FM — 90s Bollywood Gold</span>
                   <span className="station-item-badge">98 Hits</span>
                 </div>
                 {currentStation === "90s" && <span className="station-item-check">✓</span>}
@@ -1110,7 +1110,7 @@ export default function App() {
               >
                 <span className="station-item-icon">🎙️</span>
                 <div className="station-item-info">
-                  <span className="station-item-title">Side B • 104.8 FM — Kishore Kumar Classics</span>
+                  <span className="station-item-title">104.8 FM — Kishore Kumar Classics</span>
                   <span className="station-item-badge">61 Hits</span>
                 </div>
                 {currentStation === "kishore" && <span className="station-item-check">✓</span>}
