@@ -122,11 +122,29 @@ export default function App() {
   });
   const [favoriteKeys, setFavoriteKeys] = useState([]);
   const [nostalgiaMessageIndex, setNostalgiaMessageIndex] = useState(0);
+  const [stationDropdownOpen, setStationDropdownOpen] = useState(false);
+  const stationDropdownRef = useRef(null);
 
   const nostalgiaMessages =
     currentStation === "kishore"
       ? NOSTALGIA_MESSAGES_KISHORE
       : NOSTALGIA_MESSAGES_90S;
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (stationDropdownRef.current && !stationDropdownRef.current.contains(event.target)) {
+        setStationDropdownOpen(false);
+      }
+    }
+    if (stationDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [stationDropdownOpen]);
 
   useEffect(() => {
     queueRef.current = queue;
@@ -1035,23 +1053,70 @@ export default function App() {
       </div>
 
       <section className="player-wrap" aria-label="Music player">
-        {/* Station Selector Dropdown */}
-        <div className="station-selector-wrapper" aria-label="Select Radio Station">
-          <label htmlFor="station-select" className="sr-only">Select Radio Station</label>
-          <div className="station-select-container">
+        {/* Station Selector Dropdown (Opens Upwards Above Player) */}
+        <div
+          className="station-selector-wrapper"
+          aria-label="Select Radio Station"
+          ref={stationDropdownRef}
+        >
+          <button
+            type="button"
+            className="station-select-trigger"
+            onClick={() => setStationDropdownOpen((prev) => !prev)}
+            aria-haspopup="listbox"
+            aria-expanded={stationDropdownOpen}
+            aria-label="Select Radio Station"
+          >
             <span className="station-select-icon" aria-hidden="true">📻</span>
-            <select
-              id="station-select"
-              className="station-select-dropdown"
-              value={currentStation}
-              onChange={(e) => switchStation(e.target.value)}
-              aria-label="Select Radio Station"
-            >
-              <option value="90s">📼 Side A • 98.3 FM — 90s Bollywood Gold (98 Hits)</option>
-              <option value="kishore">🎙️ Side B • 104.8 FM — Kishore Kumar Classics (61 Hits)</option>
-            </select>
-            <span className="station-select-arrow" aria-hidden="true">▾</span>
-          </div>
+            <span className="station-select-label">
+              {currentStation === "kishore"
+                ? "🎙️ Side B • 104.8 FM — Kishore Kumar Classics"
+                : "📼 Side A • 98.3 FM — 90s Bollywood Gold"}
+            </span>
+            <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
+              {stationDropdownOpen ? "▴" : "▾"}
+            </span>
+          </button>
+
+          {stationDropdownOpen && (
+            <div className="station-select-menu-upward" role="listbox" aria-label="Radio Stations">
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "90s" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "90s"}
+                onClick={() => {
+                  switchStation("90s");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">📼</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">Side A • 98.3 FM — 90s Bollywood Gold</span>
+                  <span className="station-item-badge">98 Hits</span>
+                </div>
+                {currentStation === "90s" && <span className="station-item-check">✓</span>}
+              </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "kishore" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "kishore"}
+                onClick={() => {
+                  switchStation("kishore");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🎙️</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">Side B • 104.8 FM — Kishore Kumar Classics</span>
+                  <span className="station-item-badge">61 Hits</span>
+                </div>
+                {currentStation === "kishore" && <span className="station-item-check">✓</span>}
+              </button>
+            </div>
+          )}
         </div>
 
         <section
