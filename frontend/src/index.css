@@ -2284,6 +2284,18 @@ button.brand-reveal:active {
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45), 0 0 25px rgba(255, 255, 255, 0.08);
 }
 
+.station-rafi .player {
+  background:
+    linear-gradient(135deg, rgba(48, 30, 36, 0.6), rgba(20, 14, 16, 0.82)),
+    var(--glass);
+  border-color: rgba(235, 185, 130, 0.22);
+}
+
+.station-rafi .player.is-playing {
+  border-color: rgba(245, 195, 135, 0.45);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45), 0 0 25px rgba(220, 120, 95, 0.12);
+}
+
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .cassette-deck {

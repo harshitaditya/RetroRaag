@@ -16,6 +16,13 @@ const NOSTALGIA_MESSAGES_KISHORE = [
   "एक हसीन शाम..."
 ];
 
+const NOSTALGIA_MESSAGES_RAFI = [
+  "चाहूंगा मैं तुझे...",
+  "मोहम्मद रफ़ी",
+  "सदाबहार नगमे...",
+  "सुरों के सरताज..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -114,7 +121,7 @@ export default function App() {
   const [currentStation, setCurrentStation] = useState(() => {
     try {
       const saved = localStorage.getItem("retroraag:station");
-      if (saved === "kishore" || saved === "90s") return saved;
+      if (saved === "kishore" || saved === "90s" || saved === "rafi") return saved;
     } catch {
       // Ignore storage errors
     }
@@ -128,6 +135,8 @@ export default function App() {
   const nostalgiaMessages =
     currentStation === "kishore"
       ? NOSTALGIA_MESSAGES_KISHORE
+      : currentStation === "rafi"
+      ? NOSTALGIA_MESSAGES_RAFI
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -1071,6 +1080,8 @@ export default function App() {
             <span className="station-select-label">
               {currentStation === "kishore"
                 ? "🎙️ 104.8 FM — Kishore Kumar Classics"
+                : currentStation === "rafi"
+                ? "🌹 102.4 FM — Mohammad Rafi Classics"
                 : "📼 98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1115,6 +1126,24 @@ export default function App() {
                 </div>
                 {currentStation === "kishore" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "rafi" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "rafi"}
+                onClick={() => {
+                  switchStation("rafi");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🌹</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">102.4 FM — Mohammad Rafi Classics</span>
+                  <span className="station-item-badge">100 Hits</span>
+                </div>
+                {currentStation === "rafi" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1129,9 +1158,19 @@ export default function App() {
           <div className="playlist-head">
             <div>
               <span className="playlist-kicker">
-                {currentStation === "kishore" ? "KISHORE KUMAR • 104.8 FM" : "रेट्रो राग • 98.3 FM"}
+                {currentStation === "kishore"
+                  ? "KISHORE KUMAR • 104.8 FM"
+                  : currentStation === "rafi"
+                  ? "MOHAMMAD RAFI • 102.4 FM"
+                  : "रेट्रो राग • 98.3 FM"}
               </span>
-              <h2>{currentStation === "kishore" ? "Kishore Da Collection" : "Up next"} ({queue.length} Songs)</h2>
+              <h2>
+                {currentStation === "kishore"
+                  ? "Kishore Da Collection"
+                  : currentStation === "rafi"
+                  ? "Mohammad Rafi Classics"
+                  : "Up next"} ({queue.length} Songs)
+              </h2>
             </div>
 
             <button
