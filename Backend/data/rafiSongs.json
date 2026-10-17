@@ -1,0 +1,62 @@
+[
+  {
+    "id": "rafi_1",
+    "name": "Chahunga Main Tujhe",
+    "artists": ["Mohammad Rafi"],
+    "album": "Dosti",
+    "image": "https://c.saavncdn.com/264/Dosti-Hindi-1964-500x500.jpg",
+    "durationMs": 265000,
+    "streamUrl": "https://aac.saavncdn.com/264/4a1c0d80d857615bbee960bdd50fe27a_320.mp4",
+    "year": 1964,
+    "language": "hindi",
+    "sourceLists": ["mohammad-rafi"]
+  },
+  {
+    "id": "rafi_2",
+    "name": "Baharon Phool Barsao",
+    "artists": ["Mohammad Rafi"],
+    "album": "Suraj",
+    "image": "https://c.saavncdn.com/712/Suraj-Hindi-1966-500x500.jpg",
+    "durationMs": 270000,
+    "streamUrl": "https://aac.saavncdn.com/712/123fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1966,
+    "language": "hindi",
+    "sourceLists": ["mohammad-rafi"]
+  },
+  {
+    "id": "rafi_3",
+    "name": "Kya Hua Tera Wada",
+    "artists": ["Mohammad Rafi", "Sushma Shrestha"],
+    "album": "Hum Kisise Kum Naheen",
+    "image": "https://c.saavncdn.com/786/Hum-Kisise-Kum-Naheen-Hindi-1977-500x500.jpg",
+    "durationMs": 250000,
+    "streamUrl": "https://aac.saavncdn.com/786/a5c7fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1977,
+    "language": "hindi",
+    "sourceLists": ["mohammad-rafi"]
+  },
+  {
+    "id": "rafi_4",
+    "name": "Gulabi Aankhen Jo Teri Dekhi",
+    "artists": ["Mohammad Rafi"],
+    "album": "The Train",
+    "image": "https://c.saavncdn.com/439/The-Train-Hindi-1970-500x500.jpg",
+    "durationMs": 190000,
+    "streamUrl": "https://aac.saavncdn.com/439/e37fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1970,
+    "language": "hindi",
+    "sourceLists": ["mohammad-rafi"]
+  },
+  {
+    "id": "rafi_5",
+    "name": "Likhe Jo Khat Tujhe",
+    "artists": ["Mohammad Rafi"],
+    "album": "Kanyadaan",
+    "image": "https://c.saavncdn.com/258/Kanyadaan-Hindi-1968-500x500.jpg",
+    "durationMs": 240000,
+    "streamUrl": "https://aac.saavncdn.com/258/891fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1968,
+    "language": "hindi",
+    "sourceLists": ["mohammad-rafi"]
+  }
+]
