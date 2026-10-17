@@ -1085,15 +1085,23 @@ export default function App() {
             aria-expanded={stationDropdownOpen}
             aria-label="Select Radio Station"
           >
-            <span className="station-select-icon" aria-hidden="true">📻</span>
+            <span className="station-select-icon" aria-hidden="true">
+              {currentStation === "kishore"
+                ? "🎙️"
+                : currentStation === "rafi"
+                ? "🌹"
+                : currentStation === "2000s"
+                ? "🔥"
+                : "📼"}
+            </span>
             <span className="station-select-label">
               {currentStation === "kishore"
-                ? "🎙️ 104.8 FM — Kishore Kumar Classics"
+                ? "104.8 FM — Kishore Kumar Classics"
                 : currentStation === "rafi"
-                ? "🌹 102.4 FM — Mohammad Rafi Classics"
+                ? "102.4 FM — Mohammad Rafi Classics"
                 : currentStation === "2000s"
-                ? "🔥 106.4 FM — 2000s Bollywood Hits"
-                : "📼 98.3 FM — 90s Bollywood Gold"}
+                ? "106.4 FM — 2000s Bollywood Hits"
+                : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
               {stationDropdownOpen ? "▴" : "▾"}
