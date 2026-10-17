@@ -23,6 +23,13 @@ const NOSTALGIA_MESSAGES_RAFI = [
   "सुरों के सरताज..."
 ];
 
+const NOSTALGIA_MESSAGES_2000S = [
+  "दिल चाहता है...",
+  "केके और प्रीतम का जादू...",
+  "2000s के सदाबहार गाने...",
+  "यादें उस प्यारे दौर की..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -121,7 +128,7 @@ export default function App() {
   const [currentStation, setCurrentStation] = useState(() => {
     try {
       const saved = localStorage.getItem("retroraag:station");
-      if (saved === "kishore" || saved === "90s" || saved === "rafi") return saved;
+      if (saved === "kishore" || saved === "90s" || saved === "rafi" || saved === "2000s") return saved;
     } catch {
       // Ignore storage errors
     }
@@ -137,6 +144,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_KISHORE
       : currentStation === "rafi"
       ? NOSTALGIA_MESSAGES_RAFI
+      : currentStation === "2000s"
+      ? NOSTALGIA_MESSAGES_2000S
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -1082,6 +1091,8 @@ export default function App() {
                 ? "🎙️ 104.8 FM — Kishore Kumar Classics"
                 : currentStation === "rafi"
                 ? "🌹 102.4 FM — Mohammad Rafi Classics"
+                : currentStation === "2000s"
+                ? "🔥 106.4 FM — 2000s Bollywood Hits"
                 : "📼 98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1144,6 +1155,24 @@ export default function App() {
                 </div>
                 {currentStation === "rafi" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "2000s" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "2000s"}
+                onClick={() => {
+                  switchStation("2000s");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🔥</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">106.4 FM — 2000s Bollywood Hits</span>
+                  <span className="station-item-badge">100 Hits</span>
+                </div>
+                {currentStation === "2000s" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1162,6 +1191,8 @@ export default function App() {
                   ? "KISHORE KUMAR • 104.8 FM"
                   : currentStation === "rafi"
                   ? "MOHAMMAD RAFI • 102.4 FM"
+                  : currentStation === "2000s"
+                  ? "2000s BOLLYWOOD • 106.4 FM"
                   : "रेट्रो राग • 98.3 FM"}
               </span>
               <h2>
@@ -1169,6 +1200,8 @@ export default function App() {
                   ? "Kishore Da Collection"
                   : currentStation === "rafi"
                   ? "Mohammad Rafi Classics"
+                  : currentStation === "2000s"
+                  ? "2000s Superhits"
                   : "Up next"} ({queue.length} Songs)
               </h2>
             </div>

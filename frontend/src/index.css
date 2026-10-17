@@ -2296,6 +2296,18 @@ button.brand-reveal:active {
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45), 0 0 25px rgba(220, 120, 95, 0.12);
 }
 
+.station-2000s .player {
+  background:
+    linear-gradient(135deg, rgba(38, 28, 52, 0.65), rgba(16, 14, 24, 0.84)),
+    var(--glass);
+  border-color: rgba(180, 140, 240, 0.24);
+}
+
+.station-2000s .player.is-playing {
+  border-color: rgba(210, 170, 255, 0.48);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.45), 0 0 25px rgba(180, 100, 255, 0.16);
+}
+
 /* Mobile adjustments */
 @media (max-width: 640px) {
   .cassette-deck {

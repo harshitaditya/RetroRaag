@@ -25,6 +25,14 @@ const CATALOG_PATH_RAFI =
     "rafiSongs.json"
   );
 
+const CATALOG_PATH_2000S =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "2000sSongs.json"
+  );
+
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -38,6 +46,11 @@ const stationStores = {
   },
   "rafi": {
     path: CATALOG_PATH_RAFI,
+    cache: null,
+    lastMtime: 0
+  },
+  "2000s": {
+    path: CATALOG_PATH_2000S,
     cache: null,
     lastMtime: 0
   }
@@ -66,6 +79,7 @@ function getStore(station = "90s") {
   const key = String(station || "").toLowerCase().trim();
   if (key === "kishore") return stationStores.kishore;
   if (key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.rafi;
+  if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
   return stationStores["90s"];
 }
 
@@ -277,6 +291,8 @@ function getCatalogStatus(station = "90s") {
         ? "kishore"
         : String(station).toLowerCase() === "rafi"
         ? "rafi"
+        : String(station).toLowerCase() === "2000s"
+        ? "2000s"
         : "90s",
 
     sourceFiltered:
@@ -300,6 +316,7 @@ function clearCatalogCache(station) {
     stationStores["90s"].cache = null;
     stationStores.kishore.cache = null;
     stationStores.rafi.cache = null;
+    stationStores["2000s"].cache = null;
   }
 }
 
