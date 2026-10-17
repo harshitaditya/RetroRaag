@@ -1208,7 +1208,7 @@ export default function App() {
                 <span className="station-item-icon">🪕</span>
                 <div className="station-item-info">
                   <span className="station-item-title">101.2 FM — Punjabi Sufi & Qawwali</span>
-                  <span className="station-item-badge">50 Hits</span>
+                  <span className="station-item-badge">23 Hits</span>
                 </div>
                 {currentStation === "qawwali" && <span className="station-item-check">✓</span>}
               </button>
