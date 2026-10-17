@@ -2339,7 +2339,7 @@ button.brand-reveal:active {
    ===================================================== */
 .station-selector-wrapper {
   width: 100%;
-  margin-bottom: clamp(10px, 1.2vh, 16px);
+  margin-bottom: clamp(6px, 0.8vh, 10px);
   position: relative;
   z-index: 20;
 }
@@ -2349,15 +2349,17 @@ button.brand-reveal:active {
   display: flex;
   align-items: center;
   width: 100%;
-  border: 1px solid rgba(255, 208, 139, 0.35);
-  border-radius: clamp(12px, 1vw, 16px);
-  background: rgba(18, 10, 8, 0.85);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  padding: clamp(10px, 1.1vh, 14px) 38px clamp(10px, 1.1vh, 14px) 44px;
+  border: 1px solid var(--line, rgba(255, 208, 139, 0.35));
+  border-radius: clamp(22px, 1.5vw, 32px); /* Semi-sphere capsule shape matching player */
+  background:
+    linear-gradient(135deg, rgba(36, 18, 14, 0.86), rgba(18, 9, 7, 0.94)),
+    var(--glass);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: clamp(9px, 1.05vh, 13px) 42px clamp(9px, 1.05vh, 13px) 46px;
   cursor: pointer;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, transform 0.2s ease;
   font-family: inherit;
   color: var(--paper, #fff7e7);
   text-align: left;
@@ -2365,13 +2367,15 @@ button.brand-reveal:active {
 
 .station-select-trigger:hover {
   border-color: rgba(255, 208, 139, 0.7);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 16px rgba(255, 180, 80, 0.18);
-  background: rgba(28, 14, 10, 0.92);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.48), 0 0 18px rgba(255, 180, 80, 0.2);
+  background:
+    linear-gradient(135deg, rgba(46, 22, 16, 0.92), rgba(24, 12, 9, 0.97)),
+    var(--glass);
 }
 
 .station-select-icon {
   position: absolute;
-  left: 14px;
+  left: 16px;
   font-size: 1.15rem;
   pointer-events: none;
   display: flex;
@@ -2392,37 +2396,62 @@ button.brand-reveal:active {
 
 .station-select-arrow {
   position: absolute;
-  right: 16px;
+  right: 18px;
   font-size: 0.85rem;
   color: var(--accent, #ffd08b);
   pointer-events: none;
   transition: transform 0.2s ease;
 }
 
-/* UPWARD MENU: Appears ABOVE the station selector bar */
+/* UPWARD MENU: Appears ABOVE the station selector bar with Semi-Sphere capsule shape and scroll */
 .station-select-menu-upward {
   position: absolute;
   bottom: calc(100% + 8px); /* OPENS UPWARDS */
   left: 0;
   right: 0;
-  background: rgba(18, 10, 8, 0.96);
+  max-height: 154px; /* SCROLLABLE: Shows 2 stations comfortably, scroll down to see Rafi and 2000s */
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  background:
+    linear-gradient(135deg, rgba(26, 13, 10, 0.97), rgba(14, 7, 5, 0.98)),
+    var(--glass);
   border: 1px solid rgba(255, 208, 139, 0.45);
-  border-radius: clamp(12px, 1vw, 16px);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 180, 80, 0.2);
-  padding: 6px;
+  border-radius: clamp(22px, 1.5vw, 32px); /* Semi-sphere capsule shape matching player */
+  backdrop-filter: blur(24px) saturate(1.25);
+  -webkit-backdrop-filter: blur(24px) saturate(1.25);
+  box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.72), 0 0 24px rgba(255, 180, 80, 0.2);
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   z-index: 50;
-  animation: upwardPopup 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: upwardPopup 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Custom retro gold scrollbar */
+.station-select-menu-upward::-webkit-scrollbar {
+  width: 5px;
+}
+.station-select-menu-upward::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  margin: 12px 0;
+}
+.station-select-menu-upward::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(255, 208, 139, 0.65), rgba(255, 160, 60, 0.45));
+  border-radius: 999px;
+}
+.station-select-menu-upward::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 208, 139, 0.9);
 }
 
 @keyframes upwardPopup {
   from {
     opacity: 0;
-    transform: translateY(10px) scale(0.98);
+    transform: translateY(12px) scale(0.98);
   }
   to {
     opacity: 1;
@@ -2435,26 +2464,27 @@ button.brand-reveal:active {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 10px 14px;
+  padding: 10px 16px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: clamp(14px, 1.1vw, 20px); /* Curved pill item */
   background: transparent;
   color: #fff7e7;
   cursor: pointer;
   font-family: inherit;
   text-align: left;
+  flex-shrink: 0; /* Prevents squishing in scroll container */
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease;
 }
 
 .station-menu-item:hover {
   background: rgba(255, 208, 139, 0.14);
   border-color: rgba(255, 208, 139, 0.3);
-  transform: translateX(2px);
+  transform: translateX(3px);
 }
 
 .station-menu-item.is-active {
   background: rgba(255, 208, 139, 0.22);
-  border-color: rgba(255, 208, 139, 0.5);
+  border-color: rgba(255, 208, 139, 0.52);
 }
 
 .station-item-icon {
@@ -2487,21 +2517,27 @@ button.brand-reveal:active {
 
 @media (max-width: 640px) {
   .station-selector-wrapper {
-    margin-bottom: 9px;
+    margin-bottom: 7px;
   }
   .station-select-trigger {
-    border-radius: 12px;
-    padding: 9px 34px 9px 38px;
+    border-radius: 24px;
+    padding: 9px 36px 9px 40px;
   }
   .station-select-label {
     font-size: 0.82rem;
   }
   .station-select-icon {
-    left: 11px;
+    left: 13px;
     font-size: 1rem;
   }
   .station-select-menu-upward {
-    border-radius: 12px;
+    border-radius: 24px;
+    max-height: 146px;
+    padding: 7px 8px;
+  }
+  .station-menu-item {
+    border-radius: 16px;
+    padding: 9px 12px;
   }
   .station-item-title {
     font-size: 0.82rem;
