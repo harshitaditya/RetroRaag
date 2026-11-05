@@ -1,0 +1,432 @@
+[
+  {
+    "id": "sufi_1",
+    "name": "Raazdaariyan",
+    "artists": [
+      "Sagar Bhatia",
+      "Gaurav Chatterji",
+      "Ginny Diwan"
+    ],
+    "album": "De De Pyaar De 2",
+    "image": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251120161027-500x500.jpg",
+    "durationMs": 290000,
+    "streamUrl": "https://aac.saavncdn.com/740/dd32edd82b4ebd5180e53b8046fd5dc3_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 1,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_2",
+    "name": "Maula Mere Maula",
+    "artists": [
+      "Roop Kumar Rathod",
+      "Sayeed Quadri"
+    ],
+    "album": "Anwar",
+    "image": "https://c.saavncdn.com/524/Anwar-Hindi-2007-20180112-500x500.jpg",
+    "durationMs": 364000,
+    "streamUrl": "https://aac.saavncdn.com/524/67a2ec08ed5b373ab38e6c9b462f2d73_sar_320.mp4",
+    "year": 2007,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 2,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_3",
+    "name": "Teri Deewani",
+    "artists": [
+      "Kailash Kher",
+      "Paresh Kamath",
+      "Naresh Kamath"
+    ],
+    "album": "Best of Me Kailash Kher",
+    "image": "https://c.saavncdn.com/364/Best-of-Me-Kailash-Kher-Hindi-2013-20200715065511-500x500.jpg",
+    "durationMs": 320000,
+    "streamUrl": "https://aac.saavncdn.com/364/48520ff8b9b3d460975eb963de561de4_320.mp4",
+    "year": 2013,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 3,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_4",
+    "name": "Mera Ishq",
+    "artists": [
+      "Sagar Bhatia",
+      "Kartik Dev",
+      "Gaurav Dev"
+    ],
+    "album": "Mera Ishq",
+    "image": "https://c.saavncdn.com/629/Mera-Ishq-Hindi-2023-20231129171604-500x500.jpg",
+    "durationMs": 241000,
+    "streamUrl": "https://aac.saavncdn.com/629/624e680d5d7d1b209049177d147a7420_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 4,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_5",
+    "name": "Arziyan",
+    "artists": [
+      "Javed Ali",
+      "Kailash Kher",
+      "A.R. Rahman",
+      "Prasoon Joshi"
+    ],
+    "album": "Delhi 6",
+    "image": "https://c.saavncdn.com/931/Delhi-6-2009-500x500.jpg",
+    "durationMs": 521000,
+    "streamUrl": "https://aac.saavncdn.com/931/9f5277b57ff29b68dfbab4135c57ba1a_320.mp4",
+    "year": 2009,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 5,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_6",
+    "name": "Tajdar-E-Haram",
+    "artists": [
+      "Atif Aslam"
+    ],
+    "album": "Satyameva Jayate",
+    "image": "https://c.saavncdn.com/333/Satyameva-Jayate-Hindi-2018-20180801-500x500.jpg",
+    "durationMs": 291000,
+    "streamUrl": "https://aac.saavncdn.com/333/0d7a19ed14693db414d2014668045226_320.mp4",
+    "year": 2018,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 6,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_7",
+    "name": "Khwaja Mere Khwaja",
+    "artists": [
+      "A.R. Rahman"
+    ],
+    "album": "Jodhaa Akbar",
+    "image": "https://c.saavncdn.com/016/Jodhaa-Akbar-Hindi-2007-20201029165330-500x500.jpg",
+    "durationMs": 417000,
+    "streamUrl": "https://aac.saavncdn.com/016/8fa67bbdf6ab5ac0bcfe8e80699e754c_320.mp4",
+    "year": 2020,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 7,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_8",
+    "name": "Saadagi - Live",
+    "artists": [
+      "Sagar Bhatia"
+    ],
+    "album": "Evergreen Sufi Covers",
+    "image": "https://c.saavncdn.com/406/Evergreen-Sufi-Covers-Hindi-2025-20251106053758-500x500.jpg",
+    "durationMs": 365000,
+    "streamUrl": "https://aac.saavncdn.com/406/a0a5d6d60c70514fef8c151f327fce20_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 8,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_9",
+    "name": "Saiyyan",
+    "artists": [
+      "Kailash Kher",
+      "Paresh Kamath",
+      "Naresh Kamath"
+    ],
+    "album": "Saiyyan (Trending Version)",
+    "image": "https://c.saavncdn.com/804/Saiyyan-Trending-Version-Hindi-2023-20230511151041-500x500.jpg",
+    "durationMs": 60000,
+    "streamUrl": "https://aac.saavncdn.com/804/3c8facd5eac0c74751244d044d83cf6e_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 9,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_10",
+    "name": "Teri Deewani - Lofi Flip",
+    "artists": [
+      "Kailash Kher",
+      "Deepanshu Ruhela",
+      "Bollywood Lofi"
+    ],
+    "album": "Teri Deewani (Lofi Flip)",
+    "image": "https://c.saavncdn.com/027/Teri-Deewani-Lofi-Flip--Hindi-2021-20210726121353-500x500.jpg",
+    "durationMs": 187000,
+    "streamUrl": "https://aac.saavncdn.com/027/d02114630aad7cf7d304bae2e9cefa1f_320.mp4",
+    "year": 2021,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 10,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_11",
+    "name": "Tu Jhoom",
+    "artists": [
+      "Naseebo Lal",
+      "Abida Parveen"
+    ],
+    "album": "Tu Jhoom",
+    "image": "https://c.saavncdn.com/844/Tu-Jhoom-English-2025-20250206090337-500x500.jpg",
+    "durationMs": 363000,
+    "streamUrl": "https://aac.saavncdn.com/844/5c190c2e7e3dab82d3fb1d1828bf49c7_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 11,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_12",
+    "name": "Tere Bina",
+    "artists": [
+      "A.R. Rahman",
+      "Chinmayi",
+      "Murtuza Khan",
+      "Qadir Khan"
+    ],
+    "album": "Guru",
+    "image": "https://c.saavncdn.com/020/Guru-Hindi-2006-20190516131307-500x500.jpg",
+    "durationMs": 309000,
+    "streamUrl": "https://aac.saavncdn.com/020/6ac166981a9551c3ea2a435f938c554e_320.mp4",
+    "year": 2006,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 12,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_13",
+    "name": "Tere Bina Na Guzara E",
+    "artists": [
+      "Josh Brar"
+    ],
+    "album": "Tere Bina Na Guzara E",
+    "image": "https://c.saavncdn.com/683/Tere-Bina-Na-Guzara-E-Punjabi-2024-20240925154603-500x500.jpg",
+    "durationMs": 220000,
+    "streamUrl": "https://aac.saavncdn.com/683/6d0e950701c8dcf26037b52bcceee9b0_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 13,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_14",
+    "name": "Bulleya",
+    "artists": [
+      "Vishal-Shekhar",
+      "Papon",
+      "Irshad Kamil"
+    ],
+    "album": "Sultan",
+    "image": "https://c.saavncdn.com/778/Sultan-Hindi-2016-20190329150247-500x500.jpg",
+    "durationMs": 355000,
+    "streamUrl": "https://aac.saavncdn.com/778/d3a4b97df0a5df5bfb437c194313eccb_320.mp4",
+    "year": 2016,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 14,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_15",
+    "name": "Bulleya",
+    "artists": [
+      "Pritam",
+      "Amit Mishra",
+      "Shilpa Rao"
+    ],
+    "album": "Ae Dil Hai Mushkil  [Deluxe Edition]",
+    "image": "https://c.saavncdn.com/608/Ae-Dil-Hai-Mushkil-Deluxe-Edition-Hindi-2016-500x500.jpg",
+    "durationMs": 348000,
+    "streamUrl": "https://aac.saavncdn.com/608/b79741fefcd7e5a52262ab5e504753ee_320.mp4",
+    "year": 2016,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 15,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_16",
+    "name": "Kabira",
+    "artists": [
+      "Pritam",
+      "Tochi Raina",
+      "Rekha Bhardwaj",
+      "Amitabh Bhattacharya"
+    ],
+    "album": "Yeh Jawaani Hai Deewani",
+    "image": "https://c.saavncdn.com/440/Yeh-Jawaani-Hai-Deewani-2013-500x500.jpg",
+    "durationMs": 224000,
+    "streamUrl": "https://aac.saavncdn.com/440/664097ba2ddb94e9a8c9e9527b3010ec_320.mp4",
+    "year": 2013,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 16,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_17",
+    "name": "Sajdaa",
+    "artists": [
+      "Shankar-Ehsaan-Loy",
+      "Rahat Fateh Ali Khan",
+      "Shankar Mahadevan",
+      "Richa Sharma"
+    ],
+    "album": "Melodies of Love",
+    "image": "https://c.saavncdn.com/327/Melodies-of-Love-Hindi-2011-20200620121239-500x500.jpg",
+    "durationMs": 366000,
+    "streamUrl": "https://aac.saavncdn.com/327/8027499ea470c509cd40314540fb48fa_320.mp4",
+    "year": 2011,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 17,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_18",
+    "name": "Chaap Tilak",
+    "artists": [
+      "Abida Parveen",
+      "Rahat Fateh Ali Khan"
+    ],
+    "album": "Dark 7 White",
+    "image": "https://c.saavncdn.com/809/Dark-7-White-Hindi-2020-20201225095949-500x500.jpg",
+    "durationMs": 159000,
+    "streamUrl": "https://aac.saavncdn.com/809/5cd30f42eafa47e69a5312dc127ea79f_320.mp4",
+    "year": 2020,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 18,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_19",
+    "name": "O Re Piya",
+    "artists": [
+      "Salim–Sulaiman",
+      "Rahat Fateh Ali Khan",
+      "Jaideep Sahni"
+    ],
+    "album": "The Unwind Mix",
+    "image": "https://c.saavncdn.com/485/The-Unwind-Mix-Hindi-2022-20220509123543-500x500.jpg",
+    "durationMs": 140000,
+    "streamUrl": "https://aac.saavncdn.com/485/91297751201cf70946be5c62698bc884_320.mp4",
+    "year": 2022,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 19,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_20",
+    "name": "Tu Jaane Na",
+    "artists": [
+      "Pritam",
+      "Atif Aslam"
+    ],
+    "album": "Ajab Prem Ki Ghazab Kahani",
+    "image": "https://c.saavncdn.com/792/Ajab-Prem-Ki-Ghazab-Kahani-Hindi-2009-20261029135834-500x500.jpg",
+    "durationMs": 333000,
+    "streamUrl": "https://aac.saavncdn.com/792/fac21bbe826bc4d2a6a91a2aeefb9a4f_320.mp4",
+    "year": 2009,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 20,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_21",
+    "name": "Ishq Di Baajiyaan",
+    "artists": [
+      "Shankar-Ehsaan-Loy",
+      "Diljit Dosanjh"
+    ],
+    "album": "Soorma",
+    "image": "https://c.saavncdn.com/193/Soorma-Hindi-2018-20180702111043-500x500.jpg",
+    "durationMs": 287000,
+    "streamUrl": "https://aac.saavncdn.com/193/e46c53330475f09cb10b80c6a98ce998_320.mp4",
+    "year": 2018,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 21,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  },
+  {
+    "id": "sufi_22",
+    "name": "Ishq Sufiyana (Male)",
+    "artists": [
+      "Vishal-Shekhar",
+      "Kamal Khan"
+    ],
+    "album": "The Dirty Picture",
+    "image": "https://c.saavncdn.com/859/The-Dirty-Picture-Hindi-2011-20241205142536-500x500.jpg",
+    "durationMs": 325000,
+    "streamUrl": "https://aac.saavncdn.com/859/9a490a2d3cdc1039663408c62d5a3377_320.mp4",
+    "year": 2011,
+    "language": "hindi",
+    "sourceLists": [
+      "sufi-love-filtr"
+    ],
+    "rank": 22,
+    "lastUpdated": "5 Nov 2026 at 06:38 pm IST"
+  }
+]

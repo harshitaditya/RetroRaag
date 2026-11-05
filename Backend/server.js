@@ -6,6 +6,7 @@ const fs = require("fs");
 const cron = require("node-cron");
 const musicRoutes = require("./routes/musicRoutes");
 const { updateSpotifyCatalog } = require("./services/spotifyTop50Service");
+const { updateSufiCatalog } = require("./services/sufiLoveService");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -98,6 +99,43 @@ app.get("/api/radio/cron/update-spotify", async (req, res) => {
       success,
       message: success
         ? "Spotify Top 50 India catalog updated successfully."
+        : "Catalog update encountered an issue; retained current catalog."
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ------------------------------------
+// CRON: SUFI LOVE (FILTR) AUTO-UPDATE
+// ------------------------------------
+
+// Internal scheduler: Runs every day at 04:30 AM IST (right after Spotify Top 50)
+cron.schedule(
+  "30 4 * * *",
+  async () => {
+    console.log("[CRON] Running daily Sufi Love (Filtr) update at 4:30 AM IST...");
+    try {
+      const success = await updateSufiCatalog();
+      console.log(`[CRON] Daily Sufi Love update finished. Success: ${success}`);
+    } catch (err) {
+      console.error("[CRON] Daily Sufi Love update failed:", err.message);
+    }
+  },
+  {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
+  }
+);
+
+// Manual trigger endpoint for on-demand update / external webhook
+app.get("/api/radio/cron/update-sufi", async (req, res) => {
+  try {
+    const success = await updateSufiCatalog();
+    res.json({
+      success,
+      message: success
+        ? "Sufi Love catalog updated successfully from Spotify."
         : "Catalog update encountered an issue; retained current catalog."
     });
   } catch (err) {

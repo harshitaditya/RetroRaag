@@ -2,6 +2,8 @@ const jiosaavnService =
   require("../services/jiosaavnService");
 const spotifyTop50Service =
   require("../services/spotifyTop50Service");
+const sufiLoveService =
+  require("../services/sufiLoveService");
 
 
 /**
@@ -94,9 +96,20 @@ function spotifyStatus(req, res, next) {
 }
 
 
+function sufiStatus(req, res, next) {
+  try {
+    const meta = sufiLoveService.getSufiMetadata();
+    res.json(meta || { success: false, message: "No metadata available" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 module.exports = {
   search,
   radioSongs,
   radioStatus,
-  spotifyStatus
+  spotifyStatus,
+  sufiStatus
 };

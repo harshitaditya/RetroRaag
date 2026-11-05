@@ -23,11 +23,11 @@ const NOSTALGIA_MESSAGES_2000S = [
   "यादें उस प्यारे दौर की..."
 ];
 
-const NOSTALGIA_MESSAGES_QAWWALI = [
-  "दम मस्त क़लंदर...",
-  "सूफ़ी और क़व्वाली...",
-  "इश्क़-ए-हक़ीक़ी...",
-  "नुसरत का रूहानी जादू..."
+const NOSTALGIA_MESSAGES_SUFI = [
+  "Sufi Love (Filtr India)...",
+  "तेरी दीवानी, मौला मेरे मौला...",
+  "रूहानी धुनें, सूफ़ियाना इश्क़...",
+  "ख़्वाजा मेरे ख़्वाजा, ताजदार-ए-हरम..."
 ];
 
 const NOSTALGIA_MESSAGES_SPOTIFY = [
@@ -135,8 +135,9 @@ export default function App() {
   const [currentStation, setCurrentStation] = useState(() => {
     try {
       const saved = localStorage.getItem("retroraag:station");
-      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "qawwali" || saved === "spotify") return saved;
+      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "sufi" || saved === "spotify") return saved;
       if (saved === "kishore" || saved === "rafi") return "golden";
+      if (saved === "qawwali") return "sufi";
     } catch {
       // Ignore storage errors
     }
@@ -152,8 +153,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_GOLDEN
       : currentStation === "2000s"
       ? NOSTALGIA_MESSAGES_2000S
-      : currentStation === "qawwali"
-      ? NOSTALGIA_MESSAGES_QAWWALI
+      : currentStation === "sufi"
+      ? NOSTALGIA_MESSAGES_SUFI
       : currentStation === "spotify"
       ? NOSTALGIA_MESSAGES_SPOTIFY
       : NOSTALGIA_MESSAGES_90S;
@@ -1100,8 +1101,8 @@ export default function App() {
                 ? "👑"
                 : currentStation === "2000s"
                 ? "🔥"
-                : currentStation === "qawwali"
-                ? "🪕"
+                : currentStation === "sufi"
+                ? "🕊️"
                 : currentStation === "spotify"
                 ? "🟢"
                 : "📼"}
@@ -1111,8 +1112,8 @@ export default function App() {
                 ? "104.8 FM — Golden Era Heritage"
                 : currentStation === "2000s"
                 ? "106.4 FM — 2000s Bollywood Hits"
-                : currentStation === "qawwali"
-                ? "101.2 FM — Punjabi Sufi & Qawwali"
+                : currentStation === "sufi"
+                ? `101.2 FM — Sufi Love${queue[0]?.lastUpdated ? ` • Updated ${queue[0].lastUpdated}` : ""}`
                 : currentStation === "spotify"
                 ? `100.8 FM — Spotify Top 50${queue[0]?.lastUpdated ? ` • Updated ${queue[0].lastUpdated}` : ""}`
                 : "98.3 FM — 90s Bollywood Gold"}
@@ -1180,20 +1181,22 @@ export default function App() {
 
               <button
                 type="button"
-                className={`station-menu-item${currentStation === "qawwali" ? " is-active" : ""}`}
+                className={`station-menu-item${currentStation === "sufi" ? " is-active" : ""}`}
                 role="option"
-                aria-selected={currentStation === "qawwali"}
+                aria-selected={currentStation === "sufi"}
                 onClick={() => {
-                  switchStation("qawwali");
+                  switchStation("sufi");
                   setStationDropdownOpen(false);
                 }}
               >
-                <span className="station-item-icon">🪕</span>
+                <span className="station-item-icon">🕊️</span>
                 <div className="station-item-info">
-                  <span className="station-item-title">101.2 FM — Punjabi Sufi & Qawwali</span>
-                  <span className="station-item-badge">23 Hits</span>
+                  <span className="station-item-title">101.2 FM — Sufi Love (Filtr)</span>
+                  <span className="station-item-badge">
+                    {queue[0]?.lastUpdated && currentStation === "sufi" ? "Updated Daily" : "Spotify Playlist"}
+                  </span>
                 </div>
-                {currentStation === "qawwali" && <span className="station-item-check">✓</span>}
+                {currentStation === "sufi" && <span className="station-item-check">✓</span>}
               </button>
 
               <button
@@ -1235,8 +1238,8 @@ export default function App() {
                   ? "GOLDEN ERA HERITAGE • 104.8 FM"
                   : currentStation === "2000s"
                   ? "2000s BOLLYWOOD • 106.4 FM"
-                  : currentStation === "qawwali"
-                  ? "SUFI & QAWWALI • 101.2 FM"
+                  : currentStation === "sufi"
+                  ? "SUFI LOVE (FILTR) • 101.2 FM"
                   : currentStation === "spotify"
                   ? "SPOTIFY TOP 50 INDIA • 100.8 FM"
                   : "रेट्रो राग • 98.3 FM"}
@@ -1246,18 +1249,18 @@ export default function App() {
                   ? "Golden Era Heritage Classics"
                   : currentStation === "2000s"
                   ? "2000s Superhits"
-                  : currentStation === "qawwali"
-                  ? "Sufi & Qawwali Classics"
+                  : currentStation === "sufi"
+                  ? "Sufi Love Collection"
                   : currentStation === "spotify"
                   ? "Spotify Top 50 India Hits"
                   : "Up next"} ({queue.length} Songs)
               </h2>
-              {currentStation === "spotify" && queue[0]?.lastUpdated && (
+              {(currentStation === "spotify" || currentStation === "sufi") && queue[0]?.lastUpdated && (
                 <div
                   className="spotify-update-badge"
                   style={{
                     fontSize: "0.74rem",
-                    color: "#34d399",
+                    color: currentStation === "sufi" ? "#6ee7b7" : "#34d399",
                     marginTop: "3px",
                     display: "flex",
                     alignItems: "center",
@@ -1270,8 +1273,8 @@ export default function App() {
                       width: "6px",
                       height: "6px",
                       borderRadius: "999px",
-                      background: "#34d399",
-                      boxShadow: "0 0 6px #34d399",
+                      background: currentStation === "sufi" ? "#6ee7b7" : "#34d399",
+                      boxShadow: `0 0 6px ${currentStation === "sufi" ? "#6ee7b7" : "#34d399"}`,
                       display: "inline-block"
                     }}
                   />

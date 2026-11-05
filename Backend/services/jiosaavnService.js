@@ -33,12 +33,20 @@ const CATALOG_PATH_2000S =
     "2000sSongs.json"
   );
 
+const CATALOG_PATH_SUFI =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "sufiSongs.json"
+  );
+
 const CATALOG_PATH_QAWWALI =
   path.join(
     __dirname,
     "..",
     "data",
-    "qawwaliSongs.json"
+    "sufiSongs.json"
   );
 
 const CATALOG_PATH_GOLDEN =
@@ -83,8 +91,13 @@ const stationStores = {
     cache: null,
     lastMtime: 0
   },
+  "sufi": {
+    path: CATALOG_PATH_SUFI,
+    cache: null,
+    lastMtime: 0
+  },
   "qawwali": {
-    path: CATALOG_PATH_QAWWALI,
+    path: CATALOG_PATH_SUFI,
     cache: null,
     lastMtime: 0
   },
@@ -118,7 +131,7 @@ function getStore(station = "90s") {
   const key = String(station || "").toLowerCase().trim();
   if (key === "golden" || key === "goldenera" || key === "golden-era" || key === "heritage" || key === "kishore" || key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.golden;
   if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
-  if (key === "qawwali" || key === "sufi" || key === "punjabi" || key === "nusrat") return stationStores.qawwali;
+  if (key === "sufi" || key === "sufilove" || key === "sufi-love" || key === "qawwali" || key === "punjabi" || key === "nusrat") return stationStores.sufi;
   if (key === "spotify" || key === "top50" || key === "spotify-top-50") return stationStores.spotify;
   return stationStores["90s"];
 }
@@ -331,8 +344,8 @@ function getCatalogStatus(station = "90s") {
         ? "golden"
         : String(station).toLowerCase() === "2000s"
         ? "2000s"
-        : String(station).toLowerCase() === "qawwali"
-        ? "qawwali"
+        : String(station).toLowerCase() === "sufi" || String(station).toLowerCase() === "sufilove" || String(station).toLowerCase() === "qawwali"
+        ? "sufi"
         : String(station).toLowerCase() === "spotify"
         ? "spotify"
         : "90s",
@@ -360,6 +373,7 @@ function clearCatalogCache(station) {
     stationStores.kishore.cache = null;
     stationStores.rafi.cache = null;
     stationStores["2000s"].cache = null;
+    stationStores.sufi.cache = null;
     stationStores.qawwali.cache = null;
     stationStores.spotify.cache = null;
   }

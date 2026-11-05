@@ -32,5 +32,11 @@ router.get(
   musicController.spotifyStatus
 );
 
+// Get Sufi Love metadata (last updated timestamp)
+router.get(
+  "/api/radio/sufi-status",
+  musicController.sufiStatus
+);
+
 
 module.exports = router;
