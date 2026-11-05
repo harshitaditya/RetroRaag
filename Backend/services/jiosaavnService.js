@@ -41,6 +41,14 @@ const CATALOG_PATH_QAWWALI =
     "qawwaliSongs.json"
   );
 
+const CATALOG_PATH_GOLDEN =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "goldenSongs.json"
+  );
+
 const CATALOG_PATH_SPOTIFY =
   path.join(
     __dirname,
@@ -55,13 +63,18 @@ const stationStores = {
     cache: null,
     lastMtime: 0
   },
+  "golden": {
+    path: CATALOG_PATH_GOLDEN,
+    cache: null,
+    lastMtime: 0
+  },
   "kishore": {
-    path: CATALOG_PATH_KISHORE,
+    path: CATALOG_PATH_GOLDEN,
     cache: null,
     lastMtime: 0
   },
   "rafi": {
-    path: CATALOG_PATH_RAFI,
+    path: CATALOG_PATH_GOLDEN,
     cache: null,
     lastMtime: 0
   },
@@ -103,8 +116,7 @@ function isPlayableSong(song) {
 
 function getStore(station = "90s") {
   const key = String(station || "").toLowerCase().trim();
-  if (key === "kishore") return stationStores.kishore;
-  if (key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.rafi;
+  if (key === "golden" || key === "goldenera" || key === "golden-era" || key === "heritage" || key === "kishore" || key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.golden;
   if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
   if (key === "qawwali" || key === "sufi" || key === "punjabi" || key === "nusrat") return stationStores.qawwali;
   if (key === "spotify" || key === "top50" || key === "spotify-top-50") return stationStores.spotify;
@@ -315,10 +327,8 @@ function getCatalogStatus(station = "90s") {
       songs.length,
 
     station:
-      String(station).toLowerCase() === "kishore"
-        ? "kishore"
-        : String(station).toLowerCase() === "rafi"
-        ? "rafi"
+      String(station).toLowerCase() === "golden" || String(station).toLowerCase() === "goldenera" || String(station).toLowerCase() === "heritage" || String(station).toLowerCase() === "kishore" || String(station).toLowerCase() === "rafi"
+        ? "golden"
         : String(station).toLowerCase() === "2000s"
         ? "2000s"
         : String(station).toLowerCase() === "qawwali"
@@ -346,10 +356,12 @@ function clearCatalogCache(station) {
     store.cache = null;
   } else {
     stationStores["90s"].cache = null;
+    stationStores.golden.cache = null;
     stationStores.kishore.cache = null;
     stationStores.rafi.cache = null;
     stationStores["2000s"].cache = null;
     stationStores.qawwali.cache = null;
+    stationStores.spotify.cache = null;
   }
 }
 

@@ -1,0 +1,1642 @@
+[
+  {
+    "id": "gh_1",
+    "name": "Lag Ja Gale Se Phir",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Woh Kaun Thi",
+    "image": "https://c.saavncdn.com/834/Woh-Kaun-Thi-Hindi-1964-20251103094113-500x500.jpg",
+    "durationMs": 257000,
+    "streamUrl": "https://aac.saavncdn.com/834/ea681a69a0bc7ecc4cd3ea4fc477cefe_320.mp4",
+    "year": 1964,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_2",
+    "name": "Yeh Shaam Mastani",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Gems Of Kishore Kumar",
+    "image": "https://c.saavncdn.com/398/Gems-Of-Kishore-Kumar-Hindi-1994-20260209103233-500x500.jpg",
+    "durationMs": 220000,
+    "streamUrl": "https://aac.saavncdn.com/398/9dc23f6c7bd24542d991b550e933332a_320.mp4",
+    "year": 1994,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_3",
+    "name": "Pal Pal Dil Ke Paas",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Blackmail",
+    "image": "https://c.saavncdn.com/091/Blackmail-Hindi-1973-500x500.jpg",
+    "durationMs": 258000,
+    "streamUrl": "https://aac.saavncdn.com/091/c9b18799f8f4228db588baae4ec72b0a_320.mp4",
+    "year": 1973,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_4",
+    "name": "Chura Liya Hai Tumne Jo Dil Ko",
+    "artists": [
+      "Asha Bhosle",
+      "Mohammed Rafi"
+    ],
+    "album": "Yaadon Ki Baaraat",
+    "image": "https://c.saavncdn.com/854/Yaadon-Ki-Baaraat-Hindi-1973-20200622062706-500x500.jpg",
+    "durationMs": 289000,
+    "streamUrl": "https://aac.saavncdn.com/854/a48723fa6382061a3db02b90c5c0bd43_sar_320.mp4",
+    "year": 1973,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_5",
+    "name": "Abhi Na Jao Chhod Kar",
+    "artists": [
+      "Asha Bhosle",
+      "Mohammed Rafi"
+    ],
+    "album": "Hum Dono",
+    "image": "https://c.saavncdn.com/045/Hum-Dono-Hindi-1961-500x500.jpg",
+    "durationMs": 258000,
+    "streamUrl": "https://aac.saavncdn.com/045/bc4273964064502e397bc1e70b146b0f_sar_320.mp4",
+    "year": 1961,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_6",
+    "name": "O Mere Dil Ke Chain",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Mere Jeevan Saathi",
+    "image": "https://c.saavncdn.com/016/Mere-Jeevan-Saathi-Hindi-1972-500x500.jpg",
+    "durationMs": 279000,
+    "streamUrl": "https://aac.saavncdn.com/016/992f0d80d857615bbee960bdd50fe27a_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_7",
+    "name": "Tere Bina Zindagi Se",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Aandhi",
+    "image": "https://c.saavncdn.com/016/Aandhi-Hindi-1975-500x500.jpg",
+    "durationMs": 355000,
+    "streamUrl": "https://aac.saavncdn.com/016/9e7597287f41cf82f1f2477cf19d8322_320.mp4",
+    "year": 1975,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_8",
+    "name": "Aap Ki Ankhon Mein Kuch",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Ghar",
+    "image": "https://c.saavncdn.com/784/Ghar-Hindi-1978-500x500.jpg",
+    "durationMs": 249000,
+    "streamUrl": "https://aac.saavncdn.com/784/51e7fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1978,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_9",
+    "name": "Dekha Ek Khwaab",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Silsila",
+    "image": "https://c.saavncdn.com/940/Silsila-Hindi-1981-20200901153958-500x500.jpg",
+    "durationMs": 321000,
+    "streamUrl": "https://aac.saavncdn.com/940/5604052ba2be20ca6e97f4b667186a0f_sar_320.mp4",
+    "year": 1981,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_10",
+    "name": "Hamen Tumse Pyar Kitna",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Kudrat",
+    "image": "https://c.saavncdn.com/016/Kudrat-Hindi-1981-500x500.jpg",
+    "durationMs": 242000,
+    "streamUrl": "https://aac.saavncdn.com/016/726ddddbacff1e77f00212a4b20fad63_320.mp4",
+    "year": 1981,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_11",
+    "name": "Rimjhim Gire Sawan",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Manzil",
+    "image": "https://c.saavncdn.com/784/Manzil-Hindi-1979-500x500.jpg",
+    "durationMs": 249000,
+    "streamUrl": "https://aac.saavncdn.com/784/51e7fba1f6c3ac4d424a83fe1a37deab_sar_320.mp4",
+    "year": 1979,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_12",
+    "name": "Kahiin Door Jab Din Dhal Jaaye",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Anand",
+    "image": "https://c.saavncdn.com/339/Anand-Hindi-1971-20180111-500x500.jpg",
+    "durationMs": 202000,
+    "streamUrl": "https://aac.saavncdn.com/339/581c52f09522eab9b94a72987e194bcd_sar_320.mp4",
+    "year": 1971,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_13",
+    "name": "Pyar Diwana Hota Hai",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Kati Patang",
+    "image": "https://c.saavncdn.com/398/Gems-Of-Kishore-Kumar-Hindi-1994-20260209103233-500x500.jpg",
+    "durationMs": 220000,
+    "streamUrl": "https://aac.saavncdn.com/398/9dc23f6c7bd24542d991b550e933332a_320.mp4",
+    "year": 1970,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_14",
+    "name": "Chaudhvin Ka Chand Ho",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Chaudhvin Ka Chand",
+    "image": "https://c.saavncdn.com/899/Chaudhvin-Ka-Chand-Hindi-1960-20230509153502-500x500.jpg",
+    "durationMs": 224000,
+    "streamUrl": "https://aac.saavncdn.com/899/a72c06c2de78c8e8d6077cef6c6c5073_sar_320.mp4",
+    "year": 1960,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_15",
+    "name": "Bahon Mein Chale Aao",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Anamika",
+    "image": "https://c.saavncdn.com/876/Anamika-Hindi-1972-500x500.jpg",
+    "durationMs": 241000,
+    "streamUrl": "https://aac.saavncdn.com/876/7dc24ddf9b38131566aa53d0555b9362_sar_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_16",
+    "name": "Mere Sapno Ki Rani",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Aradhana",
+    "image": "https://c.saavncdn.com/951/Aradhana-Hindi-1969-500x500.jpg",
+    "durationMs": 300000,
+    "streamUrl": "https://aac.saavncdn.com/951/4882fc8a7bf7b8e7a1040ef94de6b9ef_sar_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_17",
+    "name": "Kya Hua Tera Wada",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Hum Kisise Kum Naheen",
+    "image": "https://c.saavncdn.com/510/Hum-Kisise-Kum-Naheen-Hindi-1977-20200901153957-500x500.jpg",
+    "durationMs": 258000,
+    "streamUrl": "https://aac.saavncdn.com/510/f0e26aa3fc1e9f278279f17adb120a6f_sar_320.mp4",
+    "year": 1977,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_18",
+    "name": "Ek Pyar Ka Naghma Hai",
+    "artists": [
+      "Lata Mangeshkar",
+      "Mukesh"
+    ],
+    "album": "Shor",
+    "image": "https://c.saavncdn.com/633/Shor-Hindi-1972-20200905113925-500x500.jpg",
+    "durationMs": 356000,
+    "streamUrl": "https://aac.saavncdn.com/650/c7b15281260525ae6996a9f4e2fb6652_sar_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_19",
+    "name": "Gulabi Aankhen",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Barish with Rafi",
+    "image": "https://c.saavncdn.com/812/Barish-with-Rafi-Hindi-2026-20260827053717-500x500.jpg",
+    "durationMs": 198000,
+    "streamUrl": "https://aac.saavncdn.com/812/4a604c9ad0d3435a9d07f1b40513bde3_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_20",
+    "name": "Likhe Jo Khat Tujhe",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Kanyadaan",
+    "image": "https://c.saavncdn.com/743/Kanyadaan-Hindi-1968-20171213-500x500.jpg",
+    "durationMs": 273000,
+    "streamUrl": "https://aac.saavncdn.com/743/8f736df7477f942707b8c3af1379c29c_sar_320.mp4",
+    "year": 1968,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_21",
+    "name": "Aanewala Pal Janewala Hai",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Golmaal",
+    "image": "https://c.saavncdn.com/398/Gems-Of-Kishore-Kumar-Hindi-1994-20260209103233-500x500.jpg",
+    "durationMs": 283000,
+    "streamUrl": "https://aac.saavncdn.com/398/179530c370c37588e36f968306ae0583_320.mp4",
+    "year": 1979,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_22",
+    "name": "Kabhi Kabhie Mere Dil Mein",
+    "artists": [
+      "Mukesh",
+      "Lata Mangeshkar"
+    ],
+    "album": "Kabhi Kabhie",
+    "image": "https://c.saavncdn.com/293/Kabhi-Kabhie-Hindi-1976-20200901153954-500x500.jpg",
+    "durationMs": 299000,
+    "streamUrl": "https://aac.saavncdn.com/293/90fcc29ab7d59d783a1f42e571bc97f6_sar_320.mp4",
+    "year": 1976,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_23",
+    "name": "Roop Tera Mastana",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Aradhana",
+    "image": "https://c.saavncdn.com/951/Aradhana-Hindi-1969-500x500.jpg",
+    "durationMs": 225000,
+    "streamUrl": "https://aac.saavncdn.com/951/567184a01fadc302e3bc9b8c2db37347_sar_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_24",
+    "name": "Yeh Dosti Hum Nahi Todenge",
+    "artists": [
+      "Kishore Kumar",
+      "Manna Dey"
+    ],
+    "album": "Ye Dosti Hum Nahin Todenge",
+    "image": "https://c.saavncdn.com/619/Ye-Dosti-Hum-Nahin-Todenge-Hindi-2024-20240727053154-500x500.jpg",
+    "durationMs": 321000,
+    "streamUrl": "https://aac.saavncdn.com/619/5534a1d8fbe23d8765c28af27a3a8470_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_25",
+    "name": "Aaja Re Pardesi",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Madhumati (1958)",
+    "image": "https://c.saavncdn.com/658/Madhumati-1958-1958-500x500.jpg",
+    "durationMs": 271000,
+    "streamUrl": "https://aac.saavncdn.com/658/24216e93f7105cf4ddff655a27b972a7_320.mp4",
+    "year": 1958,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_26",
+    "name": "Chingari Koi Bhadke",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Amar Prem",
+    "image": "https://c.saavncdn.com/548/Amar-Prem-Hindi-1972-20230316093444-500x500.jpg",
+    "durationMs": 319000,
+    "streamUrl": "https://aac.saavncdn.com/548/33d40dde9468fa20aac0a9f0ba269b32_sar_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_27",
+    "name": "Kuch Toh Log Kahenge",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Amar Prem",
+    "image": "https://c.saavncdn.com/548/Amar-Prem-Hindi-1972-20230316093444-500x500.jpg",
+    "durationMs": 259000,
+    "streamUrl": "https://aac.saavncdn.com/548/178755114f43fbd7f8d45a6a9ab72fe2_sar_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_28",
+    "name": "Jane Kahan Gaye Woh Din",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Mera Naam Joker",
+    "image": "https://c.saavncdn.com/060/Mera-Naam-Joker-Hindi-1970-20200905113927-500x500.jpg",
+    "durationMs": 266000,
+    "streamUrl": "https://aac.saavncdn.com/060/f6b2342e98f14fc2ab8852c3e4f73690_sar_320.mp4",
+    "year": 1970,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_29",
+    "name": "Dil Kya Kare Jab Kisi Se",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Dil Kya Kare Jab Kisi Se",
+    "image": "https://c.saavncdn.com/700/Dil-Kya-Kare-Jab-Kisi-Se-Hindi-2021-20210902232503-500x500.jpg",
+    "durationMs": 164000,
+    "streamUrl": "https://aac.saavncdn.com/700/00aa6d7b0538bb122eb4eeb181f8a2ef_320.mp4",
+    "year": 2021,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_30",
+    "name": "Dum Maro Dum",
+    "artists": [
+      "Asha Bhosle"
+    ],
+    "album": "Hare Rama Hare Krishna",
+    "image": "https://c.saavncdn.com/046/Hare-Rama-Hare-Krishna-Hindi-1971-20190131-500x500.jpg",
+    "durationMs": 208000,
+    "streamUrl": "https://aac.saavncdn.com/046/7f200fd05e46ac6b90542fad7637d0c9_sar_320.mp4",
+    "year": 1971,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_31",
+    "name": "Tu Ganga Ki Mauj",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Baiju Bawra",
+    "image": "https://c.saavncdn.com/756/Baiju-Bawra-1952-500x500.jpg",
+    "durationMs": 287000,
+    "streamUrl": "https://aac.saavncdn.com/756/c1a1e119d624eb1066155642cad0f48d_sar_320.mp4",
+    "year": 1952,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_32",
+    "name": "Parde Mein Rehne Do",
+    "artists": [
+      "Asha Bhosle"
+    ],
+    "album": "Shikar",
+    "image": "https://c.saavncdn.com/599/Shikar-Hindi-1968-500x500.jpg",
+    "durationMs": 363000,
+    "streamUrl": "https://aac.saavncdn.com/599/15e9201714d2fb181c15ad50f44f8b37_sar_320.mp4",
+    "year": 1968,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_33",
+    "name": "Khoya Khoya Chand",
+    "artists": [
+      "Mohammed Rafi"
+    ],
+    "album": "Kala Bazar",
+    "image": "https://c.saavncdn.com/538/Kala-Bazar-Hindi-1960-20200901153908-500x500.jpg",
+    "durationMs": 280000,
+    "streamUrl": "https://aac.saavncdn.com/538/e7255a0f08a18c34e4bd4e1c5c8d11c7_sar_320.mp4",
+    "year": 1960,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_34",
+    "name": "Pyar Hua Iqrar Hua",
+    "artists": [
+      "Manna Dey",
+      "Lata Mangeshkar"
+    ],
+    "album": "Shree 420",
+    "image": "https://c.saavncdn.com/443/Shree-420-1955-500x500.jpg",
+    "durationMs": 265000,
+    "streamUrl": "https://aac.saavncdn.com/443/b39016e6dcddea6efd40de6de90f2185_sar_320.mp4",
+    "year": 1955,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_35",
+    "name": "Zindagi Ek Safar Hai Suhana",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Andaz",
+    "image": "https://c.saavncdn.com/699/Andaz-Hindi-1971-500x500.jpg",
+    "durationMs": 226000,
+    "streamUrl": "https://aac.saavncdn.com/699/6831ed015969bffa7bbfdd55634709fc_sar_320.mp4",
+    "year": 1971,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_36",
+    "name": "Ehsaan Tera Hoga Mujh Par",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Junglee",
+    "image": "https://c.saavncdn.com/057/Junglee-Hindi-1961-20200901153934-500x500.jpg",
+    "durationMs": 207000,
+    "streamUrl": "https://aac.saavncdn.com/057/4a705bae48d51e6c43c95af0a5f056ad_sar_320.mp4",
+    "year": 1961,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_37",
+    "name": "Ajeeb Dastan Hai Yeh",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Dil Apna Aur Preet Parai",
+    "image": "https://c.saavncdn.com/920/Dil-Apna-Aur-Preet-Parai-Hindi-1960-500x500.jpg",
+    "durationMs": 315000,
+    "streamUrl": "https://aac.saavncdn.com/920/c9baa0ec199b8bd3a5ca3b6ccef2ee65_sar_320.mp4",
+    "year": 1960,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_38",
+    "name": "Suhana Safar Aur Yeh Mausam",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Madhumati (1958)",
+    "image": "https://c.saavncdn.com/658/Madhumati-1958-1958-500x500.jpg",
+    "durationMs": 230000,
+    "streamUrl": "https://aac.saavncdn.com/658/ed7b8c7b93987ef89fbb7c648b7e1268_320.mp4",
+    "year": 1958,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_39",
+    "name": "Tum Pukar Lo",
+    "artists": [
+      "Hemant Kumar"
+    ],
+    "album": "Panna Ki Tamanna",
+    "image": "https://c.saavncdn.com/963/Panna-Ki-Tamanna-Hindi-2023-20230715000913-500x500.jpg",
+    "durationMs": 265000,
+    "streamUrl": "https://aac.saavncdn.com/963/b1aa7e3cad7be46fb30e55a7ed001b64_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_40",
+    "name": "Piya Tose Naina Lage Re",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Guide",
+    "image": "https://c.saavncdn.com/944/Guide-Hindi-1965-20251031154037-500x500.jpg",
+    "durationMs": 509000,
+    "streamUrl": "https://aac.saavncdn.com/944/de11303e39c2610d2792a715fd68f4f3_320.mp4",
+    "year": 1965,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_41",
+    "name": "Chhukar Mere Man Ko",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Yaarana (Original Motion Picture Soundtrack / Remastered)",
+    "image": "https://c.saavncdn.com/341/Yaarana-Original-Motion-Picture-Soundtrack-Remastered-Hindi-2026-20260824131110-500x500.jpg",
+    "durationMs": 256000,
+    "streamUrl": "https://aac.saavncdn.com/341/f6f3abd8c6f7d3d24087e21eca9d6a3c_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_42",
+    "name": "Teri Bindiya Re",
+    "artists": [
+      "Lata Mangeshkar",
+      "Mohammed Rafi"
+    ],
+    "album": "Abhimaan",
+    "image": "https://c.saavncdn.com/358/Abhimaan-Hindi-1973-500x500.jpg",
+    "durationMs": 272000,
+    "streamUrl": "https://aac.saavncdn.com/358/e96473f40b2c5bea67ef8a93dd23edd2_sar_320.mp4",
+    "year": 1973,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_43",
+    "name": "Raat Kali Ek Khwab Mein Aai",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "1 Minute Nostalgia",
+    "image": "https://c.saavncdn.com/484/1-Minute-Nostalgia-Hindi-2024-20240427063433-500x500.jpg",
+    "durationMs": 60000,
+    "streamUrl": "https://aac.saavncdn.com/484/0a7eb42d63253ca39237359ac1c21903_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_44",
+    "name": "Awara Hoon",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Awaara",
+    "image": "https://c.saavncdn.com/683/Awaara-2004-500x500.jpg",
+    "durationMs": 186000,
+    "streamUrl": "https://aac.saavncdn.com/683/c063d4928a103e9ea544c9e40948cfcb_sar_320.mp4",
+    "year": 1951,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_45",
+    "name": "In Aankhon Ki Masti",
+    "artists": [
+      "Asha Bhosle"
+    ],
+    "album": "Umrao Jaan",
+    "image": "https://c.saavncdn.com/599/Umrao-Jaan-1981-500x500.jpg",
+    "durationMs": 346000,
+    "streamUrl": "https://aac.saavncdn.com/599/f11a5f79639f0979dc7e183469fe9c10_sar_320.mp4",
+    "year": 1981,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_46",
+    "name": "Aaj Phir Jeene Ki Tamanna Hai",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Guide",
+    "image": "https://c.saavncdn.com/944/Guide-Hindi-1965-20251031154037-500x500.jpg",
+    "durationMs": 238000,
+    "streamUrl": "https://aac.saavncdn.com/944/82ac76063e1533ba30f6f704367fbf5d_320.mp4",
+    "year": 1965,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_47",
+    "name": "Babul Ki Duayen Leti Ja",
+    "artists": [
+      "Mohammed Rafi"
+    ],
+    "album": "Neel Kamal",
+    "image": "https://c.saavncdn.com/107/Neel-Kamal-Hindi-1968-20230106104058-500x500.jpg",
+    "durationMs": 248000,
+    "streamUrl": "https://aac.saavncdn.com/107/33cbfe677562d69014cfd7aad455e1a6_sar_320.mp4",
+    "year": 1968,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_48",
+    "name": "Zindagi Kaisi Hai Paheli",
+    "artists": [
+      "Manna Dey"
+    ],
+    "album": "Anand",
+    "image": "https://c.saavncdn.com/339/Anand-Hindi-1971-20180111-500x500.jpg",
+    "durationMs": 209000,
+    "streamUrl": "https://aac.saavncdn.com/339/4423c35599b8166cdf0bf5780367769a_sar_320.mp4",
+    "year": 1971,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_49",
+    "name": "Diwana Hua Badal",
+    "artists": [
+      "Asha Bhosle",
+      "Mohammed Rafi"
+    ],
+    "album": "Kashmir Ki Kali",
+    "image": "https://c.saavncdn.com/692/Kashmir-Ki-Kali-Hindi-1964-500x500.jpg",
+    "durationMs": 356000,
+    "streamUrl": "https://aac.saavncdn.com/692/c501dc842db8fac8e1d5f93882db5978_sar_320.mp4",
+    "year": 1964,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_50",
+    "name": "Gaata Rahe Mera Dil",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Guide",
+    "image": "https://c.saavncdn.com/944/Guide-Hindi-1965-20251031154037-500x500.jpg",
+    "durationMs": 292000,
+    "streamUrl": "https://aac.saavncdn.com/944/494839f9c4be4c12963375a3689e172b_320.mp4",
+    "year": 1965,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_51",
+    "name": "Mere Mehboob Qayamat Hogi",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Mr. X in Bombay",
+    "image": "https://c.saavncdn.com/710/Mr-X-In-Bombay-Hindi-1964-500x500.jpg",
+    "durationMs": 270000,
+    "streamUrl": "https://aac.saavncdn.com/665/adc191e1c9a510ef8252c458c520a189_sar_320.mp4",
+    "year": 1964,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_52",
+    "name": "Taarif Karoon Kya Uski",
+    "artists": [
+      "Mohammed Rafi"
+    ],
+    "album": "Kashmir Ki Kali",
+    "image": "https://c.saavncdn.com/692/Kashmir-Ki-Kali-Hindi-1964-500x500.jpg",
+    "durationMs": 326000,
+    "streamUrl": "https://aac.saavncdn.com/692/674ca8aa75e3801c4678aad43ded173a_sar_320.mp4",
+    "year": 1964,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_53",
+    "name": "Chalte Chalte Yunhi Koi",
+    "artists": [
+      "Asha Bhosle",
+      "Anand-Milind"
+    ],
+    "album": "Daayraa",
+    "image": "https://c.saavncdn.com/074/Daayraa-Hindi-1996-500x500.jpg",
+    "durationMs": 377000,
+    "streamUrl": "https://aac.saavncdn.com/074/a68b4e6f99a97ef001a59ccc56c08bab_320.mp4",
+    "year": 1996,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_54",
+    "name": "Yeh Reshmi Zulfen",
+    "artists": [
+      "Mohammed Rafi"
+    ],
+    "album": "Do Raaste",
+    "image": "https://c.saavncdn.com/763/Do-Raaste-Hindi-1969-20191125092444-500x500.jpg",
+    "durationMs": 320000,
+    "streamUrl": "https://aac.saavncdn.com/763/3d5c66e7f8d534420e6a3795ec1e90d3_sar_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_55",
+    "name": "O Saathi Re Tere Bina Bhi Kya Jeena",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "O Sathi Re Tere Bina Bhi Kya Jina",
+    "image": "https://c.saavncdn.com/912/O-Sathi-Re-Tere-Bina-Bhi-Kya-Jina-Hindi-2026-20260807144605-500x500.jpg",
+    "durationMs": 457000,
+    "streamUrl": "https://aac.saavncdn.com/912/57b4da7f82f3ede73835de900f8b487e_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_56",
+    "name": "Yeh Kahan Aa Gaye Hum",
+    "artists": [
+      "Lata Mangeshkar",
+      "Amitabh Bachchan"
+    ],
+    "album": "Silsila",
+    "image": "https://c.saavncdn.com/940/Silsila-Hindi-1981-20200901153958-500x500.jpg",
+    "durationMs": 475000,
+    "streamUrl": "https://aac.saavncdn.com/940/dbb934d9f626ff88ad6cde90139c895b_sar_320.mp4",
+    "year": 1981,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_57",
+    "name": "Chala Jata Hoon",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Mere Jeevan Saathi",
+    "image": "https://c.saavncdn.com/132/Mere-Jeevan-Saathi-Hindi-1972-500x500.jpg",
+    "durationMs": 253094,
+    "streamUrl": "https://aac.saavncdn.com/132/4f329d6a2580a78d9e670b8c246bb453_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_58",
+    "name": "Baharon Phool Barsao",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Suraj",
+    "image": "https://c.saavncdn.com/888/Suraj-Hindi-1966-20230509153523-500x500.jpg",
+    "durationMs": 268000,
+    "streamUrl": "https://aac.saavncdn.com/888/b8165904990332e390b48d8ebd432ea0_sar_320.mp4",
+    "year": 1966,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_59",
+    "name": "Jeena Yahan Marna Yahan",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Jeena Yahan Marna Yahan (Jhankar Beats)",
+    "image": "https://c.saavncdn.com/654/Jeena-Yahan-Marna-Yahan-Jhankar-Beats-Hindi-2023-20250130073108-500x500.jpg",
+    "durationMs": 268000,
+    "streamUrl": "https://aac.saavncdn.com/654/b63f820b27d825321187df7d016805e0_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_60",
+    "name": "Aap Ki Nazron Ne Samjha",
+    "artists": [
+      "Lata Mangeshkar"
+    ],
+    "album": "Anpadh",
+    "image": "https://c.saavncdn.com/178/Anpadh-1961-500x500.jpg",
+    "durationMs": 439000,
+    "streamUrl": "https://aac.saavncdn.com/178/05f1210965be1c2d8e049753983d69f9_sar_320.mp4",
+    "year": 1961,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_61",
+    "name": "Yeh Jo Mohabbat Hai",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Kati Patang",
+    "image": "https://c.saavncdn.com/715/Kati-Patang-Hindi-1970-500x500.jpg",
+    "durationMs": 225000,
+    "streamUrl": "https://aac.saavncdn.com/715/a36b5845f8202644c8119927dc29e2ed_sar_320.mp4",
+    "year": 1970,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_62",
+    "name": "Badan Pe Sitare Lapete Huye",
+    "artists": [
+      "Mohammed Rafi"
+    ],
+    "album": "Prince",
+    "image": "https://c.saavncdn.com/664/Prince-Hindi-1969-500x500.jpg",
+    "durationMs": 288000,
+    "streamUrl": "https://aac.saavncdn.com/664/1347c0f6a90dfa53d9df0917f4f25af7_sar_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_63",
+    "name": "Dum Bhar Jo Udhar Munh Phere",
+    "artists": [
+      "Mukesh",
+      "Lata Mangeshkar"
+    ],
+    "album": "Awaara",
+    "image": "https://c.saavncdn.com/683/Awaara-2004-500x500.jpg",
+    "durationMs": 277000,
+    "streamUrl": "https://aac.saavncdn.com/683/b6210a212905ad47bc808843bb82d138_sar_320.mp4",
+    "year": 1951,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_64",
+    "name": "Wada Karo Nahin Chodoge",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "The Hits Of Kishore Kumar - An Instrumental Tribute",
+    "image": "https://c.saavncdn.com/651/The-Hits-Of-Kishore-Kumar-An-Instrumental-Tribute-English-2011-20190924060933-500x500.jpg",
+    "durationMs": 272000,
+    "streamUrl": "https://aac.saavncdn.com/651/2405c9ac88ab988a02007c9f4b5f56ab_320.mp4",
+    "year": 2011,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_65",
+    "name": "Gun Guna Rahe Hai Bhanware",
+    "artists": [
+      "Mohammad Rafi",
+      "Asha Bhosle"
+    ],
+    "album": "Aradhana",
+    "image": "https://c.saavncdn.com/951/Aradhana-Hindi-1969-500x500.jpg",
+    "durationMs": 233000,
+    "streamUrl": "https://aac.saavncdn.com/011/45ba06288856eb1d2a7498eed82420ca_sar_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_66",
+    "name": "Musafir Hoon Yaaron",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Parichay",
+    "image": "https://c.saavncdn.com/445/Parichay-Hindi-1972-20171213-500x500.jpg",
+    "durationMs": 280000,
+    "streamUrl": "https://aac.saavncdn.com/445/cfa60626dfdc47ccb97b80b41cebbbc1_sar_320.mp4",
+    "year": 1972,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_67",
+    "name": "Yaad Kiya Dil Ne Kahan Ho Tum",
+    "artists": [
+      "Hemant Kumar",
+      "Geeta Dutt"
+    ],
+    "album": "Classic Revival Tum Mile Pyar Se",
+    "image": "https://c.saavncdn.com/070/Classic-Revival-Tum-Mile-Pyar-Se-Hindi-2005-20201008164040-500x500.jpg",
+    "durationMs": 250000,
+    "streamUrl": "https://aac.saavncdn.com/070/647c86ee0cd44222659a8ed6df05239b_320.mp4",
+    "year": 2005,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_68",
+    "name": "Hothon Se Chhu Lo Tum",
+    "artists": [
+      "Jagjit Singh"
+    ],
+    "album": "Best of Jagjit Singh",
+    "image": "https://c.saavncdn.com/002/Best-of-Jagjit-Singh-Hindi-2026-20260728190021-500x500.jpg",
+    "durationMs": 293000,
+    "streamUrl": "https://aac.saavncdn.com/002/a3e6e7f600c9756f7eee7f68fb213bf9_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_69",
+    "name": "Meri Bheegi Bheegi Si",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Anamika",
+    "image": "https://c.saavncdn.com/185/Anamika-Hindi-1973-500x500.jpg",
+    "durationMs": 257947,
+    "streamUrl": "https://aac.saavncdn.com/185/4e31cd3c5b8cd13fbbc4da0c8cf63bfc_320.mp4",
+    "year": 1973,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_70",
+    "name": "Kya Khoob Lagti Ho",
+    "artists": [
+      "Mukesh",
+      "Kanchan"
+    ],
+    "album": "Dharmatma",
+    "image": "https://c.saavncdn.com/926/Dharmatma-Hindi-1975-20190306-500x500.jpg",
+    "durationMs": 239000,
+    "streamUrl": "https://aac.saavncdn.com/926/56a2eb4faf49070ce7ac4ffa2881d051_sar_320.mp4",
+    "year": 1975,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_71",
+    "name": "Tere Chehre Se Nazar Nahin",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Kabhi Kabhie",
+    "image": "https://c.saavncdn.com/132/Kabhi-Kabhie-Hindi-1976-500x500.jpg",
+    "durationMs": 303000,
+    "streamUrl": "https://aac.saavncdn.com/132/f22b92ecac00e9d452320c9573279184_320.mp4",
+    "year": 1976,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_72",
+    "name": "Kabhi Aar Kabhi Paar",
+    "artists": [
+      "Shamshad Begum"
+    ],
+    "album": "Aar Paar",
+    "image": "https://c.saavncdn.com/602/Aar-Paar-Hindi-1954-20230509153523-500x500.jpg",
+    "durationMs": 191000,
+    "streamUrl": "https://aac.saavncdn.com/602/f504e1e935582ec02e822bbf66157142_sar_320.mp4",
+    "year": 1954,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_73",
+    "name": "Choti Si Kahani Se",
+    "artists": [
+      "Asha Bhosle"
+    ],
+    "album": "Ijaazat",
+    "image": "https://c.saavncdn.com/695/Ijaazat-Hindi-1986-20200901153909-500x500.jpg",
+    "durationMs": 434000,
+    "streamUrl": "https://aac.saavncdn.com/695/1a79db095026b8833861eea78e80ce2b_sar_320.mp4",
+    "year": 1986,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_74",
+    "name": "Tum Itna Jo Muskura Rahe Ho",
+    "artists": [
+      "Jagjit Singh"
+    ],
+    "album": "Sadabahar - Ghazalon Ka Caravan - Vol. 2",
+    "image": "https://c.saavncdn.com/000/default_Saregama-500x500.jpg",
+    "durationMs": 322000,
+    "streamUrl": "https://aac.saavncdn.com/965/ee63d501b8671c2b0264b4dbdda3b1aa_sar_320.mp4",
+    "year": 1982,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_75",
+    "name": "Main Pal Do Pal Ka Shayar Hoon",
+    "artists": [
+      "Madan Mohan",
+      "Lata Mangeshkar",
+      "Sonu Nigam",
+      "Javed Akhtar"
+    ],
+    "album": "Veer-Zaara",
+    "image": "https://c.saavncdn.com/313/Veer-Zaara-Hindi-2004-20190329150841-500x500.jpg",
+    "durationMs": 265000,
+    "streamUrl": "https://aac.saavncdn.com/313/52841a31301c03593866cea4f2bfd2e3_320.mp4",
+    "year": 2004,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_76",
+    "name": "Karvaten Badalte Rahe",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Aap Ki Kasam",
+    "image": "https://c.saavncdn.com/801/Aap-Ki-Kasam-Hindi-1974-20230116151258-500x500.jpg",
+    "durationMs": 293000,
+    "streamUrl": "https://aac.saavncdn.com/801/5968ff8a2462fac5ccd3ce1026b57aee_sar_320.mp4",
+    "year": 1974,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_77",
+    "name": "Chand Si Mehbooba Ho Meri",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Himalay Ki God Mein",
+    "image": "https://c.saavncdn.com/206/Himalay-Ki-God-Mein-Hindi-1965-20200901153925-500x500.jpg",
+    "durationMs": 237000,
+    "streamUrl": "https://aac.saavncdn.com/206/eaa655a7ee34b9f58596a75abff92a7d_sar_320.mp4",
+    "year": 1965,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_78",
+    "name": "Kasme Vaade Nibhayenge Hum",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Kasme Vaade",
+    "image": "https://c.saavncdn.com/573/Kasme-Vaade-OST-English-1981-500x500.jpg",
+    "durationMs": 285000,
+    "streamUrl": "https://aac.saavncdn.com/573/04d2d5e553f6a193f19084633c17d777_320.mp4",
+    "year": 1978,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_79",
+    "name": "Phoolon Ke Rang Se",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Prem Pujari",
+    "image": "https://c.saavncdn.com/593/Prem-Pujari-Hindi-1970-500x500.jpg",
+    "durationMs": 306000,
+    "streamUrl": "https://aac.saavncdn.com/593/b9593d9c795dcf1c50a58274644bcda5_sar_320.mp4",
+    "year": 1970,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_80",
+    "name": "Yaadon Ki Baaraat Nikli Hai",
+    "artists": [
+      "Kishore Kumar",
+      "Mohammad Rafi"
+    ],
+    "album": "Yaadon Ki Baaraat",
+    "image": "https://c.saavncdn.com/854/Yaadon-Ki-Baaraat-Hindi-1973-20200622062706-500x500.jpg",
+    "durationMs": 204000,
+    "streamUrl": "https://aac.saavncdn.com/854/d9b408f546970a03e2b5d9368a346fb3_sar_320.mp4",
+    "year": 1973,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_81",
+    "name": "Ek Ajnabee Haseena Se",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Ajnabee",
+    "image": "https://c.saavncdn.com/721/Ajanabee-Hindi-1974-20230316093444-500x500.jpg",
+    "durationMs": 267000,
+    "streamUrl": "https://aac.saavncdn.com/721/a1d96d948bf8867e79185ca866b4f3e1_sar_320.mp4",
+    "year": 1974,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_82",
+    "name": "Mera Joota Hai Japani",
+    "artists": [
+      "Mukesh"
+    ],
+    "album": "Shree 420",
+    "image": "https://c.saavncdn.com/443/Shree-420-1955-500x500.jpg",
+    "durationMs": 273000,
+    "streamUrl": "https://aac.saavncdn.com/443/3ba9650f819d9e72525b725ddfae00ab_sar_320.mp4",
+    "year": 1955,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_83",
+    "name": "Waqt Ne Kiya Kya Haseen Sitam",
+    "artists": [
+      "Geeta Dutt"
+    ],
+    "album": "Kaagaz Ke Phool",
+    "image": "https://c.saavncdn.com/156/Kaagaz-Ke-Phool-Hindi-1959-20200901153951-500x500.jpg",
+    "durationMs": 211000,
+    "streamUrl": "https://aac.saavncdn.com/156/4546d693a368226ba570c7ac0671695d_sar_320.mp4",
+    "year": 1959,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_84",
+    "name": "Dil Pukare Aare Aare",
+    "artists": [
+      "Mohammad Rafi",
+      "Lata Mangeshkar"
+    ],
+    "album": "Jewel Thief",
+    "image": "https://c.saavncdn.com/784/Jewel-Thief-Hindi-1967-20200901153934-500x500.jpg",
+    "durationMs": 319000,
+    "streamUrl": "https://aac.saavncdn.com/784/e82f19bab613712cc4e53dd5360ff02a_sar_320.mp4",
+    "year": 1967,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_85",
+    "name": "Kora Kagaz Tha Yeh Man Mera",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Aradhana",
+    "image": "https://c.saavncdn.com/663/Aradhana-Hindi-1969-500x500.jpg",
+    "durationMs": 308000,
+    "streamUrl": "https://aac.saavncdn.com/663/4b231b681655e45825bd6bcab64769bc_320.mp4",
+    "year": 1969,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_86",
+    "name": "Pukarta Chala Hoon Main",
+    "artists": [
+      "DJ SNB IND",
+      "Creative Academy",
+      "Mohammed Rafi"
+    ],
+    "album": "Pukarta Chala Hoon Main (Jhankar Beats)",
+    "image": "https://c.saavncdn.com/586/Pukarta-Chala-Hoon-Main-Jhankar-Beats-Hindi-2023-20250130073116-500x500.jpg",
+    "durationMs": 231000,
+    "streamUrl": "https://aac.saavncdn.com/586/a2346992786d8f0a0ea635cc3f799cd1_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_87",
+    "name": "Sawan Ka Mahina",
+    "artists": [
+      "Mukesh",
+      "Lata Mangeshkar"
+    ],
+    "album": "LP Classics - Original LP Recordings Vol. 5",
+    "image": "https://c.saavncdn.com/083/LP-Classics-Original-LP-Recordings-Vol-5-Hindi-2022-20220824103848-500x500.jpg",
+    "durationMs": 329000,
+    "streamUrl": "https://aac.saavncdn.com/083/9ce52571aa72df444b79576a53aa7716_320.mp4",
+    "year": 2022,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_88",
+    "name": "Jai Jai Shiv Shankar",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Aap Ki Kasam",
+    "image": "https://c.saavncdn.com/801/Aap-Ki-Kasam-Hindi-1974-20230116151258-500x500.jpg",
+    "durationMs": 337000,
+    "streamUrl": "https://aac.saavncdn.com/911/633c68178cefd7890e4e32bed6e529e8_sar_320.mp4",
+    "year": 1974,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_89",
+    "name": "Dilbar Mere Kab Tak Mujhe",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Dilbar Mere (Lofi Flip)",
+    "image": "https://c.saavncdn.com/904/Dilbar-Mere-Lofi-Flip-Hindi-2023-20231213054243-500x500.jpg",
+    "durationMs": 120000,
+    "streamUrl": "https://aac.saavncdn.com/904/3b4582c3c675f0c529c3dfae99626ec6_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_90",
+    "name": "Meri Pyari Bindu",
+    "artists": [
+      "Kishore Kumar"
+    ],
+    "album": "Top 10 Teddy Day Special Songs",
+    "image": "https://c.saavncdn.com/345/Top-10-Teddy-Day-Special-Songs-Hindi-2021-20210209160652-500x500.jpg",
+    "durationMs": 244000,
+    "streamUrl": "https://aac.saavncdn.com/345/71db49b9c4b9bdcb5687a9345a558e08_320.mp4",
+    "year": 2021,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_91",
+    "name": "O Haseena Zulfonwali Jane Jahan",
+    "artists": [
+      "Mohammad Rafi",
+      "Asha Bhosle"
+    ],
+    "album": "Teesri Manzil",
+    "image": "https://c.saavncdn.com/925/Teesri-Manzil-Hindi-1966-500x500.jpg",
+    "durationMs": 413000,
+    "streamUrl": "https://aac.saavncdn.com/925/004238c8f92e8ec78133f9d045078a7f_sar_320.mp4",
+    "year": 1966,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_92",
+    "name": "Hum Dono Do Premi",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Ajanabee",
+    "image": "https://c.saavncdn.com/721/Ajanabee-Hindi-1974-20230316093444-500x500.jpg",
+    "durationMs": 308000,
+    "streamUrl": "https://aac.saavncdn.com/721/f94b1939826c72ba018ca9462936af65_sar_320.mp4",
+    "year": 1974,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_93",
+    "name": "Tum Aa Gaye Ho Noor Aa Gaya",
+    "artists": [
+      "Kishore Kumar",
+      "Lata Mangeshkar"
+    ],
+    "album": "Aandhi",
+    "image": "https://c.saavncdn.com/477/Aandhi-Hindi-1975-500x500.jpg",
+    "durationMs": 255000,
+    "streamUrl": "https://aac.saavncdn.com/477/4f8c7019ccb81accb36df3a5ae3ef601_320.mp4",
+    "year": 1975,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_94",
+    "name": "Ek Chatur Naar Karke Sringaar",
+    "artists": [
+      "Kishore Kumar",
+      "Manna Dey"
+    ],
+    "album": "Padosan",
+    "image": "https://c.saavncdn.com/654/Padosan-Hindi-1968-500x500.jpg",
+    "durationMs": 381000,
+    "streamUrl": "https://aac.saavncdn.com/654/9f5280652fd066ddc1bea18824773947_sar_320.mp4",
+    "year": 1968,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_95",
+    "name": "Tumko Dekha Toh Yeh Khayal Aaya",
+    "artists": [
+      "Jagjit Singh",
+      "Chitra Singh"
+    ],
+    "album": "Sadabahar - Ghazalon Ka Caravan - Vol. 2",
+    "image": "https://c.saavncdn.com/000/default_Saregama-500x500.jpg",
+    "durationMs": 292000,
+    "streamUrl": "https://aac.saavncdn.com/965/1f5ae6f689f93cb9185e14f8b30bba94_320.mp4",
+    "year": 1982,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_96",
+    "name": "Do Lafzon Ki Hai Dil Ki Kahani",
+    "artists": [
+      "Asha Bhosle"
+    ],
+    "album": "The Great Gambler",
+    "image": "https://c.saavncdn.com/895/The-Great-Gambler-Hindi-1979-500x500.jpg",
+    "durationMs": 382000,
+    "streamUrl": "https://aac.saavncdn.com/895/c02ae47cfdcf34ccc9c91dc09142d24c_sar_320.mp4",
+    "year": 1979,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_97",
+    "name": "Chalte Chalte Mere Ye Geet",
+    "artists": [
+      "Asha Bhosle",
+      "Anand-Milind"
+    ],
+    "album": "Daayraa",
+    "image": "https://c.saavncdn.com/074/Daayraa-Hindi-1996-500x500.jpg",
+    "durationMs": 377000,
+    "streamUrl": "https://aac.saavncdn.com/074/a68b4e6f99a97ef001a59ccc56c08bab_320.mp4",
+    "year": 1996,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_98",
+    "name": "Yeh Raaten Yeh Mausam",
+    "artists": [
+      "Kishore Kumar",
+      "Asha Bhosle"
+    ],
+    "album": "Dilli Ka Thug",
+    "image": "https://c.saavncdn.com/213/Dilli-Ka-Thug-Hindi-1958-500x500.jpg",
+    "durationMs": 201000,
+    "streamUrl": "https://aac.saavncdn.com/213/ef49c5b6784c582be06ed75cd1c17367_sar_320.mp4",
+    "year": 1958,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_99",
+    "name": "Tere Hothon Ke Do Phool",
+    "artists": [
+      "Mukesh",
+      "Lata Mangeshkar"
+    ],
+    "album": "Chandni",
+    "image": "https://c.saavncdn.com/721/Chandni-Hindi-1989-20180409-500x500.jpg",
+    "durationMs": 333000,
+    "streamUrl": "https://aac.saavncdn.com/721/e5c6c56faf4105923fe2dc9e56b60955_sar_320.mp4",
+    "year": 1989,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  },
+  {
+    "id": "gh_100",
+    "name": "Chaudhvin Ka Chand",
+    "artists": [
+      "Mohammad Rafi"
+    ],
+    "album": "Chaudhvin Ka Chand",
+    "image": "https://c.saavncdn.com/899/Chaudhvin-Ka-Chand-Hindi-1960-20230509153502-500x500.jpg",
+    "durationMs": 224000,
+    "streamUrl": "https://aac.saavncdn.com/899/a72c06c2de78c8e8d6077cef6c6c5073_sar_320.mp4",
+    "year": 1960,
+    "language": "hindi",
+    "sourceLists": [
+      "golden-era-heritage"
+    ]
+  }
+]
