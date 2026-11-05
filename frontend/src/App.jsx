@@ -1239,7 +1239,11 @@ export default function App() {
                 <span className="station-item-icon">🟢</span>
                 <div className="station-item-info">
                   <span className="station-item-title">100.8 FM — Spotify Top 50 India</span>
-                  <span className="station-item-badge">Daily 50 Hits</span>
+                  <span className="station-item-badge">
+                    {currentStation === "spotify" && queue[0]?.lastUpdated
+                      ? `Updated: ${queue[0].lastUpdated} • 50 Hits`
+                      : "Daily 50 Hits"}
+                  </span>
                 </div>
                 {currentStation === "spotify" && <span className="station-item-check">✓</span>}
               </button>
@@ -1282,6 +1286,32 @@ export default function App() {
                   ? "Spotify Top 50 India Hits"
                   : "Up next"} ({queue.length} Songs)
               </h2>
+              {currentStation === "spotify" && queue[0]?.lastUpdated && (
+                <div
+                  className="spotify-update-badge"
+                  style={{
+                    fontSize: "0.74rem",
+                    color: "#34d399",
+                    marginTop: "3px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                    fontWeight: 500
+                  }}
+                >
+                  <span
+                    style={{
+                      width: "6px",
+                      height: "6px",
+                      borderRadius: "999px",
+                      background: "#34d399",
+                      boxShadow: "0 0 6px #34d399",
+                      display: "inline-block"
+                    }}
+                  />
+                  <span>Last updated: {queue[0].lastUpdatedFull || queue[0].lastUpdated}</span>
+                </div>
+              )}
             </div>
 
             <button

@@ -26,5 +26,11 @@ router.get(
   musicController.radioStatus
 );
 
+// Get Spotify Top 50 metadata (last updated timestamp)
+router.get(
+  "/api/radio/spotify-status",
+  musicController.spotifyStatus
+);
+
 
 module.exports = router;

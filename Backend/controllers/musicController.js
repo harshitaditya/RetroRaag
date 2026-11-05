@@ -1,5 +1,7 @@
 const jiosaavnService =
   require("../services/jiosaavnService");
+const spotifyTop50Service =
+  require("../services/spotifyTop50Service");
 
 
 /**
@@ -57,7 +59,9 @@ async function radioSongs(req, res, next) {
           artists: song.artists,
           album: song.album,
           image: song.image,
-          streamUrl: song.streamUrl
+          streamUrl: song.streamUrl,
+          lastUpdated: song.lastUpdated,
+          lastUpdatedFull: song.lastUpdatedFull
         }))
       );
     }
@@ -80,9 +84,19 @@ function radioStatus(req, res, next) {
   }
 }
 
+function spotifyStatus(req, res, next) {
+  try {
+    const meta = spotifyTop50Service.getSpotifyMetadata();
+    res.json(meta || { success: false, message: "No metadata available" });
+  } catch (error) {
+    next(error);
+  }
+}
+
 
 module.exports = {
   search,
   radioSongs,
-  radioStatus
+  radioStatus,
+  spotifyStatus
 };

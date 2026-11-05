@@ -4,6 +4,7 @@ const axios = require("axios");
 
 const DATA_DIR = path.join(__dirname, "..", "data");
 const SPOTIFY_CATALOG_PATH = path.join(DATA_DIR, "spotifySongs.json");
+const SPOTIFY_METADATA_PATH = path.join(DATA_DIR, "spotifyMetadata.json");
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -144,13 +145,52 @@ async function updateSpotifyCatalog() {
     }
 
     if (resolvedSongs.length > 0) {
+      const now = new Date();
+      const dateFormatted = now.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        timeZone: "Asia/Kolkata"
+      });
+
+      const timeFormatted = now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "Asia/Kolkata"
+      });
+
+      const lastUpdatedFull = `${dateFormatted} at ${timeFormatted} IST`;
+
+      const metadata = {
+        lastUpdatedISO: now.toISOString(),
+        lastUpdatedDate: dateFormatted,
+        lastUpdatedTime: timeFormatted,
+        lastUpdatedFull,
+        count: resolvedSongs.length,
+        success: true
+      };
+
+      const enrichedSongs = resolvedSongs.map((song) => ({
+        ...song,
+        lastUpdated: dateFormatted,
+        lastUpdatedFull
+      }));
+
       fs.writeFileSync(
         SPOTIFY_CATALOG_PATH,
-        JSON.stringify(resolvedSongs, null, 2),
+        JSON.stringify(enrichedSongs, null, 2),
         "utf8"
       );
+
+      fs.writeFileSync(
+        SPOTIFY_METADATA_PATH,
+        JSON.stringify(metadata, null, 2),
+        "utf8"
+      );
+
       console.log(
-        `[SpotifyTop50] Successfully updated catalog with ${resolvedSongs.length} songs at ${new Date().toISOString()}`
+        `[SpotifyTop50] Successfully updated catalog with ${enrichedSongs.length} songs on ${lastUpdatedFull}`
       );
       return true;
     } else {
@@ -161,6 +201,17 @@ async function updateSpotifyCatalog() {
     console.error("[SpotifyTop50] Error updating catalog:", err.message);
     return false;
   }
+}
+
+function getSpotifyMetadata() {
+  if (fs.existsSync(SPOTIFY_METADATA_PATH)) {
+    try {
+      return JSON.parse(fs.readFileSync(SPOTIFY_METADATA_PATH, "utf8"));
+    } catch {
+      return null;
+    }
+  }
+  return null;
 }
 
 function getSpotifyCatalog() {
@@ -178,5 +229,8 @@ function getSpotifyCatalog() {
 module.exports = {
   updateSpotifyCatalog,
   getSpotifyCatalog,
-  SPOTIFY_CATALOG_PATH
+  getSpotifyMetadata,
+  SPOTIFY_CATALOG_PATH,
+  SPOTIFY_METADATA_PATH
 };
+
