@@ -41,6 +41,14 @@ const CATALOG_PATH_QAWWALI =
     "qawwaliSongs.json"
   );
 
+const CATALOG_PATH_SPOTIFY =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "spotifySongs.json"
+  );
+
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -64,6 +72,11 @@ const stationStores = {
   },
   "qawwali": {
     path: CATALOG_PATH_QAWWALI,
+    cache: null,
+    lastMtime: 0
+  },
+  "spotify": {
+    path: CATALOG_PATH_SPOTIFY,
     cache: null,
     lastMtime: 0
   }

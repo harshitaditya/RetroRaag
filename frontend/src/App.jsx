@@ -37,6 +37,13 @@ const NOSTALGIA_MESSAGES_QAWWALI = [
   "नुसरत का रूहानी जादू..."
 ];
 
+const NOSTALGIA_MESSAGES_SPOTIFY = [
+  "Spotify Top 50 India",
+  "आज के सबसे बड़े ट्रेंड्स...",
+  "Daily Trending Hits",
+  "ताज़ा धुनें, नए तराने..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -155,6 +162,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_2000S
       : currentStation === "qawwali"
       ? NOSTALGIA_MESSAGES_QAWWALI
+      : currentStation === "spotify"
+      ? NOSTALGIA_MESSAGES_SPOTIFY
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -1103,6 +1112,8 @@ export default function App() {
                 ? "🔥"
                 : currentStation === "qawwali"
                 ? "🪕"
+                : currentStation === "spotify"
+                ? "🟢"
                 : "📼"}
             </span>
             <span className="station-select-label">
@@ -1114,6 +1125,8 @@ export default function App() {
                 ? "106.4 FM — 2000s Bollywood Hits"
                 : currentStation === "qawwali"
                 ? "101.2 FM — Punjabi Sufi & Qawwali"
+                : currentStation === "spotify"
+                ? "100.8 FM — Spotify Top 50 India"
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1212,6 +1225,24 @@ export default function App() {
                 </div>
                 {currentStation === "qawwali" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "spotify" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "spotify"}
+                onClick={() => {
+                  switchStation("spotify");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🟢</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">100.8 FM — Spotify Top 50 India</span>
+                  <span className="station-item-badge">Daily 50 Hits</span>
+                </div>
+                {currentStation === "spotify" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1234,6 +1265,8 @@ export default function App() {
                   ? "2000s BOLLYWOOD • 106.4 FM"
                   : currentStation === "qawwali"
                   ? "SUFI & QAWWALI • 101.2 FM"
+                  : currentStation === "spotify"
+                  ? "SPOTIFY TOP 50 INDIA • 100.8 FM"
                   : "रेट्रो राग • 98.3 FM"}
               </span>
               <h2>
@@ -1245,6 +1278,8 @@ export default function App() {
                   ? "2000s Superhits"
                   : currentStation === "qawwali"
                   ? "Sufi & Qawwali Classics"
+                  : currentStation === "spotify"
+                  ? "Spotify Top 50 India Hits"
                   : "Up next"} ({queue.length} Songs)
               </h2>
             </div>

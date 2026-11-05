@@ -1,0 +1,916 @@
+[
+  {
+    "id": "spotify_1",
+    "rank": 1,
+    "name": "Alfaaz (w/ Zain Zohaib)",
+    "artists": [
+      "Abhijay Sharma"
+    ],
+    "album": "izhaar",
+    "image": "https://c.saavncdn.com/665/izhaar-Hindi-2024-20251217105553-500x500.jpg",
+    "durationMs": 113000,
+    "streamUrl": "https://aac.saavncdn.com/665/17c0dbe6225bed76bd1c28d919559466_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_2",
+    "rank": 2,
+    "name": "Barsaat (w/ Roni)",
+    "artists": [
+      "Banjaare",
+      "Roni"
+    ],
+    "album": "Barsaat",
+    "image": "https://c.saavncdn.com/376/Barsaat-Unknown-2026-20260629181139-500x500.jpg",
+    "durationMs": 185000,
+    "streamUrl": "https://aac.saavncdn.com/376/23708c3f105a6e298b6f25b48306442c_320.mp4",
+    "year": 2026,
+    "language": "haryanvi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_3",
+    "rank": 3,
+    "name": "Arz Kiya Hai | Coke Studio Bharat",
+    "artists": [
+      "Anuv Jain"
+    ],
+    "album": "Arz Kiya Hai | Coke Studio Bharat",
+    "image": "https://c.saavncdn.com/504/Arz-Kiya-Hai-Coke-Studio-Bharat-Hindi-2025-20250818054005-500x500.jpg",
+    "durationMs": 294000,
+    "streamUrl": "https://aac.saavncdn.com/504/a70f9144a360aa064fadffa886e7c8b6_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_4",
+    "rank": 4,
+    "name": "Khat",
+    "artists": [
+      "Riya Bishwas"
+    ],
+    "album": "Khat Likhu",
+    "image": "https://c.saavncdn.com/236/Khat-Likhu-Hindi-2026-20260318201449-500x500.jpg",
+    "durationMs": 223000,
+    "streamUrl": "https://aac.saavncdn.com/236/aa6de3b274c282f4b9d39be6c626330e_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_5",
+    "rank": 5,
+    "name": "Veezha Veera (From \"OM Chapter 1: Udhiram - The Blood Wood\") [Tamil] (w/ Tippu, Arun Srinivasan)",
+    "artists": [
+      "Thaman S",
+      "Ranina Reddy",
+      "M.L.R. Karthikeyan"
+    ],
+    "album": "Veera",
+    "image": "https://c.saavncdn.com/552/Veera-2011-500x500.jpg",
+    "durationMs": 258000,
+    "streamUrl": "https://aac.saavncdn.com/552/e2130afc6c4ec151c8e0821605e72ce3_320.mp4",
+    "year": 2011,
+    "language": "telugu",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_6",
+    "rank": 6,
+    "name": "Bairan",
+    "artists": [
+      "Banjaare"
+    ],
+    "album": "Bairan",
+    "image": "https://c.saavncdn.com/238/Bairan-Unknown-2026-20260223182954-500x500.jpg",
+    "durationMs": 150000,
+    "streamUrl": "https://aac.saavncdn.com/238/a7604f7d49918d0e11520cc03e33c267_320.mp4",
+    "year": 2026,
+    "language": "haryanvi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_7",
+    "rank": 7,
+    "name": "Radhimaa (w/ Nargis Teji, Asma Teji, Vivek)",
+    "artists": [
+      "Sai Abhyankkar",
+      "Nargis Teji",
+      "Asma Teji",
+      "Vivek"
+    ],
+    "album": "Radhimaa (From &quot;Think Indie&quot;)",
+    "image": "https://c.saavncdn.com/877/Radhimaa-From-Think-Indie-Tamil-2026-20260827192132-500x500.jpg",
+    "durationMs": 259000,
+    "streamUrl": "https://aac.saavncdn.com/877/875e41134def3f76517ce29ea7819fc8_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_8",
+    "rank": 8,
+    "name": "Gehra Hua (w/ Arijit Singh, Irshad Kamil, Armaan Khan)",
+    "artists": [
+      "Irshad Kamil",
+      "Arijit Singh",
+      "Shashwat Sachdev",
+      "Armaan Khan"
+    ],
+    "album": "Dhurandhar",
+    "image": "https://c.saavncdn.com/475/Dhurandhar-Hindi-2025-20260203083204-500x500.jpg",
+    "durationMs": 362000,
+    "streamUrl": "https://aac.saavncdn.com/475/04cc3b6ccd915df473947d932f094545_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_9",
+    "rank": 9,
+    "name": "KALYANI - Remix (w/ KDS, FIFTY4, Shreya Ghoshal)",
+    "artists": [
+      "ARJN",
+      "KDS",
+      "FIFTY4",
+      "Shreya Ghoshal"
+    ],
+    "album": "KALYANI (Remix)",
+    "image": "https://c.saavncdn.com/475/KALYANI-Remix-Malayalam-2026-20260622131127-500x500.jpg",
+    "durationMs": 269000,
+    "streamUrl": "https://aac.saavncdn.com/475/5fc341ce2ad68492fce5ed0bf4655f8f_320.mp4",
+    "year": 2026,
+    "language": "malayalam",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_10",
+    "rank": 10,
+    "name": "Pesamale (w/ Arra Aria Khayal)",
+    "artists": [
+      "Siri Xander",
+      "Arra Aria Khayal"
+    ],
+    "album": "Pesamale",
+    "image": "https://c.saavncdn.com/868/Pesamale-Tamil-2026-20260922125033-500x500.jpg",
+    "durationMs": 178000,
+    "streamUrl": "https://aac.saavncdn.com/868/d5e8f13dd1565867a2c6807865b61264_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_11",
+    "rank": 11,
+    "name": "Ashke (w/ Mxrci)",
+    "artists": [
+      "Karan Aujla",
+      "MXRCI"
+    ],
+    "album": "AUJLA SZN 1",
+    "image": "https://c.saavncdn.com/918/AUJLA-SZN-1-Punjabi-2026-20261026194125-500x500.jpg",
+    "durationMs": 218000,
+    "streamUrl": "https://aac.saavncdn.com/918/c60ea2fac109808fd0df9c8eb7ee8409_320.mp4",
+    "year": 2026,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_12",
+    "rank": 12,
+    "name": "Samjhawan (w/ Shaarib Toshi, Arijit Singh, Shreya Ghoshal)",
+    "artists": [
+      "Jawad Ahmad",
+      "Sharib Toshi",
+      "Arijit Singh",
+      "Shreya Ghoshal"
+    ],
+    "album": "Humpty Sharma Ki Dulhania",
+    "image": "https://c.saavncdn.com/540/Humpty-Sharma-Ki-Dulhania-Hindi-2014-20190618095042-500x500.jpg",
+    "durationMs": 269000,
+    "streamUrl": "https://aac.saavncdn.com/540/f807aad8e5c60a87334231f72267c725_320.mp4",
+    "year": 2014,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_13",
+    "rank": 13,
+    "name": "Mann Mera",
+    "artists": [
+      "Gajendra Verma"
+    ],
+    "album": "Table No. 21",
+    "image": "https://c.saavncdn.com/196/Table-No-21-Hindi-2025-20250930143941-500x500.jpg",
+    "durationMs": 198000,
+    "streamUrl": "https://aac.saavncdn.com/196/d2c7bbfceb81b066e0f72e6f78d45c3a_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_14",
+    "rank": 14,
+    "name": "Rathinamo - Female Version (w/ Tanisha Gnanavel)",
+    "artists": [
+      "Saurav Srisan",
+      "Tanisha Gnanavel"
+    ],
+    "album": "Rathinamo (Female Version)",
+    "image": "https://c.saavncdn.com/165/Rathinamo-Female-Version-Tamil-2026-20260925115438-500x500.jpg",
+    "durationMs": 177000,
+    "streamUrl": "https://aac.saavncdn.com/165/e5487a25000e974396e8f6ef26de5bb3_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_15",
+    "rank": 15,
+    "name": "Jo Tum Mere Ho",
+    "artists": [
+      "Anuv Jain"
+    ],
+    "album": "Jo Tum Mere Ho",
+    "image": "https://c.saavncdn.com/401/Jo-Tum-Mere-Ho-Hindi-2024-20240731053953-500x500.jpg",
+    "durationMs": 252000,
+    "streamUrl": "https://aac.saavncdn.com/401/1e4444c13f76ac543c19b01d7ea0423a_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_16",
+    "rank": 16,
+    "name": "Finding Her (w/ Bharath)",
+    "artists": [
+      "Allows Music"
+    ],
+    "album": "Finding Her - Reply Version",
+    "image": "https://c.saavncdn.com/613/Finding-Her-Reply-Version-Hindi-2025-20250516221502-500x500.jpg",
+    "durationMs": 130000,
+    "streamUrl": "https://aac.saavncdn.com/613/1d35e8bafe5184f90a43564cc454f023_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_17",
+    "rank": 17,
+    "name": "Guzarish",
+    "artists": [
+      "Satinder Sartaaj"
+    ],
+    "album": "Guzarish",
+    "image": "https://c.saavncdn.com/137/Guzarish-Punjabi-2026-20260928151003-500x500.jpg",
+    "durationMs": 288000,
+    "streamUrl": "https://aac.saavncdn.com/137/e5fd720cde7ac9ed055380eef09a8c47_320.mp4",
+    "year": 2026,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_18",
+    "rank": 18,
+    "name": "Darkhaast (w/ Arijit Singh, Sunidhi Chauhan)",
+    "artists": [
+      "Sayeed Quadri",
+      "Mithoon",
+      "Sunidhi Chauhan",
+      "Arijit Singh"
+    ],
+    "album": "World Music Day - Best Of Bollywood Hits",
+    "image": "https://c.saavncdn.com/179/World-Music-Day-Best-Of-Bollywood-Hits-Hindi-2026-20260622111029-500x500.jpg",
+    "durationMs": 374000,
+    "streamUrl": "https://aac.saavncdn.com/179/c1e7eda49fb203d05f75a56cd8e5f108_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_19",
+    "rank": 19,
+    "name": "Zaalima (w/ Harshdeep Kaur)",
+    "artists": [
+      "Arijit Singh",
+      "Harshdeep Kaur"
+    ],
+    "album": "Desi Wedding Hits",
+    "image": "https://c.saavncdn.com/568/Desi-Wedding-Hits-Hindi-2026-20261022184847-500x500.jpg",
+    "durationMs": 299000,
+    "streamUrl": "https://aac.saavncdn.com/568/6be4dfc90747e69a01ee7b5211d7f5af_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_20",
+    "rank": 20,
+    "name": "Tere Liye (w/ Shreya Ghoshal)",
+    "artists": [
+      "Madan Mohan",
+      "Lata Mangeshkar",
+      "Roopkumar Rathod",
+      "Javed Akhtar"
+    ],
+    "album": "Veer-Zaara",
+    "image": "https://c.saavncdn.com/313/Veer-Zaara-Hindi-2004-20190329150841-500x500.jpg",
+    "durationMs": 331000,
+    "streamUrl": "https://aac.saavncdn.com/313/ebaf230870b011c4a2ffb1180682164f_320.mp4",
+    "year": 2004,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_21",
+    "rank": 21,
+    "name": "Tu Thodi Der Aur Thehar Ja (w/ Farhan Saeed, Kumaar)",
+    "artists": [
+      "Kumaar",
+      "Shreya Ghoshal"
+    ],
+    "album": "Tu Thodi Der Aur Thehar Ja (From &quot;Half Girlfriend&quot;)",
+    "image": "https://c.saavncdn.com/454/Tu-Thodi-Der-Aur-Thehar-Ja-From-Half-Girlfriend-Hindi-2026-20260702013743-500x500.jpg",
+    "durationMs": 296000,
+    "streamUrl": "https://aac.saavncdn.com/454/40d5278562be920a1b70c18879a199e2_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_22",
+    "rank": 22,
+    "name": "Tum Ho Toh (From \"Saiyaara\") (w/ Hansika Pareek, Raj Shekhar)",
+    "artists": [
+      "Vishal Mishra",
+      "Hansika Pareek",
+      "Raj Shekhar"
+    ],
+    "album": "Saiyaara",
+    "image": "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-500x500.jpg",
+    "durationMs": 318000,
+    "streamUrl": "https://aac.saavncdn.com/598/55a75f7dd5eb4ff90d8c46ba727912ae_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_23",
+    "rank": 23,
+    "name": "Sahiba",
+    "artists": [
+      "Aditya Rikhari"
+    ],
+    "album": "Sahiba",
+    "image": "https://c.saavncdn.com/140/Sahiba-Hindi-2023-20231213191015-500x500.jpg",
+    "durationMs": 190000,
+    "streamUrl": "https://aac.saavncdn.com/140/386ef24488f12398d176c02d6264059a_320.mp4",
+    "year": 2023,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_24",
+    "rank": 24,
+    "name": "Apna Bana Le (w/ Arijit Singh, Amitabh Bhattacharya)",
+    "artists": [
+      "Sachin-Jigar",
+      "Arijit Singh",
+      "Amitabh Bhattacharya"
+    ],
+    "album": "Winter Diaries",
+    "image": "https://c.saavncdn.com/916/Winter-Diaries-Hindi-2026-20261030195900-500x500.jpg",
+    "durationMs": 261000,
+    "streamUrl": "https://aac.saavncdn.com/916/6377fc85735002c389660fabf7d80aa0_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_25",
+    "rank": 25,
+    "name": "Vaaroon Forever (w/ Romy, Shreya Ghoshal, Ginny Diwan)",
+    "artists": [
+      "Anand Bhaskar",
+      "Romy",
+      "Shreya Ghoshal",
+      "Ginny Diwan"
+    ],
+    "album": "Vaaroon Forever (From “Mirzapur The Movie”)",
+    "image": "https://c.saavncdn.com/381/Vaaroon-Forever-From-Mirzapur-The-Movie-Hindi-2026-20260817160523-500x500.jpg",
+    "durationMs": 252000,
+    "streamUrl": "https://aac.saavncdn.com/381/02ffb399df66aec14cbebb1a0ced6fd5_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_26",
+    "rank": 26,
+    "name": "Alfaaz - Vocals (w/ Zain Zohaib)",
+    "artists": [
+      "Abhijay Sharma"
+    ],
+    "album": "izhaar",
+    "image": "https://c.saavncdn.com/665/izhaar-Hindi-2024-20251217105553-500x500.jpg",
+    "durationMs": 113000,
+    "streamUrl": "https://aac.saavncdn.com/665/17c0dbe6225bed76bd1c28d919559466_320.mp4",
+    "year": 2024,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_27",
+    "rank": 27,
+    "name": "Ranjheya Ve",
+    "artists": [
+      "Sanjay Bhatt",
+      "Manjot Singh"
+    ],
+    "album": "Ranjheya Ve",
+    "image": "https://c.saavncdn.com/640/Ranjheya-Ve-Punjabi-2023-20230531192938-500x500.jpg",
+    "durationMs": 189000,
+    "streamUrl": "https://aac.saavncdn.com/640/ce4dac658f91b5e3fc2129e45cce6520_320.mp4",
+    "year": 2023,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_28",
+    "rank": 28,
+    "name": "Ala Bolelo (w/ Arunraja Kamaraj)",
+    "artists": [
+      "Anirudh Ravichander",
+      "Arunraja Kamaraj"
+    ],
+    "album": "Ala Bolelo (From &quot;Jailer 2&quot;)",
+    "image": "https://c.saavncdn.com/557/Ala-Bolelo-From-Jailer-2-Tamil-2026-20260821084843-500x500.jpg",
+    "durationMs": 240000,
+    "streamUrl": "https://aac.saavncdn.com/557/20ee77a20e37c568c827f1596ffa959c_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_29",
+    "rank": 29,
+    "name": "Ye Tune Kya Kiya (w/ Javed Bashir)",
+    "artists": [
+      "Pritam"
+    ],
+    "album": "Once Upon A Time In Mumbaai Dobara",
+    "image": "https://c.saavncdn.com/243/Once-Upon-A-Time-In-Mumbaai-Dobara-2013-500x500.jpg",
+    "durationMs": 314000,
+    "streamUrl": "https://aac.saavncdn.com/243/36d2153a66bce62eb948ab4b8598ed6d_320.mp4",
+    "year": 2013,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_30",
+    "rank": 30,
+    "name": "Ishq de Fanniyar - Female Version (w/ Shaarib Toshi, Kumaar)",
+    "artists": [
+      "Jyotica Tangri",
+      "Shaarib Toshi",
+      "Kumaar"
+    ],
+    "album": "Winter Diaries",
+    "image": "https://c.saavncdn.com/916/Winter-Diaries-Hindi-2026-20261030195900-500x500.jpg",
+    "durationMs": 177000,
+    "streamUrl": "https://aac.saavncdn.com/916/7b7e8ec15f8e6ce5564108351b7979f9_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_31",
+    "rank": 31,
+    "name": "Agar Tum Saath Ho (From \"Tamasha\") (w/ Arijit Singh)",
+    "artists": [
+      "Alka Yagnik",
+      "Arijit Singh"
+    ],
+    "album": "Tamasha",
+    "image": "https://c.saavncdn.com/994/Tamasha-Hindi-2015-500x500.jpg",
+    "durationMs": 341000,
+    "streamUrl": "https://aac.saavncdn.com/994/2e6b47719cea3e7c9f971a3f1ddc9b0a_320.mp4",
+    "year": 2015,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_32",
+    "rank": 32,
+    "name": "Dooron Dooron (w/ Shiv Tandan, Meghdeep Bose)",
+    "artists": [
+      "PARESH PAHUJA",
+      "Shiv Tandan",
+      "Meghdeep Bose"
+    ],
+    "album": "Dooron Dooron",
+    "image": "https://c.saavncdn.com/615/Dooron-Dooron-Punjabi-2022-20220124231445-500x500.jpg",
+    "durationMs": 215000,
+    "streamUrl": "https://aac.saavncdn.com/615/4634429434685955596238d69525a28b_320.mp4",
+    "year": 2022,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_33",
+    "rank": 33,
+    "name": "Chahun Main Ya Naa (From \"Aashiqui 2\") (w/ Arijit Singh)",
+    "artists": [
+      "Arijit Singh",
+      "Palak Muchhal"
+    ],
+    "album": "Aashiqui 2",
+    "image": "https://c.saavncdn.com/430/Aashiqui-2-Hindi-2013-500x500.jpg",
+    "durationMs": 304000,
+    "streamUrl": "https://aac.saavncdn.com/430/5195eaf2bfed9fbadd7f5e6bf0d66427_320.mp4",
+    "year": 2013,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_34",
+    "rank": 34,
+    "name": "One Name (w/ Super Subu)",
+    "artists": [
+      "Anirudh Ravichander",
+      "Super Subu"
+    ],
+    "album": "One Name (From &quot;Jailer 2&quot;)",
+    "image": "https://c.saavncdn.com/564/One-Name-From-Jailer-2-Tamil-2026-20260929100523-500x500.jpg",
+    "durationMs": 204000,
+    "streamUrl": "https://aac.saavncdn.com/564/ec9dbebe4a1ebb4229737476f86b3f57_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_35",
+    "rank": 35,
+    "name": "For A Reason (w/ Ikky)",
+    "artists": [
+      "DJ Sumit Rajwanshi"
+    ],
+    "album": "For A Reason (Cinematic)",
+    "image": "https://c.saavncdn.com/113/For-A-Reason-Cinematic-Punjabi-2026-20260415203934-500x500.jpg",
+    "durationMs": 227000,
+    "streamUrl": "https://aac.saavncdn.com/113/b424bfd993765ca334642c17f5ed3a4b_320.mp4",
+    "year": 2026,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_36",
+    "rank": 36,
+    "name": "Magale (w/ Harini, Karthik Netha)",
+    "artists": [
+      "Sai Abhyankkar",
+      "Nargis Teji",
+      "Asma Teji",
+      "Vivek"
+    ],
+    "album": "Radhimaa (From &quot;Think Indie&quot;)",
+    "image": "https://c.saavncdn.com/877/Radhimaa-From-Think-Indie-Tamil-2026-20260827192132-500x500.jpg",
+    "durationMs": 259000,
+    "streamUrl": "https://aac.saavncdn.com/877/875e41134def3f76517ce29ea7819fc8_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_37",
+    "rank": 37,
+    "name": "Aarzu (w/ Khan, Madhurxo)",
+    "artists": [
+      "Madhurxo",
+      "Khan",
+      "Noor"
+    ],
+    "album": "Aarzu",
+    "image": "https://c.saavncdn.com/239/Aarzu-Hindi-2026-20260202151642-500x500.jpg",
+    "durationMs": 187000,
+    "streamUrl": "https://aac.saavncdn.com/239/40717329e1161f9317059f044fd487b0_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_38",
+    "rank": 38,
+    "name": "Barbaad (From \"Saiyaara\") (w/ Jubin Nautiyal)",
+    "artists": [
+      "The Rish",
+      "Jubin Nautiyal"
+    ],
+    "album": "Saiyaara",
+    "image": "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-500x500.jpg",
+    "durationMs": 357000,
+    "streamUrl": "https://aac.saavncdn.com/598/9117397be2712fb843b268a7c16b941a_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_39",
+    "rank": 39,
+    "name": "Sheesha (w/ Swara Verma)",
+    "artists": [
+      "Mitta Ror",
+      "Swara Verma"
+    ],
+    "album": "Sheesha (Aakhya Mai Aakh Ghali Jo Bairan)",
+    "image": "https://c.saavncdn.com/034/Sheesha-Aakhya-Mai-Aakh-Ghali-Jo-Beran-Unknown-2026-20260123134431-500x500.jpg",
+    "durationMs": 196000,
+    "streamUrl": "https://aac.saavncdn.com/034/c9725383991c4dd1870b9da17f549b1e_320.mp4",
+    "year": 2026,
+    "language": "haryanvi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_40",
+    "rank": 40,
+    "name": "Mast Magan (From \"2 States) (w/ Chinmayi)",
+    "artists": [
+      "Amitabh Bhattacharya",
+      "Shankar-Ehsaan-Loy",
+      "Arijit Singh",
+      "Chinmayi Sripada"
+    ],
+    "album": "World Music Day - Best Of Bollywood Hits",
+    "image": "https://c.saavncdn.com/179/World-Music-Day-Best-Of-Bollywood-Hits-Hindi-2026-20260622111029-500x500.jpg",
+    "durationMs": 280000,
+    "streamUrl": "https://aac.saavncdn.com/179/4e4ccc3c366f5ce2727b87acd395bed4_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_41",
+    "rank": 41,
+    "name": "Boyfriend (w/ Ikky)",
+    "artists": [
+      "Karan Aujla",
+      "MXRCI"
+    ],
+    "album": "AUJLA SZN 1",
+    "image": "https://c.saavncdn.com/918/AUJLA-SZN-1-Punjabi-2026-20261026194125-500x500.jpg",
+    "durationMs": 218000,
+    "streamUrl": "https://aac.saavncdn.com/918/c60ea2fac109808fd0df9c8eb7ee8409_320.mp4",
+    "year": 2026,
+    "language": "punjabi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_42",
+    "rank": 42,
+    "name": "Be Intehaan (w/ Sunidhi Chauhan, Pritam)",
+    "artists": [
+      "Apurva Sethi"
+    ],
+    "album": "Be Intehaan",
+    "image": "https://c.saavncdn.com/363/Be-Intehaan-Hindi-2021-20210311182913-500x500.jpg",
+    "durationMs": 239000,
+    "streamUrl": "https://aac.saavncdn.com/363/7ba6efe842d8b5c5f41dca6de6ac3eab_320.mp4",
+    "year": 2021,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_43",
+    "rank": 43,
+    "name": "Boom Shaka (w/ Dhanda Nyoliwala)",
+    "artists": [
+      "Dhanda Nyoliwala",
+      "KR$NA"
+    ],
+    "album": "Boom Shaka",
+    "image": "https://c.saavncdn.com/307/Boom-Shaka-Hindi-2026-20260428064906-500x500.jpg",
+    "durationMs": 218000,
+    "streamUrl": "https://aac.saavncdn.com/307/ccb54f2680dcf02b3a76509d4e25787d_320.mp4",
+    "year": 2026,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_44",
+    "rank": 44,
+    "name": "Saiyaara (w/ Faheem Abdullah, Arslan Nizami, Irshad Kamil)",
+    "artists": [
+      "Tanishk Bagchi",
+      "Faheem Abdullah",
+      "Arslan Nizami",
+      "John Stewart Eduri"
+    ],
+    "album": "Saiyaara (Extended Album)",
+    "image": "https://c.saavncdn.com/141/Saiyaara-Extended-Album-Hindi-2025-20250909145935-500x500.jpg",
+    "durationMs": 112000,
+    "streamUrl": "https://aac.saavncdn.com/141/4a8c33c6ce5aae7671ac8814e3bc2277_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_45",
+    "rank": 45,
+    "name": "Pavazha Malli (w/ Shruti Haasan, Vivek)",
+    "artists": [
+      "Vivek",
+      "Sai Abhyankkar",
+      "Shruti Haasan"
+    ],
+    "album": "Pavazha Malli (From &quot;Think Indie&quot;)",
+    "image": "https://c.saavncdn.com/984/Pavazha-Malli-From-Think-Indie-Tamil-2026-20260303084345-500x500.jpg",
+    "durationMs": 252000,
+    "streamUrl": "https://aac.saavncdn.com/984/268f6efa6f609759153dfe361e5a77ea_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_46",
+    "rank": 46,
+    "name": "Putaapu Gang (w/ Thamizh Aadhavan)",
+    "artists": [
+      "Anirudh Ravichander",
+      "Thamizh Aadhavan"
+    ],
+    "album": "Jailer 2 (Original Motion Picture Soundtrack)",
+    "image": "https://c.saavncdn.com/823/Jailer-2-Original-Motion-Picture-Soundtrack-Tamil-2026-20260930120445-500x500.jpg",
+    "durationMs": 160000,
+    "streamUrl": "https://aac.saavncdn.com/823/89adda910a2d35d0d1b7010e776e8cc8_320.mp4",
+    "year": 2026,
+    "language": "tamil",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_47",
+    "rank": 47,
+    "name": "Humdard (From \"Ek Villain\")",
+    "artists": [
+      "Arijit Singh",
+      "Mithoon"
+    ],
+    "album": "Best Of Arijit Singh - Collection Of Romantic Songs",
+    "image": "https://c.saavncdn.com/840/Best-Of-Arijit-Singh-Collection-Of-Romantic-Songs-Hindi-2025-20251203161112-500x500.jpg",
+    "durationMs": 260000,
+    "streamUrl": "https://aac.saavncdn.com/840/686838a9bbc5fab0994c37fa84ba4c6b_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_48",
+    "rank": 48,
+    "name": "Ishq Sufiyana (Male)",
+    "artists": [
+      "Vishal &amp; Shekhar",
+      "Kamal Khan"
+    ],
+    "album": "The Dirty Picture",
+    "image": "https://c.saavncdn.com/859/The-Dirty-Picture-Hindi-2011-20241205142536-500x500.jpg",
+    "durationMs": 325000,
+    "streamUrl": "https://aac.saavncdn.com/859/9a490a2d3cdc1039663408c62d5a3377_320.mp4",
+    "year": 2011,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_49",
+    "rank": 49,
+    "name": "Ishq (w/ Rauhan Malik)",
+    "artists": [
+      "Amir Ameer",
+      "Faheem Abdullah",
+      "Rauhan Malik"
+    ],
+    "album": "2024 Wrapped",
+    "image": "https://c.saavncdn.com/619/2024-Wrapped-Hindi-2025-20250108151007-500x500.jpg",
+    "durationMs": 228000,
+    "streamUrl": "https://aac.saavncdn.com/619/9252fb72a9ec93cc67a89598b21016dd_320.mp4",
+    "year": 2025,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  },
+  {
+    "id": "spotify_50",
+    "rank": 50,
+    "name": "Hale Dil",
+    "artists": [
+      "Harshit Saxena"
+    ],
+    "album": "Murder 2",
+    "image": "https://c.saavncdn.com/916/Murder-2-Hindi-2011-20221211193711-500x500.jpg",
+    "durationMs": 346000,
+    "streamUrl": "https://aac.saavncdn.com/916/cfdc4a58edc2b34c591c6de2ac6cd2d8_320.mp4",
+    "year": 2011,
+    "language": "hindi",
+    "sourceLists": [
+      "spotify-top-50-india"
+    ]
+  }
+]

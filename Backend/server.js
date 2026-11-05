@@ -3,7 +3,9 @@ require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
+const cron = require("node-cron");
 const musicRoutes = require("./routes/musicRoutes");
+const { updateSpotifyCatalog } = require("./services/spotifyTop50Service");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -64,6 +66,43 @@ app.get("/health", (req, res) => {
     status: "OK",
     service: "RetroRaag Backend"
   });
+});
+
+// ------------------------------------
+// CRON: SPOTIFY TOP 50 AUTO-UPDATE
+// ------------------------------------
+
+// Internal scheduler: Runs every day at 04:00 AM IST
+cron.schedule(
+  "0 4 * * *",
+  async () => {
+    console.log("[CRON] Running daily Spotify Top 50 India update at 4:00 AM IST...");
+    try {
+      const success = await updateSpotifyCatalog();
+      console.log(`[CRON] Daily Spotify update finished. Success: ${success}`);
+    } catch (err) {
+      console.error("[CRON] Daily Spotify update failed:", err.message);
+    }
+  },
+  {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
+  }
+);
+
+// Manual trigger endpoint for on-demand update / external webhook
+app.get("/api/radio/cron/update-spotify", async (req, res) => {
+  try {
+    const success = await updateSpotifyCatalog();
+    res.json({
+      success,
+      message: success
+        ? "Spotify Top 50 India catalog updated successfully."
+        : "Catalog update encountered an issue; retained current catalog."
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // ------------------------------------
