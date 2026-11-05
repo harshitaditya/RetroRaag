@@ -107,6 +107,7 @@ function getStore(station = "90s") {
   if (key === "rafi" || key === "mohammad rafi" || key === "mohammad-rafi") return stationStores.rafi;
   if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
   if (key === "qawwali" || key === "sufi" || key === "punjabi" || key === "nusrat") return stationStores.qawwali;
+  if (key === "spotify" || key === "top50" || key === "spotify-top-50") return stationStores.spotify;
   return stationStores["90s"];
 }
 
@@ -322,6 +323,8 @@ function getCatalogStatus(station = "90s") {
         ? "2000s"
         : String(station).toLowerCase() === "qawwali"
         ? "qawwali"
+        : String(station).toLowerCase() === "spotify"
+        ? "spotify"
         : "90s",
 
     sourceFiltered:
