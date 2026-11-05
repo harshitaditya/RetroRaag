@@ -1126,7 +1126,7 @@ export default function App() {
                 : currentStation === "qawwali"
                 ? "101.2 FM — Punjabi Sufi & Qawwali"
                 : currentStation === "spotify"
-                ? "100.8 FM — Spotify Top 50 India"
+                ? `100.8 FM — Spotify Top 50${queue[0]?.lastUpdated ? ` • Updated ${queue[0].lastUpdated}` : ""}`
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1373,6 +1373,15 @@ export default function App() {
                 {activeSong && (
                   <span className="song-number-badge" aria-label={`Song ${currentIndex + 1} of ${queue.length}`}>
                     {currentIndex + 1} / {queue.length}
+                  </span>
+                )}
+                {currentStation === "spotify" && (activeSong?.lastUpdated || queue[0]?.lastUpdated) && (
+                  <span
+                    className="spotify-main-date-tag"
+                    title={activeSong?.lastUpdatedFull || queue[0]?.lastUpdatedFull || "Updated Daily at 4:00 AM IST"}
+                  >
+                    <span className="spotify-tag-dot" aria-hidden="true"></span>
+                    Updated: {activeSong?.lastUpdated || queue[0]?.lastUpdated}
                   </span>
                 )}
               </div>

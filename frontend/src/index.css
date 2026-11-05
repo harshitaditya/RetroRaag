@@ -659,6 +659,38 @@ button {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+.spotify-main-date-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: clamp(9px, 0.65vw, 11px);
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(52, 211, 153, 0.42);
+  color: #34d399;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.15);
+}
+
+.spotify-tag-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #34d399;
+  box-shadow: 0 0 5px #34d399;
+  display: inline-block;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
 .song-title {
   max-width: 100%;
   margin: 0;
