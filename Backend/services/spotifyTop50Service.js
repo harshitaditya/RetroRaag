@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
+const CryptoJS = require("crypto-js");
 
 const DATA_DIR = path.join(__dirname, "..", "data");
 const SPOTIFY_CATALOG_PATH = path.join(DATA_DIR, "spotifySongs.json");
@@ -9,6 +10,58 @@ const SPOTIFY_METADATA_PATH = path.join(DATA_DIR, "spotifyMetadata.json");
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
+}
+
+function decryptMediaUrl(encryptedUrl) {
+  try {
+    const key = CryptoJS.enc.Utf8.parse("38346591");
+    const decrypted = CryptoJS.DES.decrypt(
+      { ciphertext: CryptoJS.enc.Base64.parse(encryptedUrl) },
+      key,
+      {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+    const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+    return decryptedStr
+      .replace(/_[0-9]+\.mp4$/, "_320.mp4")
+      .replace(/_[0-9]+\.m4a$/, "_320.mp4");
+  } catch (err) {
+    return "";
+  }
+}
+
+async function searchDirectJioSaavn(query) {
+  try {
+    const url = `https://www.jiosaavn.com/api.php?__call=search.getResults&_format=json&_marker=0&api_version=4&ctx=web6dot0&q=${encodeURIComponent(query)}`;
+    const res = await axios.get(url, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        Accept: "application/json, text/plain, */*"
+      },
+      timeout: 10000
+    });
+    const item = res.data?.results?.[0];
+    if (!item || !item.more_info?.encrypted_media_url) return null;
+    const streamUrl = decryptMediaUrl(item.more_info.encrypted_media_url);
+    if (!streamUrl) return null;
+
+    const image = (item.image || "")
+      .replace("-150x150.", "-500x500.")
+      .replace("-50x50.", "-500x500.");
+
+    return {
+      streamUrl,
+      image,
+      album: item.more_info?.album,
+      durationMs: Number(item.more_info?.duration || 210) * 1000,
+      year: Number(item.year || new Date().getFullYear())
+    };
+  } catch {
+    return null;
+  }
 }
 
 // Clean string for music search
@@ -114,6 +167,26 @@ async function resolveAudioStream(chartEntry) {
       }
     } catch {
       // Try next query variant
+    }
+  }
+
+  // Direct JioSaavn resolution fallback if public proxy is rate-limited
+  for (const query of queries) {
+    const directMatch = await searchDirectJioSaavn(query);
+    if (directMatch && directMatch.streamUrl) {
+      return {
+        id: `spotify_${chartEntry.rank}`,
+        rank: chartEntry.rank,
+        name: chartEntry.title,
+        artists: [chartEntry.artist || "Top Artist"],
+        album: directMatch.album || "Spotify Top 50 India",
+        image: directMatch.image || "https://retroraag.in/images/retroraag-tab-icon-v9.png",
+        durationMs: directMatch.durationMs,
+        streamUrl: directMatch.streamUrl,
+        year: directMatch.year,
+        language: "hindi",
+        sourceLists: ["spotify-top-50-india"]
+      };
     }
   }
 

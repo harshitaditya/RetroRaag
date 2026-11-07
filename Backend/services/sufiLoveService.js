@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const crypto = require("crypto");
+const CryptoJS = require("crypto-js");
 const axios = require("axios");
 
 const DATA_DIR = path.join(__dirname, "..", "data");
@@ -17,12 +17,17 @@ if (!fs.existsSync(DATA_DIR)) {
 
 function decryptMediaUrl(encryptedUrl) {
   try {
-    const key = Buffer.from("38346591", "utf8");
-    const decipher = crypto.createDecipheriv("des-ecb", key, "");
-    decipher.setAutoPadding(true);
-    let decrypted = decipher.update(encryptedUrl, "base64", "utf8");
-    decrypted += decipher.final("utf8");
-    return decrypted
+    const key = CryptoJS.enc.Utf8.parse("38346591");
+    const decrypted = CryptoJS.DES.decrypt(
+      { ciphertext: CryptoJS.enc.Base64.parse(encryptedUrl) },
+      key,
+      {
+        mode: CryptoJS.mode.ECB,
+        padding: CryptoJS.pad.Pkcs7
+      }
+    );
+    const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+    return decryptedStr
       .replace(/_[0-9]+\.mp4$/, "_320.mp4")
       .replace(/_[0-9]+\.m4a$/, "_320.mp4");
   } catch (err) {
@@ -202,3 +207,4 @@ module.exports = {
   getSufiCatalog,
   getSufiMetadata
 };
+
