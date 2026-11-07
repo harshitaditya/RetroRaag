@@ -175,8 +175,13 @@ async function updateSufiCatalog() {
 
       const metadata = {
         lastUpdated: lastUpdatedString,
+        lastUpdatedDate: dateFormatted,
+        lastUpdatedTime: timeFormatted,
+        lastUpdatedFull: lastUpdatedString,
         timestamp: Date.now(),
         trackCount: resolvedSongs.length,
+        count: resolvedSongs.length,
+        success: true,
         playlist: "Sufi Love (Curated by Filtr / Sony Music)",
         spotifyUrl: `https://open.spotify.com/playlist/${SPOTIFY_PLAYLIST_ID}`
       };

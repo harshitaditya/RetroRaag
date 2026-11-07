@@ -122,8 +122,11 @@ function normalizeText(value = "") {
 function isPlayableSong(song) {
   return Boolean(
     song &&
-    song.name &&
-    song.streamUrl
+    typeof song.name === "string" &&
+    song.name.trim() !== "" &&
+    typeof song.streamUrl === "string" &&
+    song.streamUrl.trim() !== "" &&
+    song.streamUrl.startsWith("http")
   );
 }
 
@@ -384,10 +387,32 @@ function normalizeSong(song) {
   return song || null;
 }
 
+function getActiveStations() {
+  const definitions = [
+    { id: "90s", name: "90s Bollywood Gold", fm: "98.3 FM", icon: "📼" },
+    { id: "golden", name: "Golden Era Heritage", fm: "104.8 FM", icon: "👑" },
+    { id: "2000s", name: "2000s Bollywood Hits", fm: "106.4 FM", icon: "🔥" },
+    { id: "sufi", name: "Sufi Love (Filtr)", fm: "101.2 FM", icon: "🕊️" },
+    { id: "spotify", name: "Spotify Top 50 India", fm: "100.8 FM", icon: "🟢" }
+  ];
+
+  return definitions
+    .map((def) => {
+      const songs = loadCatalog(def.id);
+      return {
+        ...def,
+        count: Array.isArray(songs) ? songs.length : 0,
+        badge: `${Array.isArray(songs) ? songs.length : 0} Hits`
+      };
+    })
+    .filter((station) => station.count > 0);
+}
+
 module.exports = {
   searchTracks,
   getRadioSongs,
   getCatalogStatus,
   clearCatalogCache,
-  normalizeSong
+  normalizeSong,
+  getActiveStations
 };

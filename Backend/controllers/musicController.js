@@ -106,10 +106,21 @@ function sufiStatus(req, res, next) {
 }
 
 
+function activeStations(req, res, next) {
+  try {
+    const stations = jiosaavnService.getActiveStations();
+    res.json(stations);
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 module.exports = {
   search,
   radioSongs,
   radioStatus,
   spotifyStatus,
-  sufiStatus
+  sufiStatus,
+  activeStations
 };

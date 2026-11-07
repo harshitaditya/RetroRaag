@@ -39,4 +39,11 @@ router.get(
 );
 
 
+// Get active radio stations (only those with songs > 0)
+router.get(
+  "/api/radio/stations",
+  musicController.activeStations
+);
+
+
 module.exports = router;

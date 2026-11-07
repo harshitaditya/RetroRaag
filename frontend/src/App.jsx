@@ -55,8 +55,10 @@ function playableSongs(items) {
     (song) =>
       song &&
       typeof song.name === "string" &&
+      song.name.trim() !== "" &&
       typeof song.streamUrl === "string" &&
-      song.streamUrl.trim() !== ""
+      song.streamUrl.trim() !== "" &&
+      song.streamUrl.startsWith("http")
   );
 }
 
@@ -147,6 +149,24 @@ export default function App() {
   const [nostalgiaMessageIndex, setNostalgiaMessageIndex] = useState(0);
   const [stationDropdownOpen, setStationDropdownOpen] = useState(false);
   const stationDropdownRef = useRef(null);
+  const [spotifyMeta, setSpotifyMeta] = useState(null);
+  const [sufiMeta, setSufiMeta] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/radio/spotify-status")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.success) setSpotifyMeta(d);
+      })
+      .catch(() => {});
+
+    fetch("/api/radio/sufi-status")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && d.lastUpdated) setSufiMeta(d);
+      })
+      .catch(() => {});
+  }, []);
 
   const nostalgiaMessages =
     currentStation === "golden"
@@ -735,11 +755,24 @@ export default function App() {
     }
 
     function handleError() {
-      // Metadata preload failed and user hasn't started playback yet ->
-      // don't auto-skip.
-      if (!userStartedPlaybackRef.current || queueRef.current.length <= 1) return;
-      console.warn("Skipping unavailable stream:", getCurrentSong()?.name);
-      loadTrack(currentIndexRef.current + 1, { autoplay: true });
+      const q = queueRef.current;
+      const badIdx = currentIndexRef.current;
+      const failedSong = q[badIdx];
+      console.warn("Song stream is unavailable, removing from station playlist:", failedSong?.name);
+
+      // Remove the unavailable song completely from the playlist queue
+      const updatedQueue = q.filter((_, idx) => idx !== badIdx);
+      queueRef.current = updatedQueue;
+      setQueue(updatedQueue);
+
+      if (updatedQueue.length > 0) {
+        const nextIdx = badIdx < updatedQueue.length ? badIdx : 0;
+        loadTrack(nextIdx, { autoplay: userStartedPlaybackRef.current });
+      } else {
+        setSongName("No songs available");
+        setSongArtistLine("All streams currently unavailable");
+        setIsPlaying(false);
+      }
     }
 
     audio.addEventListener("loadedmetadata", updateTimeline);
@@ -1113,9 +1146,9 @@ export default function App() {
                 : currentStation === "2000s"
                 ? "106.4 FM — 2000s Bollywood Hits"
                 : currentStation === "sufi"
-                ? `101.2 FM — Sufi Love${queue[0]?.lastUpdated ? ` • Updated ${queue[0].lastUpdated}` : ""}`
+                ? `101.2 FM — Sufi Love • Updated Daily (Last: ${sufiMeta?.lastUpdated?.split(" at ")?.[0] || queue[0]?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026"})`
                 : currentStation === "spotify"
-                ? `100.8 FM — Spotify Top 50${queue[0]?.lastUpdated ? ` • Updated ${queue[0].lastUpdated}` : ""}`
+                ? `100.8 FM — Spotify Top 50 • Updated Daily (Last: ${spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026"})`
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1193,7 +1226,7 @@ export default function App() {
                 <div className="station-item-info">
                   <span className="station-item-title">101.2 FM — Sufi Love (Filtr)</span>
                   <span className="station-item-badge">
-                    {queue[0]?.lastUpdated && currentStation === "sufi" ? "Updated Daily" : "Spotify Playlist"}
+                    Updated Daily • Last: {sufiMeta?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026"}
                   </span>
                 </div>
                 {currentStation === "sufi" && <span className="station-item-check">✓</span>}
@@ -1213,9 +1246,7 @@ export default function App() {
                 <div className="station-item-info">
                   <span className="station-item-title">100.8 FM — Spotify Top 50 India</span>
                   <span className="station-item-badge">
-                    {currentStation === "spotify" && queue[0]?.lastUpdated
-                      ? `Updated: ${queue[0].lastUpdated} • 50 Hits`
-                      : "Daily 50 Hits"}
+                    Updated Daily • Last: {spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026"}
                   </span>
                 </div>
                 {currentStation === "spotify" && <span className="station-item-check">✓</span>}
@@ -1255,7 +1286,7 @@ export default function App() {
                   ? "Spotify Top 50 India Hits"
                   : "Up next"} ({queue.length} Songs)
               </h2>
-              {(currentStation === "spotify" || currentStation === "sufi") && queue[0]?.lastUpdated && (
+              {(currentStation === "spotify" || currentStation === "sufi") && (
                 <div
                   className="spotify-update-badge"
                   style={{
@@ -1278,7 +1309,12 @@ export default function App() {
                       display: "inline-block"
                     }}
                   />
-                  <span>Last updated: {queue[0].lastUpdatedFull || queue[0].lastUpdated}</span>
+                  <span>
+                    Updated Daily • Last:{" "}
+                    {currentStation === "sufi"
+                      ? sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || queue[0]?.lastUpdatedFull || queue[0]?.lastUpdated || "07 Nov 2026"
+                      : spotifyMeta?.lastUpdatedFull || spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdatedFull || queue[0]?.lastUpdated || "07 Nov 2026"}
+                  </span>
                 </div>
               )}
             </div>
@@ -1302,20 +1338,26 @@ export default function App() {
             ref={playlistListRef}
             onScroll={handlePlaylistScroll}
           >
-            {queue.slice(0, renderedCount).map((song, index) => (
-              <button
-                key={song.id ?? `${song.name}-${index}`}
-                type="button"
-                className="playlist-row"
-                role="option"
-                aria-selected={index === currentIndex}
-                onClick={() => selectSong(index)}
-              >
-                <span className="playlist-index">{index + 1}</span>
-                <span className="playlist-title">{song.name}</span>
-                <span className="playlist-artist">{artistText(song)}</span>
-              </button>
-            ))}
+            {queue.length === 0 ? (
+              <div style={{ padding: "32px 16px", textAlign: "center", color: "rgba(255, 255, 255, 0.7)", fontSize: "0.9rem" }}>
+                No songs currently available in this section.
+              </div>
+            ) : (
+              queue.slice(0, renderedCount).map((song, index) => (
+                <button
+                  key={song.id ?? `${song.name}-${index}`}
+                  type="button"
+                  className="playlist-row"
+                  role="option"
+                  aria-selected={index === currentIndex}
+                  onClick={() => selectSong(index)}
+                >
+                  <span className="playlist-index">{index + 1}</span>
+                  <span className="playlist-title">{song.name}</span>
+                  <span className="playlist-artist">{artistText(song)}</span>
+                </button>
+              ))
+            )}
           </div>
         </section>
 
@@ -1344,13 +1386,20 @@ export default function App() {
                     {currentIndex + 1} / {queue.length}
                   </span>
                 )}
-                {currentStation === "spotify" && (activeSong?.lastUpdated || queue[0]?.lastUpdated) && (
+                {(currentStation === "spotify" || currentStation === "sufi") && (
                   <span
                     className="spotify-main-date-tag"
-                    title={activeSong?.lastUpdatedFull || queue[0]?.lastUpdatedFull || "Updated Daily at 4:00 AM IST"}
+                    title={
+                      currentStation === "sufi"
+                        ? (sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || "Updated Daily • Filtr India")
+                        : (spotifyMeta?.lastUpdatedFull || "Updated Daily • Spotify Top 50")
+                    }
                   >
                     <span className="spotify-tag-dot" aria-hidden="true"></span>
-                    Updated: {activeSong?.lastUpdated || queue[0]?.lastUpdated}
+                    Updated Daily • Last:{" "}
+                    {currentStation === "sufi"
+                      ? (sufiMeta?.lastUpdatedDate || sufiMeta?.lastUpdated?.split(" at ")?.[0] || queue[0]?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026")
+                      : (spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026")}
                   </span>
                 )}
               </div>
