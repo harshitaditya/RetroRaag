@@ -205,6 +205,16 @@ async function updateSpotifyCatalog() {
       return false;
     }
 
+    // Smart Diff Check: If chart tracks & ranks have not changed, skip heavy audio re-resolution
+    const existing = getSpotifyCatalog();
+    const existingTitles = existing.map((s) => `${s.rank}:${s.name}`).join("||");
+    const newTitles = chart.map((s) => `${s.rank}:${s.title}`).join("||");
+
+    if (existing.length > 0 && existingTitles === newTitles) {
+      console.log("[SpotifyTop50] Chart entries have not changed. Catalog is already up to date.");
+      return true;
+    }
+
     const resolvedSongs = [];
     console.log("[SpotifyTop50] Resolving audio streams for Top 50 tracks...");
 

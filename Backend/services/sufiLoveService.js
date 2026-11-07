@@ -112,6 +112,16 @@ async function updateSufiCatalog() {
       return false;
     }
 
+    // Smart Diff Check: If playlist tracks have not changed, skip heavy audio re-resolution
+    const existing = getSufiCatalog();
+    const existingTitles = existing.map((s) => s.name).join("||");
+    const newTitles = spotifyTracks.map((s) => s.title).join("||");
+
+    if (existing.length > 0 && existingTitles === newTitles) {
+      console.log("[SufiLove] Playlist tracks on Spotify have not changed. Catalog is already up to date.");
+      return true;
+    }
+
     const resolvedSongs = [];
     const now = new Date();
     const dateFormatted = now.toLocaleDateString("en-IN", {
