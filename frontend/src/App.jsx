@@ -128,7 +128,7 @@ export default function App() {
   const userStartedPlaybackRef = useRef(false);
   const timelineAnimationFrameRef = useRef(0);
   const lastMediaPositionUpdateRef = useRef(0);
-  const currentStationRef = useRef(currentStation);
+  const currentStationRef = useRef("90s");
   const lyricsOpenRef = useRef(false);
   const currentLyricIndexRef = useRef(-1);
   const lyricsBodyRef = useRef(null);
