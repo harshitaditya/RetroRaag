@@ -4,6 +4,8 @@ const spotifyTop50Service =
   require("../services/spotifyTop50Service");
 const sufiLoveService =
   require("../services/sufiLoveService");
+const diwaliPujaService =
+  require("../services/diwaliPujaService");
 
 
 /**
@@ -106,6 +108,16 @@ function sufiStatus(req, res, next) {
 }
 
 
+function diwaliStatus(req, res, next) {
+  try {
+    const meta = diwaliPujaService.getDiwaliMetadata();
+    res.json(meta || { success: false, message: "No metadata available" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 function activeStations(req, res, next) {
   try {
     const stations = jiosaavnService.getActiveStations();
@@ -122,5 +134,6 @@ module.exports = {
   radioStatus,
   spotifyStatus,
   sufiStatus,
+  diwaliStatus,
   activeStations
 };

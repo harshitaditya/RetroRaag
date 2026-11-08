@@ -39,6 +39,13 @@ router.get(
 );
 
 
+// Get Diwali Puja metadata (last updated timestamp)
+router.get(
+  "/api/radio/diwali-status",
+  musicController.diwaliStatus
+);
+
+
 // Get active radio stations (only those with songs > 0)
 router.get(
   "/api/radio/stations",

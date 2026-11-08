@@ -37,6 +37,14 @@ const NOSTALGIA_MESSAGES_SPOTIFY = [
   "ताज़ा धुनें, नए तराने..."
 ];
 
+const NOSTALGIA_MESSAGES_DIWALI = [
+  "शुभ दीपावली • माँ लक्ष्मी जी की कृपा आप पर बनी रहे...",
+  "ॐ जय लक्ष्मी माता, मैया जय लक्ष्मी माता...",
+  "जय गणेश जय गणेश देवा, माता जाकी पार्वती पिता महादेवा...",
+  "दीपों का पावन पर्व, सुख-समृद्धि और आरोग्य की मंगलकामनाएं...",
+  "श्री रामचंद्र कृपालु भजु मन, हरण भवभय दारुणं..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -137,9 +145,10 @@ export default function App() {
   const [currentStation, setCurrentStation] = useState(() => {
     try {
       const saved = localStorage.getItem("retroraag:station");
-      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "sufi" || saved === "spotify") return saved;
+      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "sufi" || saved === "spotify" || saved === "diwali") return saved;
       if (saved === "kishore" || saved === "rafi") return "golden";
       if (saved === "qawwali") return "sufi";
+      if (saved === "puja" || saved === "aarti") return "diwali";
     } catch {
       // Ignore storage errors
     }
@@ -151,6 +160,7 @@ export default function App() {
   const stationDropdownRef = useRef(null);
   const [spotifyMeta, setSpotifyMeta] = useState(null);
   const [sufiMeta, setSufiMeta] = useState(null);
+  const [diwaliMeta, setDiwaliMeta] = useState(null);
 
   useEffect(() => {
     fetch("/api/radio/spotify-status")
@@ -166,6 +176,13 @@ export default function App() {
         if (d && d.lastUpdated) setSufiMeta(d);
       })
       .catch(() => {});
+
+    fetch("/api/radio/diwali-status")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && (d.lastUpdated || d.lastUpdatedDate)) setDiwaliMeta(d);
+      })
+      .catch(() => {});
   }, []);
 
   const nostalgiaMessages =
@@ -177,6 +194,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_SUFI
       : currentStation === "spotify"
       ? NOSTALGIA_MESSAGES_SPOTIFY
+      : currentStation === "diwali"
+      ? NOSTALGIA_MESSAGES_DIWALI
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -1138,6 +1157,8 @@ export default function App() {
                 ? "🕊️"
                 : currentStation === "spotify"
                 ? "🟢"
+                : currentStation === "diwali"
+                ? "🪔"
                 : "📼"}
             </span>
             <span className="station-select-label">
@@ -1149,6 +1170,8 @@ export default function App() {
                 ? `101.2 FM — Sufi Love • Updated Daily (Last: ${sufiMeta?.lastUpdated?.split(" at ")?.[0] || queue[0]?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026"})`
                 : currentStation === "spotify"
                 ? `100.8 FM — Spotify Top 50 • Updated Daily (Last: ${spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026"})`
+                : currentStation === "diwali"
+                ? `108.0 FM — Diwali Puja & Aarti • Updated Daily (Last: ${diwaliMeta?.lastUpdatedDate || "08 Nov 2026"})`
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1251,6 +1274,26 @@ export default function App() {
                 </div>
                 {currentStation === "spotify" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "diwali" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "diwali"}
+                onClick={() => {
+                  switchStation("diwali");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🪔</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">108.0 FM — Diwali Puja & Aarti</span>
+                  <span className="station-item-badge">
+                    Updated Daily • Last: {diwaliMeta?.lastUpdatedDate || "08 Nov 2026"}
+                  </span>
+                </div>
+                {currentStation === "diwali" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1273,6 +1316,8 @@ export default function App() {
                   ? "SUFI LOVE (FILTR) • 101.2 FM"
                   : currentStation === "spotify"
                   ? "SPOTIFY TOP 50 INDIA • 100.8 FM"
+                  : currentStation === "diwali"
+                  ? "DIWALI PUJA & AARTI • 108.0 FM"
                   : "रेट्रो राग • 98.3 FM"}
               </span>
               <h2>
@@ -1284,14 +1329,16 @@ export default function App() {
                   ? "Sufi Love Collection"
                   : currentStation === "spotify"
                   ? "Spotify Top 50 India Hits"
+                  : currentStation === "diwali"
+                  ? "Diwali Puja, Aarti & Bhajans"
                   : "Up next"} ({queue.length} Songs)
               </h2>
-              {(currentStation === "spotify" || currentStation === "sufi") && (
+              {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali") && (
                 <div
                   className="spotify-update-badge"
                   style={{
                     fontSize: "0.74rem",
-                    color: currentStation === "sufi" ? "#6ee7b7" : "#34d399",
+                    color: currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
                     marginTop: "3px",
                     display: "flex",
                     alignItems: "center",
@@ -1304,14 +1351,16 @@ export default function App() {
                       width: "6px",
                       height: "6px",
                       borderRadius: "999px",
-                      background: currentStation === "sufi" ? "#6ee7b7" : "#34d399",
-                      boxShadow: `0 0 6px ${currentStation === "sufi" ? "#6ee7b7" : "#34d399"}`,
+                      background: currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
+                      boxShadow: `0 0 6px ${currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399"}`,
                       display: "inline-block"
                     }}
                   />
                   <span>
                     Updated Daily • Last:{" "}
-                    {currentStation === "sufi"
+                    {currentStation === "diwali"
+                      ? diwaliMeta?.lastUpdatedFull || diwaliMeta?.lastUpdated || "08 Nov 2026"
+                      : currentStation === "sufi"
                       ? sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || queue[0]?.lastUpdatedFull || queue[0]?.lastUpdated || "07 Nov 2026"
                       : spotifyMeta?.lastUpdatedFull || spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdatedFull || queue[0]?.lastUpdated || "07 Nov 2026"}
                   </span>
@@ -1386,18 +1435,40 @@ export default function App() {
                     {currentIndex + 1} / {queue.length}
                   </span>
                 )}
-                {(currentStation === "spotify" || currentStation === "sufi") && (
+                {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali") && (
                   <span
                     className="spotify-main-date-tag"
+                    style={
+                      currentStation === "diwali"
+                        ? {
+                            background: "rgba(245, 158, 11, 0.16)",
+                            borderColor: "rgba(251, 191, 36, 0.42)",
+                            color: "#fbbf24",
+                            boxShadow: "0 0 8px rgba(251, 191, 36, 0.15)"
+                          }
+                        : undefined
+                    }
                     title={
-                      currentStation === "sufi"
+                      currentStation === "diwali"
+                        ? (diwaliMeta?.lastUpdatedFull || "Updated Daily • Diwali Special Puja & Aarti")
+                        : currentStation === "sufi"
                         ? (sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || "Updated Daily • Filtr India")
                         : (spotifyMeta?.lastUpdatedFull || "Updated Daily • Spotify Top 50")
                     }
                   >
-                    <span className="spotify-tag-dot" aria-hidden="true"></span>
+                    <span
+                      className="spotify-tag-dot"
+                      style={
+                        currentStation === "diwali"
+                          ? { background: "#fbbf24", boxShadow: "0 0 5px #fbbf24" }
+                          : undefined
+                      }
+                      aria-hidden="true"
+                    ></span>
                     Updated Daily • Last:{" "}
-                    {currentStation === "sufi"
+                    {currentStation === "diwali"
+                      ? (diwaliMeta?.lastUpdatedDate || "08 Nov 2026")
+                      : currentStation === "sufi"
                       ? (sufiMeta?.lastUpdatedDate || sufiMeta?.lastUpdated?.split(" at ")?.[0] || queue[0]?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026")
                       : (spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026")}
                   </span>

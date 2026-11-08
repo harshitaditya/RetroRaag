@@ -65,6 +65,14 @@ const CATALOG_PATH_SPOTIFY =
     "spotifySongs.json"
   );
 
+const CATALOG_PATH_DIWALI =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "diwaliSongs.json"
+  );
+
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -105,6 +113,11 @@ const stationStores = {
     path: CATALOG_PATH_SPOTIFY,
     cache: null,
     lastMtime: 0
+  },
+  "diwali": {
+    path: CATALOG_PATH_DIWALI,
+    cache: null,
+    lastMtime: 0
   }
 };
 
@@ -136,6 +149,7 @@ function getStore(station = "90s") {
   if (key === "2000s" || key === "2000" || key === "two-thousands") return stationStores["2000s"];
   if (key === "sufi" || key === "sufilove" || key === "sufi-love" || key === "qawwali" || key === "punjabi" || key === "nusrat") return stationStores.sufi;
   if (key === "spotify" || key === "top50" || key === "spotify-top-50") return stationStores.spotify;
+  if (key === "diwali" || key === "diwalipuja" || key === "diwali-puja" || key === "aarti" || key === "bhajan" || key === "puja") return stationStores.diwali;
   return stationStores["90s"];
 }
 
@@ -393,7 +407,8 @@ function getActiveStations() {
     { id: "golden", name: "Golden Era Heritage", fm: "104.8 FM", icon: "👑" },
     { id: "2000s", name: "2000s Bollywood Hits", fm: "106.4 FM", icon: "🔥" },
     { id: "sufi", name: "Sufi Love (Filtr)", fm: "101.2 FM", icon: "🕊️" },
-    { id: "spotify", name: "Spotify Top 50 India", fm: "100.8 FM", icon: "🟢" }
+    { id: "spotify", name: "Spotify Top 50 India", fm: "100.8 FM", icon: "🟢" },
+    { id: "diwali", name: "Diwali Puja & Aarti", fm: "108.0 FM", icon: "🪔" }
   ];
 
   return definitions

@@ -7,6 +7,7 @@ const cron = require("node-cron");
 const musicRoutes = require("./routes/musicRoutes");
 const { updateSpotifyCatalog } = require("./services/spotifyTop50Service");
 const { updateSufiCatalog } = require("./services/sufiLoveService");
+const { updateDiwaliCatalog } = require("./services/diwaliPujaService");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -136,6 +137,43 @@ app.get("/api/radio/cron/update-sufi", async (req, res) => {
       success,
       message: success
         ? "Sufi Love catalog updated successfully from Spotify."
+        : "Catalog update encountered an issue; retained current catalog."
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ------------------------------------
+// CRON: DIWALI PUJA & AARTI AUTO-UPDATE
+// ------------------------------------
+
+// Internal scheduler: Runs every day at 05:00 AM IST
+cron.schedule(
+  "0 5 * * *",
+  async () => {
+    console.log("[CRON] Running daily Diwali Puja & Aarti update at 5:00 AM IST...");
+    try {
+      const success = await updateDiwaliCatalog();
+      console.log(`[CRON] Daily Diwali update finished. Success: ${success}`);
+    } catch (err) {
+      console.error("[CRON] Daily Diwali update failed:", err.message);
+    }
+  },
+  {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
+  }
+);
+
+// Manual trigger endpoint for on-demand update / external webhook
+app.get("/api/radio/cron/update-diwali", async (req, res) => {
+  try {
+    const success = await updateDiwaliCatalog();
+    res.json({
+      success,
+      message: success
+        ? "Diwali Puja & Aarti catalog updated successfully."
         : "Catalog update encountered an issue; retained current catalog."
     });
   } catch (err) {
