@@ -46,6 +46,13 @@ router.get(
 );
 
 
+// Get Ram Katha metadata (last updated timestamp)
+router.get(
+  "/api/radio/ramkatha-status",
+  musicController.ramKathaStatus
+);
+
+
 // Get active radio stations (only those with songs > 0)
 router.get(
   "/api/radio/stations",

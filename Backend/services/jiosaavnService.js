@@ -73,6 +73,14 @@ const CATALOG_PATH_DIWALI =
     "diwaliSongs.json"
   );
 
+const CATALOG_PATH_RAMKATHA =
+  path.join(
+    __dirname,
+    "..",
+    "data",
+    "ramKathaSongs.json"
+  );
+
 const stationStores = {
   "90s": {
     path: CATALOG_PATH_90S,
@@ -118,6 +126,16 @@ const stationStores = {
     path: CATALOG_PATH_DIWALI,
     cache: null,
     lastMtime: 0
+  },
+  "ramkatha": {
+    path: CATALOG_PATH_RAMKATHA,
+    cache: null,
+    lastMtime: 0
+  },
+  "katha": {
+    path: CATALOG_PATH_RAMKATHA,
+    cache: null,
+    lastMtime: 0
   }
 };
 
@@ -150,6 +168,7 @@ function getStore(station = "90s") {
   if (key === "sufi" || key === "sufilove" || key === "sufi-love" || key === "qawwali" || key === "punjabi" || key === "nusrat") return stationStores.sufi;
   if (key === "spotify" || key === "top50" || key === "spotify-top-50") return stationStores.spotify;
   if (key === "diwali" || key === "diwalipuja" || key === "diwali-puja" || key === "aarti" || key === "bhajan" || key === "puja") return stationStores.diwali;
+  if (key === "ramkatha" || key === "ram-katha" || key === "katha" || key === "ramayan" || key === "ram") return stationStores.ramkatha;
   return stationStores["90s"];
 }
 
@@ -393,6 +412,8 @@ function clearCatalogCache(station) {
     stationStores.sufi.cache = null;
     stationStores.qawwali.cache = null;
     stationStores.spotify.cache = null;
+    stationStores.diwali.cache = null;
+    stationStores.ramkatha.cache = null;
   }
 }
 
@@ -408,7 +429,8 @@ function getActiveStations() {
     { id: "2000s", name: "2000s Bollywood Hits", fm: "106.4 FM", icon: "🔥" },
     { id: "sufi", name: "Sufi Love (Filtr)", fm: "101.2 FM", icon: "🕊️" },
     { id: "spotify", name: "Spotify Top 50 India", fm: "100.8 FM", icon: "🟢" },
-    { id: "diwali", name: "Diwali Puja & Aarti", fm: "108.0 FM", icon: "🪔" }
+    { id: "diwali", name: "Diwali Puja & Aarti", fm: "108.0 FM", icon: "🪔" },
+    { id: "ramkatha", name: "Shri Ram Katha & Bhajan", fm: "107.5 FM", icon: "🏹" }
   ];
 
   return definitions

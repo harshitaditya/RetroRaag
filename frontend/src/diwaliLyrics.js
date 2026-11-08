@@ -261,6 +261,76 @@ export const DIWALI_LYRICS_DATA = {
     { time: 290, text: "कानन कुंडल शोभित, नासाग्रे मोती।" },
     { time: 340, text: "कोटिक चंद्र दिवाकर, राजत सम ज्योति॥ जय अम्बे गौरी..." },
     { time: 395, text: "जय अम्बे गौरी, मैया जय श्यामा गौरी॥" }
+  ],
+
+  hum_katha_sunate: [
+    { time: 0, text: "हम कथा सुनाते, राम सकल गुण धाम की।" },
+    { time: 35, text: "ये रामायण है पुण्य कथा श्री राम की॥" },
+    { time: 70, text: "जम्बुद्वीपे भरतखंडे आर्यावर्ते भारतवर्षे, एक नगरी है विख्यात अयोध्या नाम की..." },
+    { time: 110, text: "यही जन्मभूमि है परम पूज्य श्री राम की, हम कथा सुनाते राम सकल गुण धाम की॥" },
+    { time: 155, text: "रघुकुल के राजा दशरथ के घर जन्मे चार कुमारा..." },
+    { time: 195, text: "श्री राम, भरत, लक्ष्मण, शत्रुघ्न, रूप शील आचारा..." },
+    { time: 240, text: "विश्वामित्र महामुनि आये, नृप से राम लखन को मांगे..." },
+    { time: 285, text: "जनकपुरी में धनुषभंग कर, सीता संग ब्याहे श्री राम..." },
+    { time: 335, text: "माता कैकेयी ने दो वर मांगे, राम को चौदह वर्ष वनवास..." },
+    { time: 390, text: "पंचवटी में कुटिया छाई, लंकापति रावण ने करी चतुराई..." },
+    { time: 450, text: "सीता हरण हुआ दुख भारी, विलाप करत रघुवर बलिहारी..." },
+    { time: 510, text: "सुग्रीव से मित्रता कीनी, बालि वध कर सेना साधीनी..." },
+    { time: 575, text: "सेतु बांध सागर तर आये, रावण कुल को मार गिराये..." },
+    { time: 640, text: "सियाराम का हुआ मिलन, हर्षित हुआ सकल भुवन..." },
+    { time: 710, text: "अयोध्या में हुआ राज्याभिषेक, जय जयकार करे नर-नारी..." },
+    { time: 780, text: "धर्म की जय हो, अधर्म का नाश हो, प्राणियों में सद्भावना हो॥" },
+    { time: 840, text: "हम कथा सुनाते राम सकल गुण धाम की, ये रामायण है पुण्य कथा श्री राम की॥" }
+  ],
+
+  hamare_sath_raghunath: [
+    { time: 0, text: "हमारे साथ श्री रघुनाथ तो किस बात की चिंता।" },
+    { time: 30, text: "शरण में रख दिया जब माथ तो किस बात की चिंता॥ हमारे साथ श्री रघुनाथ..." },
+    { time: 65, text: "किया करते हो तुम दिन रात क्यों बिन बात की चिंता।" },
+    { time: 100, text: "तेरे स्वामी को रहती है सदा तेरे योग-क्षेम की चिंता॥" },
+    { time: 140, text: "ना धन की चिंता, ना जन की चिंता, ना तन की चिंता।" },
+    { time: 180, text: "सदा जो साथ रहते हैं, विधाता हर घड़ी चिंता॥" },
+    { time: 220, text: "विभीषण को अभय कीना, सुग्रीव को राज्य दीना।" },
+    { time: 260, text: "जो रघुवर के चरण आये, तिनके सब काज सुधारे॥" },
+    { time: 300, text: "हमारे साथ श्री रघुनाथ तो किस बात की चिंता॥" }
+  ],
+
+  rama_rama_ratte_ratte: [
+    { time: 0, text: "रामा रामा रटते रटते बीती रे उमरिया।" },
+    { time: 35, text: "रघुकुल नंदन कब आओगे शबरी की डगरिया॥" },
+    { time: 80, text: "रोज सवेरे वन में जाती, चुन-चुन के मीठे बेर लाती..." },
+    { time: 130, text: "प्रेम सहित प्रभु भोग लगाओ, शबरी की कुटिया में आओ..." },
+    { time: 185, text: "चरण पखारूं नैनन जल से, आसन दूं कुशासन दल से..." },
+    { time: 245, text: "नवधा भक्ति का उपदेश सुनाया, शबरी को प्रभु मोक्ष दिलाया..." },
+    { time: 310, text: "रामा रामा रटते रटते बीती रे उमरिया॥" }
+  ],
+
+  bhaye_pragat_kripala: [
+    { time: 0, text: "भए प्रगट कृपाला दीनदयाला कौसल्या हितकारी।" },
+    { time: 30, text: "हरषित महतारी मुनि मन हारी अद्भुत रूप बिचारी॥" },
+    { time: 65, text: "लोचन अभिरामा तनु घनस्यामा निज आयुध भुज चारी।" },
+    { time: 105, text: "भूषन बनमाला नयन बिसाला सोभासिंधु खरारी॥" },
+    { time: 150, text: "कह दुइ कर जोरी अस्तुति तोरी केहि बिधि करौं अनंता।" },
+    { time: 195, text: "माया गुन ग्यानातीत अमाना बेद पुरान भनंता॥" },
+    { time: 245, text: "उपजा जब ग्याना प्रभु मुसकाना चरित बहुत बिधि कीन्हा।" },
+    { time: 295, text: "भए प्रगट कृपाला दीनदयाला कौसल्या हितकारी॥" }
+  ],
+
+  thumak_chalat_ramchandra: [
+    { time: 0, text: "ठुमक चलत रामचंद्र बाजत पैंजनिया।" },
+    { time: 30, text: "किलकि किलकि उठत धाय गिरत भूमि लटपटाय, धाय मात गोद लेत दशरथ की रनिया॥" },
+    { time: 75, text: "विद्रुम से अरुण अधर बोलत मुख मधुर बैन, सुभग नासिका में चारु लटकत लटकनिया॥" },
+    { time: 125, text: "तुलसीदास अति आनंद देखत मुखारबिंद, रघुवर छवि नैनन में बसत निशि-दिनिया॥" },
+    { time: 180, text: "ठुमक चलत रामचंद्र बाजत पैंजनिया॥" }
+  ],
+
+  nagri_ho_ayodhya: [
+    { time: 0, text: "नगरी हो अयोध्या सी, रघुकुल सा घराना हो।" },
+    { time: 35, text: "चरण हो राघव के, जहां मेरा ठिकाना हो॥" },
+    { time: 80, text: "लक्ष्मण सा भाई हो, कौशल्या सी माई हो..." },
+    { time: 130, text: "भरत सा त्यागी हो, सीता सी लुगाई हो..." },
+    { time: 185, text: "हनुमत सा सेवक हो, जहां राम दीवाना हो..." },
+    { time: 245, text: "नगरी हो अयोध्या सी, रघुकुल सा घराना हो॥" }
   ]
 };
 
@@ -270,6 +340,24 @@ export const DIWALI_LYRICS_DATA = {
 export function getDiwaliLyrics(title = "") {
   const norm = String(title || "").toLowerCase();
 
+  if (norm.includes("hum katha sunate") || norm.includes("katha sunate") || norm.includes("sakal gun")) {
+    return DIWALI_LYRICS_DATA.hum_katha_sunate;
+  }
+  if (norm.includes("raghunath") || norm.includes("hamare sath") || norm.includes("kis baat ki chinta")) {
+    return DIWALI_LYRICS_DATA.hamare_sath_raghunath;
+  }
+  if (norm.includes("ratte ratte") || norm.includes("shabari") || norm.includes("shabri")) {
+    return DIWALI_LYRICS_DATA.rama_rama_ratte_ratte;
+  }
+  if (norm.includes("pragat kripala") || norm.includes("bhaye pragat")) {
+    return DIWALI_LYRICS_DATA.bhaye_pragat_kripala;
+  }
+  if (norm.includes("thumak") || norm.includes("chalat ramchandra") || norm.includes("painjaniya")) {
+    return DIWALI_LYRICS_DATA.thumak_chalat_ramchandra;
+  }
+  if (norm.includes("nagari ho") || norm.includes("nagri ho")) {
+    return DIWALI_LYRICS_DATA.nagri_ho_ayodhya;
+  }
   if (norm.includes("lakshmi mata") || norm.includes("laxmi mata") || (norm.includes("aarti") && norm.includes("lakshmi"))) {
     return DIWALI_LYRICS_DATA.lakshmi_aarti;
   }
@@ -324,6 +412,11 @@ export function getDiwaliLyrics(title = "") {
     return DIWALI_LYRICS_DATA.raja_ram_ghar;
   }
 
-  // Fallback to Lakshmi Aarti for Diwali Puja
+  // Fallback to Mangal Bhavan for Ram Katha / spiritual
+  if (norm.includes("ram") || norm.includes("katha") || norm.includes("ayodhya")) {
+    return DIWALI_LYRICS_DATA.mangal_bhavan;
+  }
+
   return DIWALI_LYRICS_DATA.lakshmi_aarti;
 }
+

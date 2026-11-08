@@ -6,6 +6,8 @@ const sufiLoveService =
   require("../services/sufiLoveService");
 const diwaliPujaService =
   require("../services/diwaliPujaService");
+const ramKathaService =
+  require("../services/ramKathaService");
 
 
 /**
@@ -118,6 +120,16 @@ function diwaliStatus(req, res, next) {
 }
 
 
+function ramKathaStatus(req, res, next) {
+  try {
+    const meta = ramKathaService.getRamKathaMetadata();
+    res.json(meta || { success: false, message: "No metadata available" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 function activeStations(req, res, next) {
   try {
     const stations = jiosaavnService.getActiveStations();
@@ -135,5 +147,6 @@ module.exports = {
   spotifyStatus,
   sufiStatus,
   diwaliStatus,
+  ramKathaStatus,
   activeStations
 };

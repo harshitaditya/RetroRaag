@@ -46,6 +46,15 @@ const NOSTALGIA_MESSAGES_DIWALI = [
   "श्री रामचंद्र कृपालु भजु मन, हरण भवभय दारुणं..."
 ];
 
+const NOSTALGIA_MESSAGES_RAMKATHA = [
+  "मंगल भवन अमंगल हारी, द्रवहु सुदसरथ अजिर बिहारी...",
+  "हम कथा सुनाते राम सकल गुण धाम की...",
+  "हमारे साथ श्री रघुनाथ तो किस बात की चिंता...",
+  "सियावर रामचंद्र की जय • पवनसुत हनुमान की जय...",
+  "राम सिया राम, सिया राम, जय जय राम...",
+  "भए प्रगट कृपाला दीनदयाला, कौसल्या हितकारी..."
+];
+
 // =====================================================
 // PURE HELPERS (same logic as the old player.js)
 // =====================================================
@@ -152,10 +161,11 @@ export default function App() {
   const [currentStation, setCurrentStation] = useState(() => {
     try {
       const saved = localStorage.getItem("retroraag:station");
-      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "sufi" || saved === "spotify" || saved === "diwali") return saved;
+      if (saved === "golden" || saved === "90s" || saved === "2000s" || saved === "sufi" || saved === "spotify" || saved === "diwali" || saved === "ramkatha") return saved;
       if (saved === "kishore" || saved === "rafi") return "golden";
       if (saved === "qawwali") return "sufi";
       if (saved === "puja" || saved === "aarti") return "diwali";
+      if (saved === "katha" || saved === "ramayan" || saved === "ram") return "ramkatha";
     } catch {
       // Ignore storage errors
     }
@@ -168,6 +178,7 @@ export default function App() {
   const [spotifyMeta, setSpotifyMeta] = useState(null);
   const [sufiMeta, setSufiMeta] = useState(null);
   const [diwaliMeta, setDiwaliMeta] = useState(null);
+  const [ramKathaMeta, setRamKathaMeta] = useState(null);
   const [lyricsOpen, setLyricsOpen] = useState(false);
   const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
 
@@ -192,6 +203,13 @@ export default function App() {
         if (d && (d.lastUpdated || d.lastUpdatedDate)) setDiwaliMeta(d);
       })
       .catch(() => {});
+
+    fetch("/api/radio/ramkatha-status")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d && (d.lastUpdated || d.lastUpdatedDate)) setRamKathaMeta(d);
+      })
+      .catch(() => {});
   }, []);
 
   const nostalgiaMessages =
@@ -205,6 +223,8 @@ export default function App() {
       ? NOSTALGIA_MESSAGES_SPOTIFY
       : currentStation === "diwali"
       ? NOSTALGIA_MESSAGES_DIWALI
+      : currentStation === "ramkatha"
+      ? NOSTALGIA_MESSAGES_RAMKATHA
       : NOSTALGIA_MESSAGES_90S;
 
   useEffect(() => {
@@ -442,7 +462,7 @@ export default function App() {
     const progress = Math.max(0, Math.min(100, (current / duration) * 100));
     seekBar.style.setProperty("--seek-progress", `${progress}%`);
 
-    if (currentStationRef.current === "diwali") {
+    if (currentStationRef.current === "diwali" || currentStationRef.current === "ramkatha") {
       const activeTrack = getCurrentSong();
       if (activeTrack) {
         const lyrics = getDiwaliLyrics(activeTrack.name);
@@ -778,7 +798,7 @@ export default function App() {
     }
     setIsPlaying(false);
     setCurrentStation(nextStation);
-    if (nextStation !== "diwali") {
+    if (nextStation !== "diwali" && nextStation !== "ramkatha") {
       setLyricsOpen(false);
       setCurrentLyricIndex(-1);
       currentLyricIndexRef.current = -1;
@@ -1178,6 +1198,17 @@ export default function App() {
             draggable="false"
           />
         </picture>
+      ) : currentStation === "ramkatha" ? (
+        <picture className="scene" aria-hidden="true">
+          <img
+            className="scene-image"
+            src="/images/retroraag_ramkatha_bg.jpg"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            draggable="false"
+          />
+        </picture>
       ) : (
         <picture className="scene" aria-hidden="true">
           <source media="(min-aspect-ratio: 2/1)" srcSet="/images/retroraag_ultrawide_4k.png" />
@@ -1272,6 +1303,8 @@ export default function App() {
                 ? "🟢"
                 : currentStation === "diwali"
                 ? "🪔"
+                : currentStation === "ramkatha"
+                ? "🏹"
                 : "📼"}
             </span>
             <span className="station-select-label">
@@ -1285,6 +1318,8 @@ export default function App() {
                 ? `100.8 FM — Spotify Top 50 • Updated Daily (Last: ${spotifyMeta?.lastUpdatedDate || queue[0]?.lastUpdated || "07 Nov 2026"})`
                 : currentStation === "diwali"
                 ? `108.0 FM — Diwali Puja & Aarti • Updated Daily (Last: ${diwaliMeta?.lastUpdatedDate || "08 Nov 2026"})`
+                : currentStation === "ramkatha"
+                ? `107.5 FM — Shri Ram Katha & Bhajan • Updated Daily (Last: ${ramKathaMeta?.lastUpdatedDate || "08 Nov 2026"})`
                 : "98.3 FM — 90s Bollywood Gold"}
             </span>
             <span className={`station-select-arrow${stationDropdownOpen ? " is-open" : ""}`} aria-hidden="true">
@@ -1407,6 +1442,26 @@ export default function App() {
                 </div>
                 {currentStation === "diwali" && <span className="station-item-check">✓</span>}
               </button>
+
+              <button
+                type="button"
+                className={`station-menu-item${currentStation === "ramkatha" ? " is-active" : ""}`}
+                role="option"
+                aria-selected={currentStation === "ramkatha"}
+                onClick={() => {
+                  switchStation("ramkatha");
+                  setStationDropdownOpen(false);
+                }}
+              >
+                <span className="station-item-icon">🏹</span>
+                <div className="station-item-info">
+                  <span className="station-item-title">107.5 FM — Shri Ram Katha & Bhajan</span>
+                  <span className="station-item-badge">
+                    Updated Daily • Last: {ramKathaMeta?.lastUpdatedDate || "08 Nov 2026"}
+                  </span>
+                </div>
+                {currentStation === "ramkatha" && <span className="station-item-check">✓</span>}
+              </button>
             </div>
           )}
         </div>
@@ -1431,6 +1486,8 @@ export default function App() {
                   ? "SPOTIFY TOP 50 INDIA • 100.8 FM"
                   : currentStation === "diwali"
                   ? "DIWALI PUJA & AARTI • 108.0 FM"
+                  : currentStation === "ramkatha"
+                  ? "SHRI RAM KATHA & BHAJAN • 107.5 FM"
                   : "रेट्रो राग • 98.3 FM"}
               </span>
               <h2>
@@ -1444,14 +1501,16 @@ export default function App() {
                   ? "Spotify Top 50 India Hits"
                   : currentStation === "diwali"
                   ? "Diwali Puja, Aarti & Bhajans"
+                  : currentStation === "ramkatha"
+                  ? "Shri Ram Katha, Prasang & Bhajans"
                   : "Up next"} ({queue.length} Songs)
               </h2>
-              {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali") && (
+              {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali" || currentStation === "ramkatha") && (
                 <div
                   className="spotify-update-badge"
                   style={{
                     fontSize: "0.74rem",
-                    color: currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
+                    color: currentStation === "ramkatha" ? "#f59e0b" : currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
                     marginTop: "3px",
                     display: "flex",
                     alignItems: "center",
@@ -1464,14 +1523,16 @@ export default function App() {
                       width: "6px",
                       height: "6px",
                       borderRadius: "999px",
-                      background: currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
-                      boxShadow: `0 0 6px ${currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399"}`,
+                      background: currentStation === "ramkatha" ? "#f59e0b" : currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399",
+                      boxShadow: `0 0 6px ${currentStation === "ramkatha" ? "#f59e0b" : currentStation === "diwali" ? "#fcd34d" : currentStation === "sufi" ? "#6ee7b7" : "#34d399"}`,
                       display: "inline-block"
                     }}
                   />
                   <span>
                     Updated Daily • Last:{" "}
-                    {currentStation === "diwali"
+                    {currentStation === "ramkatha"
+                      ? ramKathaMeta?.lastUpdatedFull || ramKathaMeta?.lastUpdated || "08 Nov 2026"
+                      : currentStation === "diwali"
                       ? diwaliMeta?.lastUpdatedFull || diwaliMeta?.lastUpdated || "08 Nov 2026"
                       : currentStation === "sufi"
                       ? sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || queue[0]?.lastUpdatedFull || queue[0]?.lastUpdated || "07 Nov 2026"
@@ -1523,7 +1584,7 @@ export default function App() {
           </div>
         </section>
 
-        {currentStation === "diwali" && lyricsOpen && (
+        {(currentStation === "diwali" || currentStation === "ramkatha") && lyricsOpen && (
           <section
             className="lyrics-popover is-open"
             id="lyricsPanel"
@@ -1533,7 +1594,7 @@ export default function App() {
             <div className="lyrics-header">
               <div className="lyrics-kicker">
                 <span aria-hidden="true">📜</span>
-                <span>आरती व भजन के बोल</span>
+                <span>{currentStation === "ramkatha" ? "श्री राम कथा व भजन के बोल" : "आरती व भजन के बोल"}</span>
                 <span className="lyrics-sync-badge">
                   <span className="lyrics-live-dot" aria-hidden="true"></span>
                   Live Synced
@@ -1595,11 +1656,18 @@ export default function App() {
                     {currentIndex + 1} / {queue.length}
                   </span>
                 )}
-                {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali") && (
+                {(currentStation === "spotify" || currentStation === "sufi" || currentStation === "diwali" || currentStation === "ramkatha") && (
                   <span
                     className="spotify-main-date-tag"
                     style={
-                      currentStation === "diwali"
+                      currentStation === "ramkatha"
+                        ? {
+                            background: "rgba(245, 158, 11, 0.18)",
+                            borderColor: "rgba(245, 158, 11, 0.45)",
+                            color: "#fbbf24",
+                            boxShadow: "0 0 8px rgba(245, 158, 11, 0.18)"
+                          }
+                        : currentStation === "diwali"
                         ? {
                             background: "rgba(245, 158, 11, 0.16)",
                             borderColor: "rgba(251, 191, 36, 0.42)",
@@ -1609,7 +1677,9 @@ export default function App() {
                         : undefined
                     }
                     title={
-                      currentStation === "diwali"
+                      currentStation === "ramkatha"
+                        ? (ramKathaMeta?.lastUpdatedFull || "Updated Daily • Shri Ram Katha & Bhajan")
+                        : currentStation === "diwali"
                         ? (diwaliMeta?.lastUpdatedFull || "Updated Daily • Diwali Special Puja & Aarti")
                         : currentStation === "sufi"
                         ? (sufiMeta?.lastUpdatedFull || sufiMeta?.lastUpdated || "Updated Daily • Filtr India")
@@ -1619,14 +1689,16 @@ export default function App() {
                     <span
                       className="spotify-tag-dot"
                       style={
-                        currentStation === "diwali"
+                        currentStation === "ramkatha" || currentStation === "diwali"
                           ? { background: "#fbbf24", boxShadow: "0 0 5px #fbbf24" }
                           : undefined
                       }
                       aria-hidden="true"
                     ></span>
                     Updated Daily • Last:{" "}
-                    {currentStation === "diwali"
+                    {currentStation === "ramkatha"
+                      ? (ramKathaMeta?.lastUpdatedDate || "08 Nov 2026")
+                      : currentStation === "diwali"
                       ? (diwaliMeta?.lastUpdatedDate || "08 Nov 2026")
                       : currentStation === "sufi"
                       ? (sufiMeta?.lastUpdatedDate || sufiMeta?.lastUpdated?.split(" at ")?.[0] || queue[0]?.lastUpdated?.split(" at ")?.[0] || "07 Nov 2026")
@@ -1688,11 +1760,11 @@ export default function App() {
                   </svg>
                 </button>
 
-                {currentStation === "diwali" && (
+                {(currentStation === "diwali" || currentStation === "ramkatha") && (
                   <button
                     className={`mini-tool lyrics-tool${lyricsOpen ? " is-active" : ""}`}
                     type="button"
-                    aria-label={lyricsOpen ? "आरती व भजन के बोल छुपाएं" : "आरती व भजन के बोल देखें"}
+                    aria-label={lyricsOpen ? "बोल छुपाएं" : "बोल देखें"}
                     aria-pressed={lyricsOpen}
                     disabled={!controlsEnabled}
                     ref={lyricsBtnRef}
@@ -1703,7 +1775,7 @@ export default function App() {
                         return next;
                       });
                     }}
-                    title="Lyrics (आरती व भजन के बोल)"
+                    title={currentStation === "ramkatha" ? "Lyrics (कथा व भजन के बोल)" : "Lyrics (आरती व भजन के बोल)"}
                   >
                     <span style={{ fontSize: "0.92rem", lineHeight: 1 }} aria-hidden="true">📜</span>
                   </button>

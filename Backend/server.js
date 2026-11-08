@@ -8,6 +8,7 @@ const musicRoutes = require("./routes/musicRoutes");
 const { updateSpotifyCatalog } = require("./services/spotifyTop50Service");
 const { updateSufiCatalog } = require("./services/sufiLoveService");
 const { updateDiwaliCatalog } = require("./services/diwaliPujaService");
+const { updateRamKathaCatalog } = require("./services/ramKathaService");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -175,6 +176,40 @@ app.get("/api/radio/cron/update-diwali", async (req, res) => {
       message: success
         ? "Diwali Puja & Aarti catalog updated successfully."
         : "Catalog update encountered an issue; retained current catalog."
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// ------------------------------------
+// CRON: SHRI RAM KATHA & BHAJAN AUTO-UPDATE
+// ------------------------------------
+cron.schedule(
+  "0 5 * * *",
+  async () => {
+    console.log("[CRON] Running daily Ram Katha check at 5:00 AM IST...");
+    try {
+      const success = await updateRamKathaCatalog();
+      console.log(`[CRON] Daily Ram Katha update finished. Success: ${success}`);
+    } catch (err) {
+      console.error("[CRON] Daily Ram Katha update failed:", err.message);
+    }
+  },
+  {
+    scheduled: true,
+    timezone: "Asia/Kolkata"
+  }
+);
+
+app.get("/api/radio/cron/update-ramkatha", async (req, res) => {
+  try {
+    const success = await updateRamKathaCatalog();
+    res.json({
+      success,
+      message: success
+        ? "Ram Katha catalog verified and active."
+        : "Catalog check completed."
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
