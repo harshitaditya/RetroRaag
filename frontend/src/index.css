@@ -2623,3 +2623,190 @@ button.brand-reveal:active {
     font-size: 0.68rem;
   }
 }
+
+/* ================================================================
+   Diwali Live Synced Lyrics Drawer (108.0 FM)
+   ================================================================ */
+
+.lyrics-tool {
+  font-size: clamp(12px, 0.9vw, 15px);
+  color: rgba(255, 230, 180, 0.85);
+}
+
+.lyrics-tool.is-active {
+  color: #fef08a;
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(245, 158, 11, 0.22);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.25);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lyrics-tool:not(:disabled):hover {
+    color: #fef08a;
+    border-color: rgba(251, 191, 36, 0.4);
+    background: rgba(245, 158, 11, 0.16);
+  }
+}
+
+.lyrics-popover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  width: min(92%, 760px);
+  max-height: min(54vh, 470px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  border-radius: clamp(20px, 1.6vw, 30px);
+  background:
+    linear-gradient(165deg, rgba(30, 15, 10, 0.92), rgba(15, 7, 5, 0.97)),
+    var(--glass-deep);
+  box-shadow: 0 24px 75px rgba(0, 0, 0, 0.65), 0 0 35px rgba(245, 158, 11, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(25px) saturate(1.2);
+  -webkit-backdrop-filter: blur(25px) saturate(1.2);
+  z-index: 40;
+  animation: lyricsSlideUp 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes lyricsSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.lyrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: clamp(14px, 1.2vw, 18px) clamp(16px, 1.5vw, 24px) 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.lyrics-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fde68a;
+  font-size: clamp(12px, 0.85vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.lyrics-sync-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(74, 222, 128, 0.35);
+  color: #86efac;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.lyrics-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4ade80;
+  box-shadow: 0 0 6px #4ade80;
+  display: inline-block;
+  animation: pulseLiveDot 2s ease infinite;
+}
+
+@keyframes pulseLiveDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.lyrics-close-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.lyrics-close-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.lyrics-body {
+  flex: 1;
+  padding: clamp(16px, 1.5vw, 24px) clamp(16px, 2vw, 28px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 191, 36, 0.3) transparent;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1vw, 14px);
+  text-align: center;
+}
+
+.lyric-line {
+  padding: clamp(8px, 0.8vw, 12px) clamp(12px, 1.2vw, 18px);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: clamp(15px, 1.15vw, 19px);
+  font-weight: 500;
+  line-height: 1.6;
+  cursor: pointer;
+  transition: all 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.lyric-line:hover {
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.lyric-line.is-active {
+  color: #fffbeb;
+  font-weight: 700;
+  font-size: clamp(17px, 1.32vw, 22px);
+  text-shadow: 0 0 16px rgba(251, 191, 36, 0.55), 0 2px 4px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.16), transparent);
+  border-left: 2px solid #fbbf24;
+  border-right: 2px solid #fbbf24;
+  transform: scale(1.02);
+}
+
+@media (max-width: 760px) {
+  .lyrics-popover {
+    bottom: calc(100% + 8px);
+    width: 100%;
+    max-height: min(55vh, 420px);
+    border-radius: 18px;
+  }
+  .lyrics-body {
+    padding: 12px 14px;
+    gap: 8px;
+  }
+  .lyric-line {
+    font-size: 14.5px;
+    padding: 7px 10px;
+  }
+  .lyric-line.is-active {
+    font-size: 16.5px;
+  }
+}

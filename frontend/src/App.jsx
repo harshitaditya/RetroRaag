@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getDiwaliLyrics } from "./diwaliLyrics";
 
 const PLAYLIST_BATCH_SIZE = 120;
 
@@ -127,6 +128,12 @@ export default function App() {
   const userStartedPlaybackRef = useRef(false);
   const timelineAnimationFrameRef = useRef(0);
   const lastMediaPositionUpdateRef = useRef(0);
+  const currentStationRef = useRef(currentStation);
+  const lyricsOpenRef = useRef(false);
+  const currentLyricIndexRef = useRef(-1);
+  const lyricsBodyRef = useRef(null);
+  const lyricsBtnRef = useRef(null);
+  const lyricsPanelRef = useRef(null);
 
   // -----------------------------------------------------
   // React state (drives rendering)
@@ -161,6 +168,8 @@ export default function App() {
   const [spotifyMeta, setSpotifyMeta] = useState(null);
   const [sufiMeta, setSufiMeta] = useState(null);
   const [diwaliMeta, setDiwaliMeta] = useState(null);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
+  const [currentLyricIndex, setCurrentLyricIndex] = useState(-1);
 
   useEffect(() => {
     fetch("/api/radio/spotify-status")
@@ -226,6 +235,24 @@ export default function App() {
   useEffect(() => {
     renderedCountRef.current = renderedCount;
   }, [renderedCount]);
+  useEffect(() => {
+    currentStationRef.current = currentStation;
+  }, [currentStation]);
+  useEffect(() => {
+    lyricsOpenRef.current = lyricsOpen;
+  }, [lyricsOpen]);
+  useEffect(() => {
+    currentLyricIndexRef.current = currentLyricIndex;
+  }, [currentLyricIndex]);
+
+  useEffect(() => {
+    if (lyricsOpen && lyricsBodyRef.current && currentLyricIndexRef.current >= 0) {
+      const activeEl = lyricsBodyRef.current.children[currentLyricIndexRef.current];
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [lyricsOpen]);
 
   // Rotate the small nostalgic message in the old era-label position.
   useEffect(() => {
@@ -415,6 +442,31 @@ export default function App() {
     const progress = Math.max(0, Math.min(100, (current / duration) * 100));
     seekBar.style.setProperty("--seek-progress", `${progress}%`);
 
+    if (currentStationRef.current === "diwali") {
+      const activeTrack = getCurrentSong();
+      if (activeTrack) {
+        const lyrics = getDiwaliLyrics(activeTrack.name);
+        let activeIdx = -1;
+        for (let i = 0; i < lyrics.length; i++) {
+          if (lyrics[i].time <= current) {
+            activeIdx = i;
+          } else {
+            break;
+          }
+        }
+        if (activeIdx !== currentLyricIndexRef.current) {
+          currentLyricIndexRef.current = activeIdx;
+          setCurrentLyricIndex(activeIdx);
+          if (lyricsOpenRef.current && lyricsBodyRef.current && activeIdx >= 0) {
+            const activeEl = lyricsBodyRef.current.children[activeIdx];
+            if (activeEl) {
+              activeEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }
+        }
+      }
+    }
+
     syncMediaSessionPosition();
   }
 
@@ -491,6 +543,8 @@ export default function App() {
     }
 
     resetTimeline();
+    setCurrentLyricIndex(-1);
+    currentLyricIndexRef.current = -1;
 
     // IMPORTANT (same as original): set src + load() immediately so
     // browser metadata (duration) is available before Play is pressed.
@@ -634,7 +688,11 @@ export default function App() {
   // Playlist open / close
   // -----------------------------------------------------
   function setPlaylistOpen(open) {
-    setPlaylistOpenState(Boolean(open));
+    const next = Boolean(open);
+    setPlaylistOpenState(next);
+    if (next) {
+      setLyricsOpen(false);
+    }
   }
 
   useEffect(() => {
@@ -720,6 +778,11 @@ export default function App() {
     }
     setIsPlaying(false);
     setCurrentStation(nextStation);
+    if (nextStation !== "diwali") {
+      setLyricsOpen(false);
+      setCurrentLyricIndex(-1);
+      currentLyricIndexRef.current = -1;
+    }
     try {
       localStorage.setItem("retroraag:station", nextStation);
     } catch {
@@ -729,6 +792,17 @@ export default function App() {
     setNostalgiaMessageIndex(0);
 
     await loadSongs(nextStation, wasPlaying);
+  }
+
+  function seekToLyric(time) {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.currentTime = time;
+    updateTimeline();
+    syncMediaSessionPosition(true);
+    if (audio.paused) {
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
   }
 
   // -----------------------------------------------------
@@ -1002,6 +1076,12 @@ export default function App() {
         return;
       }
 
+      if (event.key === "Escape" && lyricsOpenRef.current) {
+        setLyricsOpen(false);
+        lyricsBtnRef.current?.focus();
+        return;
+      }
+
       if (typing || !queueRef.current.length) return;
 
       if (event.code === "Space") {
@@ -1039,6 +1119,26 @@ export default function App() {
   }, []);
 
   // -----------------------------------------------------
+  // Click outside closes lyrics
+  // -----------------------------------------------------
+  useEffect(() => {
+    function handleLyricsPointerDown(event) {
+      if (!lyricsOpenRef.current) return;
+
+      const panel = lyricsPanelRef.current;
+      const btn = lyricsBtnRef.current;
+      if (!panel || !btn) return;
+
+      if (!panel.contains(event.target) && !btn.contains(event.target)) {
+        setLyricsOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", handleLyricsPointerDown);
+    return () => document.removeEventListener("pointerdown", handleLyricsPointerDown);
+  }, []);
+
+  // -----------------------------------------------------
   // Initial song fetch (runs once on mount)
   // -----------------------------------------------------
   useEffect(() => {
@@ -1066,23 +1166,36 @@ export default function App() {
 
   return (
     <main className={`radio-shell station-${currentStation}`} aria-label="RetroRaag Bollywood radio">
-      {/* Default RetroRaag Scene */}
-      <picture className="scene" aria-hidden="true">
-        <source media="(min-aspect-ratio: 2/1)" srcSet="/images/retroraag_ultrawide_4k.png" />
-        <source media="(min-aspect-ratio: 7/4)" srcSet="/images/retroraag_desktop_4k.png" />
-        <source media="(min-aspect-ratio: 3/2)" srcSet="/images/retroraag_laptop_4k.png" />
-        <source media="(min-aspect-ratio: 1/1)" srcSet="/images/retroraag_tablet_4k.png" />
-        <img
-          className="scene-image"
-          src="/images/retroraag_mobile_4k.png"
-          alt=""
-          width="941"
-          height="1672"
-          fetchPriority="high"
-          decoding="async"
-          draggable="false"
-        />
-      </picture>
+      {/* Background Scene */}
+      {currentStation === "diwali" ? (
+        <picture className="scene" aria-hidden="true">
+          <img
+            className="scene-image"
+            src="/images/retroraag_diwali_bg.jpg"
+            alt=""
+            fetchPriority="high"
+            decoding="async"
+            draggable="false"
+          />
+        </picture>
+      ) : (
+        <picture className="scene" aria-hidden="true">
+          <source media="(min-aspect-ratio: 2/1)" srcSet="/images/retroraag_ultrawide_4k.png" />
+          <source media="(min-aspect-ratio: 7/4)" srcSet="/images/retroraag_desktop_4k.png" />
+          <source media="(min-aspect-ratio: 3/2)" srcSet="/images/retroraag_laptop_4k.png" />
+          <source media="(min-aspect-ratio: 1/1)" srcSet="/images/retroraag_tablet_4k.png" />
+          <img
+            className="scene-image"
+            src="/images/retroraag_mobile_4k.png"
+            alt=""
+            width="941"
+            height="1672"
+            fetchPriority="high"
+            decoding="async"
+            draggable="false"
+          />
+        </picture>
+      )}
 
       <div className="sun-wash" aria-hidden="true"></div>
       <div className="grain" aria-hidden="true"></div>
@@ -1410,6 +1523,53 @@ export default function App() {
           </div>
         </section>
 
+        {currentStation === "diwali" && lyricsOpen && (
+          <section
+            className="lyrics-popover is-open"
+            id="lyricsPanel"
+            aria-label="Synced lyrics"
+            ref={lyricsPanelRef}
+          >
+            <div className="lyrics-header">
+              <div className="lyrics-kicker">
+                <span aria-hidden="true">📜</span>
+                <span>आरती व भजन के बोल</span>
+                <span className="lyrics-sync-badge">
+                  <span className="lyrics-live-dot" aria-hidden="true"></span>
+                  Live Synced
+                </span>
+              </div>
+              <button
+                className="lyrics-close-btn"
+                type="button"
+                onClick={() => setLyricsOpen(false)}
+                aria-label="Close lyrics"
+              >
+                ×
+              </button>
+            </div>
+            <div className="lyrics-body" ref={lyricsBodyRef}>
+              {getDiwaliLyrics(activeSong?.name).map((line, idx) => (
+                <div
+                  key={`${line.time}-${idx}`}
+                  className={`lyric-line${idx === currentLyricIndex ? " is-active" : ""}`}
+                  onClick={() => seekToLyric(line.time)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      seekToLyric(line.time);
+                    }
+                  }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <div className={`player${isPlaying ? " is-playing" : ""}`} id="playerPanel">
           <div className="song-area" aria-live="polite" aria-atomic="true">
             <div className="cover-shell" aria-hidden="true">
@@ -1527,6 +1687,27 @@ export default function App() {
                     <path d="M4 16.25h2.15a4 4 0 0 0 2.83-1.17l.82-.82" />
                   </svg>
                 </button>
+
+                {currentStation === "diwali" && (
+                  <button
+                    className={`mini-tool lyrics-tool${lyricsOpen ? " is-active" : ""}`}
+                    type="button"
+                    aria-label={lyricsOpen ? "आरती व भजन के बोल छुपाएं" : "आरती व भजन के बोल देखें"}
+                    aria-pressed={lyricsOpen}
+                    disabled={!controlsEnabled}
+                    ref={lyricsBtnRef}
+                    onClick={() => {
+                      setLyricsOpen((prev) => {
+                        const next = !prev;
+                        if (next) setPlaylistOpen(false);
+                        return next;
+                      });
+                    }}
+                    title="Lyrics (आरती व भजन के बोल)"
+                  >
+                    <span style={{ fontSize: "0.92rem", lineHeight: 1 }} aria-hidden="true">📜</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
